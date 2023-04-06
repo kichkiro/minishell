@@ -6,9 +6,14 @@
 /*   By: kichkiro <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/06 14:07:27 by kichkiro          #+#    #+#             */
-/*   Updated: 2023/04/06 14:07:39 by kichkiro         ###   ########.fr       */
+/*   Updated: 2023/04/06 18:02:17 by kichkiro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
+bool	variable_assignment(char *input, int *exit_code)
+{
+
+	
+}

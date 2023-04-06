@@ -6,7 +6,7 @@
 /*   By: kichkiro <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/05 17:51:51 by kichkiro          #+#    #+#             */
-/*   Updated: 2023/04/06 12:45:21 by kichkiro         ###   ########.fr       */
+/*   Updated: 2023/04/06 18:02:27 by kichkiro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,5 +24,6 @@
 // Functions ------------------------------------------------------------------>
 
 bool	invalid_input(char *input, int *g_exit_code);
+bool	variable_assignment(char *input, int *exit_code);
 
 #endif

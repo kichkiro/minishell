@@ -1,28 +1,30 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   minishell.h                                        :+:      :+:    :+:   */
+/*   ft_memset.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: kichkiro <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/04/05 17:51:51 by kichkiro          #+#    #+#             */
-/*   Updated: 2023/04/06 12:45:21 by kichkiro         ###   ########.fr       */
+/*   Created: 2022/10/10 08:34:12 by kichkiro          #+#    #+#             */
+/*   Updated: 2023/01/10 14:34:53 by kichkiro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef MINISHELL_H
-# define MINISHELL_H
+#include "libft.h"
 
-// Libraries ------------------------------------------------------------------>
+/*!
+ * @brief 
+ 	The memset() function fills the first n bytes of the memory area pointed to 
+	by s with the constant byte c.
+ * @return 
+ 	The memset() function returns a pointer to the memory area s.
+ */
+void	*ft_memset(void *s, int c, size_t n)
+{
+	char	*ps;
 
-# include "../lib/libft/include/libft.h"
-
-# include <stdio.h>
-# include <readline/readline.h>
-# include <readline/history.h>
-
-// Functions ------------------------------------------------------------------>
-
-bool	invalid_input(char *input, int *g_exit_code);
-
-#endif
+	ps = (char *)s;
+	while (n)
+		ps[--n] = (char)c;
+	return (ps);
+}

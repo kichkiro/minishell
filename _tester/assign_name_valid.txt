@@ -1,0 +1,50 @@
+- Nome variabile ------------------------------------------------------------->
+
+- l'input deve iniziare con il nome di variabile.
+- il primo char del nome di variabile deve essere una lettera o un underscore.
+- se il primo char e' un underscore, prima delle quadre e prima dell'operatore
+	di assegnamento ci deve essere almeno una lettera o un intero o un 
+	underscore.
+- tutti i char tra il primo e l'operatore di assegnamento, possono essere 
+	numeri, lettere, underscore o parentesi quadre.
+- se ci sono parentesi quadre, queste devono essere in questa sequenza, una 
+	parentesi aperta, un intero, una parentesi chiusa e operatore di 
+	assegnamento. 
+
+- TEST ----------------------------------------------------------------------->
+
+__a[42]=test
+echo $__a
+\n
+
+__a[0]=test
+echo $__a
+test
+
+_=test
+echo $_
+\n
+
+_[0]=test
+echo $_
+\n
+
+__[0]=test
+echo $__
+test
+
+__=test
+echo $__
+test
+
+V1[0]=test
+echo $V1
+test
+
+V1[1]=test1
+echo $V1[1]
+test[1]
+
+Var_42=test
+echo $Var_42
+test

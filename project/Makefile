@@ -6,14 +6,16 @@
 #    By: kichkiro <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/04/05 17:59:55 by kichkiro          #+#    #+#              #
-#    Updated: 2023/04/05 18:04:47 by kichkiro         ###   ########.fr        #
+#    Updated: 2023/04/06 12:10:51 by kichkiro         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 # Config ---------------------------------------------------------------------->
 
 NAME		:= minishell
-SRCS		:= main.c
+SRCS		:= \
+				main.c \
+				invalid_input.c 
 SRC_DIR     := src
 SRCS		:= $(SRCS:%=$(SRC_DIR)/%)
 BUILD_DIR   := .build
@@ -23,7 +25,7 @@ LIB         := ft
 LIB_TARGET  := ./lib/libft/libft.a 
 INCS        := ./include ./lib/libft/include
 CC          := clang
-CFLAGS      := -g -lreadline  #-Wall -Wextra -Werror
+CFLAGS      := -g -Wall -Wextra -Werror
 CPPFLAGS    := $(addprefix -I,$(INCS)) -MMD -MP
 LDFLAGS     := $(addprefix -L,$(dir $(LIB_TARGET)))
 LDLIBS      := $(addprefix -l,$(LIB))
@@ -36,11 +38,11 @@ DIR_DUP     = mkdir -p $(@D)
 
 # Rules ----------------------------------------------------------------------->
 
-all: header $(NAME)
+all: banner $(NAME)
 
 $(NAME): $(OBJS) $(LIB_TARGET)
-	$(CC) $(LDFLAGS) $(OBJS) $(LDLIBS) -o $(NAME)
-	${info ${BOLD}Creating  -> ${BLUE}$(NAME)${NO_COLOR}}
+	$(CC) $(LDFLAGS) $(OBJS) $(LDLIBS) -o $(NAME) -lreadline
+	${info ${BOLD}Creating  -> ${RED}$(NAME)${NO_COLOR}}
 
 $(LIB_TARGET):
 	$(MAKE) -C $(@D)
@@ -48,7 +50,7 @@ $(LIB_TARGET):
 $(BUILD_DIR)/%.o: $(SRC_DIR)/%.c
 	$(DIR_DUP)
 	$(CC) $(CFLAGS) $(CPPFLAGS) -c -o $@ $<
-	${info ${BOLD}Compiling -> ${BLUE}$@${NO_COLOR}}
+	${info ${BOLD}Compiling -> ${RED}$@${NO_COLOR}}
 
 -include $(DEPS)
 
@@ -68,19 +70,21 @@ re:
 
 # Style ----------------------------------------------------------------------->
 
-RED 		:= ${shell tput setaf 1}
+RED			:= ${shell tput setaf 1}
 YELLOW		:= ${shell tput setaf 3}
-BLUE		:= ${shell tput setaf 4}
 NO_COLOR	:= ${shell tput sgr0}
 BOLD		:= ${shell tput bold}
 
-header:
-	${info ${NO_COLOR}}	
-	${info ███    ███ ██ ███    ██ ██ ████████  █████  ██      ██   ██ }
-	${info ████  ████ ██ ████   ██ ██    ██    ██   ██ ██      ██  ██  }
-	${info ██ ████ ██ ██ ██ ██  ██ ██    ██    ███████ ██      █████   }
-	${info ██  ██  ██ ██ ██  ██ ██ ██    ██    ██   ██ ██      ██  ██  }
-	${info ██      ██ ██ ██   ████ ██    ██    ██   ██ ███████ ██   ██ }
+banner:
+	${info ${RED}}	
+	${info █████████████████████████████████████████████████████ }
+	${info █▄─▀█▀─▄█▄─▄█▄─▀█▄─▄█▄─▄█─▄▄▄▄█─█─█▄─▄▄─█▄─▄███▄─▄███ }
+	${info ██─█▄█─███─███─█▄▀─███─██▄▄▄▄─█─▄─██─▄█▀██─██▀██─██▀█ }
+	${info ▀▄▄▄▀▄▄▄▀▄▄▄▀▄▄▄▀▀▄▄▀▄▄▄▀▄▄▄▄▄▀▄▀▄▀▄▄▄▄▄▀▄▄▄▄▄▀▄▄▄▄▄▀ }
 	${info ${NO_COLOR}}
-	
+
 # ------------------------------------------------------------------------------
+
+	
+
+	

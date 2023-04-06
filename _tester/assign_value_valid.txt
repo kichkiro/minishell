@@ -1,0 +1,45 @@
+- Valore variabile ----------------------------------------------------------->
+
+- 
+
+- TEST ----------------------------------------------------------------------->
+
+v=test
+echo $v
+test
+
+v=[test]
+echo $v
+[test]
+
+v={test}
+echo $v
+{test}
+
+v=(test)
+echo $v
+test
+
+v=(test 42)
+echo $v
+test
+
+v=(test"42")
+echo $v
+test42
+
+v=("test )" 42)
+echo $v
+test )
+
+v=("test )"42)
+echo $v
+test )42
+
+v=("test )"42)"          41"
+echo $v
+(test )42) 41
+
+v=("test )"42)"     '2   '     41"
+echo $v
+(test )42) '2 ' 41

@@ -1,0 +1,23 @@
+1v=test
+1v=test: command not found
+
+v(25)=test
+bash: syntax error near unexpected token `25'
+
+v{25}=test
+v{25}=test: command not found
+
+v-1=test
+v-1=test: command not found
+
+__a[0]]=test
+__a[0]]=test: command not found
+
+__a[[0]]=test
+bash: [0]: syntax error: operand expected (error token is "[0]")
+
+__a[[0[]]]=test
+bash: [0[]]: syntax error: operand expected (error token is "[0[]]")
+
+__a[0.5]=test
+bash: 0.5: syntax error: invalid arithmetic operator (error token is ".5")

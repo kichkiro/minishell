@@ -1,28 +1,32 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   minishell.h                                        :+:      :+:    :+:   */
+/*   t_print_last.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: kichkiro <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/04/05 17:51:51 by kichkiro          #+#    #+#             */
-/*   Updated: 2023/04/06 12:45:21 by kichkiro         ###   ########.fr       */
+/*   Created: 2022/10/17 16:10:28 by kichkiro          #+#    #+#             */
+/*   Updated: 2022/12/28 18:05:17 by kichkiro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef MINISHELL_H
-# define MINISHELL_H
+#include "libft.h"
 
-// Libraries ------------------------------------------------------------------>
-
-# include "../lib/libft/include/libft.h"
-
-# include <stdio.h>
-# include <readline/readline.h>
-# include <readline/history.h>
-
-// Functions ------------------------------------------------------------------>
-
-bool	invalid_input(char *input, int *g_exit_code);
-
-#endif
+/*!
+ * @brief 
+	Returns the last node of the list.
+ * @param lst 
+	The beginning of the list.
+ * @return 
+	Last node of the list.	
+ */
+t_print	*t_print_last(t_print *lst)
+{
+	while (lst)
+	{
+		if (!lst->next)
+			return (lst);
+		lst = lst->next;
+	}
+	return (lst);
+}

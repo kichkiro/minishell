@@ -1,28 +1,29 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   minishell.h                                        :+:      :+:    :+:   */
+/*   ft_free.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: kichkiro <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/04/05 17:51:51 by kichkiro          #+#    #+#             */
-/*   Updated: 2023/04/06 12:45:21 by kichkiro         ###   ########.fr       */
+/*   Created: 2022/11/07 17:15:48 by kichkiro          #+#    #+#             */
+/*   Updated: 2022/12/29 14:25:15 by kichkiro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef MINISHELL_H
-# define MINISHELL_H
+#include "libft.h"
 
-// Libraries ------------------------------------------------------------------>
-
-# include "../lib/libft/include/libft.h"
-
-# include <stdio.h>
-# include <readline/readline.h>
-# include <readline/history.h>
-
-// Functions ------------------------------------------------------------------>
-
-bool	invalid_input(char *input, int *g_exit_code);
-
-#endif
+/*!
+ * @brief 
+	If the ptr is not NULL, it is freed and set to NULL.
+ * @return 
+ 	NULL.
+ */
+void	*ft_free(void **ptr)
+{
+	if (*ptr)
+	{
+		free(*ptr);
+		*ptr = 0;
+	}
+	return (*ptr);
+}

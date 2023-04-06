@@ -1,28 +1,41 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   minishell.h                                        :+:      :+:    :+:   */
+/*   ft_strrev.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: kichkiro <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/04/05 17:51:51 by kichkiro          #+#    #+#             */
-/*   Updated: 2023/04/06 12:45:21 by kichkiro         ###   ########.fr       */
+/*   Created: 2022/11/15 15:57:58 by kichkiro          #+#    #+#             */
+/*   Updated: 2022/11/15 18:20:15 by kichkiro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef MINISHELL_H
-# define MINISHELL_H
+#include "libft.h"
 
-// Libraries ------------------------------------------------------------------>
+/*!
+ * @brief 
+	Reverse a string.
+ * @param str 
+	String to reverse.
+ * @return 
+	Returns the inverted string.
+ */
+char	*ft_strrev(char *str)
+{
+	char	c;
+	int		i;
+	int		n;
 
-# include "../lib/libft/include/libft.h"
-
-# include <stdio.h>
-# include <readline/readline.h>
-# include <readline/history.h>
-
-// Functions ------------------------------------------------------------------>
-
-bool	invalid_input(char *input, int *g_exit_code);
-
-#endif
+	if (!str)
+		return (str);
+	i = 0;
+	n = ft_strlen(str);
+	while (i < n / 2)
+	{
+		c = str[n - i - 1];
+		str[n - i - 1] = str[i];
+		str[i] = c;
+		i++;
+	}
+	return (str);
+}

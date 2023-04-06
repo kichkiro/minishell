@@ -1,28 +1,37 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   minishell.h                                        :+:      :+:    :+:   */
+/*   ft_n_is_in_arr.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: kichkiro <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/04/05 17:51:51 by kichkiro          #+#    #+#             */
-/*   Updated: 2023/04/06 12:45:21 by kichkiro         ###   ########.fr       */
+/*   Created: 2022/12/19 13:15:09 by kichkiro          #+#    #+#             */
+/*   Updated: 2022/12/27 20:23:45 by kichkiro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef MINISHELL_H
-# define MINISHELL_H
+#include "libft.h"
 
-// Libraries ------------------------------------------------------------------>
-
-# include "../lib/libft/include/libft.h"
-
-# include <stdio.h>
-# include <readline/readline.h>
-# include <readline/history.h>
-
-// Functions ------------------------------------------------------------------>
-
-bool	invalid_input(char *input, int *g_exit_code);
-
-#endif
+/*!
+ * @brief 
+	Check if n is in arr.
+ * @param arr 
+	Array of integers.
+ * @param size 
+	Size of array.
+ * @param n 
+	Number to check.
+ * @return 
+	TRUE if n is in arr.
+	FALSE if n is not in arr.
+ */
+bool	ft_n_is_in_arr(int *arr, int size, int n)
+{
+	size--;
+	while (size >= 0)
+	{
+		if (arr[size--] == n)
+			return (1);
+	}
+	return (0);
+}

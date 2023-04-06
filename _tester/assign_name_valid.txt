@@ -9,7 +9,7 @@
 	numeri, lettere, underscore o parentesi quadre.
 - se ci sono parentesi quadre, queste devono essere in questa sequenza, una 
 	parentesi aperta, un intero, una parentesi chiusa e operatore di 
-	assegnamento. 
+	assegnamento.
 
 - TEST ----------------------------------------------------------------------->
 

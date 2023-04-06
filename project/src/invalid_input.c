@@ -6,12 +6,20 @@
 /*   By: kichkiro <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/06 11:56:59 by kichkiro          #+#    #+#             */
-/*   Updated: 2023/04/06 13:41:28 by kichkiro         ###   ########.fr       */
+/*   Updated: 2023/04/06 19:01:12 by kichkiro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
+/*!
+ * @brief 
+	Checks if all quotes in the input string are properly closed.
+ * @param input 
+	Checks if all quotes in the input string are properly closed.
+ * @return 
+	true if all quotes are closed, false otherwise.
+ */
 static bool	closed_quotes(char *input)
 {
 	bool	single_quotes;

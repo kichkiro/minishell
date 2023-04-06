@@ -6,7 +6,7 @@
 #    By: kichkiro <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/04/05 17:59:55 by kichkiro          #+#    #+#              #
-#    Updated: 2023/04/06 12:10:51 by kichkiro         ###   ########.fr        #
+#    Updated: 2023/04/06 18:43:55 by kichkiro         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -15,7 +15,8 @@
 NAME		:= minishell
 SRCS		:= \
 				main.c \
-				invalid_input.c 
+				invalid_input.c \
+				variable_assignment.c
 SRC_DIR     := src
 SRCS		:= $(SRCS:%=$(SRC_DIR)/%)
 BUILD_DIR   := .build

@@ -6,7 +6,7 @@
 /*   By: kichkiro <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/06 14:07:27 by kichkiro          #+#    #+#             */
-/*   Updated: 2023/04/06 19:19:28 by kichkiro         ###   ########.fr       */
+/*   Updated: 2023/04/13 13:46:41 by kichkiro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,8 +71,14 @@ bool	variable_assignment(char *input, int *exit_code)
 		return (false);
 
 	printf("var_name: %s\n", var_name);
+
+	// Se var_name e' valido, prendere il valore della variabile.
 	
-	// Manca tutta la parte per l'assegnamento.
+	// Se var_value non e' corretto, stampa errore.
+
+	// Aggiungere var_name e var_value ad una lista.
+
+
 
 
 

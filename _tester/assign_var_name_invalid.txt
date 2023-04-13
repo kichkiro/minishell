@@ -1,0 +1,29 @@
+v=((test))
+bash: syntax error near unexpected token `('
+
+v=(test ())
+bash: syntax error near unexpected token `('
+
+v=(test (42))
+bash: syntax error near unexpected token `('
+
+v=-(42)
+bash: syntax error near unexpected token `('
+
+v= (42)
+bash: syntax error near unexpected token `('
+
+v= 42
+42: command not found
+
+v=test(42)
+bash: syntax error near unexpected token `('
+
+v=(42)(test)
+bash: syntax error near unexpected token `('
+
+v="42"(test)
+bash: syntax error near unexpected token `('
+
+v=42)
+bash: syntax error near unexpected token `)'

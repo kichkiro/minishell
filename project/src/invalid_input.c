@@ -6,7 +6,7 @@
 /*   By: kichkiro <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/06 11:56:59 by kichkiro          #+#    #+#             */
-/*   Updated: 2023/04/06 19:01:12 by kichkiro         ###   ########.fr       */
+/*   Updated: 2023/04/16 20:46:35 by kichkiro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@
  * @brief 
 	Checks if all quotes in the input string are properly closed.
  * @param input 
-	Checks if all quotes in the input string are properly closed.
+	The input string to check.
  * @return 
 	true if all quotes are closed, false otherwise.
  */
@@ -64,12 +64,12 @@ bool	invalid_input(char *input, int *exit_code)
 	invalid = false;
 	if (ft_stridx(input, '\\') != -1 || ft_stridx(input, ';') != -1)
 	{
-		write(2, RED"You can't insert '\\' or ';'.\n"RESET, 37);
+		ft_putstr_fd(RED"minishell: detected '\\' or ';'\n"RESET, 2);
 		invalid = true;
 	}
 	else if (!closed_quotes(input))
 	{
-		write(2, RED"You can't insert unclosed quotes.\n"RESET, 43);
+		ft_putstr_fd(RED"minishell: detected unclosed quotes\n"RESET, 2);
 		invalid = true;
 	}
 	if (invalid)

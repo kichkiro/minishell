@@ -6,7 +6,7 @@
 /*   By: kichkiro <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/06 14:07:27 by kichkiro          #+#    #+#             */
-/*   Updated: 2023/04/13 13:46:41 by kichkiro         ###   ########.fr       */
+/*   Updated: 2023/04/16 22:41:13 by kichkiro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,26 +61,48 @@ static char	*is_assignment(char *input)
 	return (ft_substr(input, 0, var_name_len));
 }
 
-bool	variable_assignment(char *input, int *exit_code)
+
+// da finire
+// static char	*get_var_value(char *input, size_t var_name_len)
+// {
+// 	char	*var_value;
+// 	int		i;
+
+// 	i = var_name_len + 1;
+// 	if (input[i] == ' ')
+// 	{
+// 		ft_putstr_fd(RED"minishell: invalid variable value\n"RESET, 2);
+// 		return (NULL);
+// 	}
+// 	while (input[i++])
+// 	{
+// 		if (input[i] != '\'' && input[i] != '"' && input[i] != '(' && input[i] \
+// 			!= ')' && input[i] != '$')
+// 			var_value = ft_char_append(input, input[i], true);
+// 		else 
+// 		{
+			
+// 		}
+// 	}
+// 	return (var_value);
+// }
+
+static char	*tmp_get_var_value(char *input, size_t var_name_len)
+{
+	return (ft_substr(input, var_name_len + 1, ft_strlen(input) - \
+	var_name_len));
+}
+
+bool	variable_assignment(t_var **var, char *input, int *exit_code)
 {
 	char	*var_name;
+	char	*var_value;
 
-	(void)exit_code;
 	var_name = is_assignment(input);
 	if (!var_name)
 		return (false);
-
-	printf("var_name: %s\n", var_name);
-
-	// Se var_name e' valido, prendere il valore della variabile.
-	
-	// Se var_value non e' corretto, stampa errore.
-
-	// Aggiungere var_name e var_value ad una lista.
-
-
-
-
-
+	var_value = tmp_get_var_value(input, ft_strlen(var_name));
+	t_var_add_back(var, t_var_new(var_name, var_value));
+	exit_code = 0;
 	return (true);
 }

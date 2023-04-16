@@ -6,7 +6,7 @@
 #    By: kichkiro <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/04/05 17:59:55 by kichkiro          #+#    #+#              #
-#    Updated: 2023/04/06 18:43:55 by kichkiro         ###   ########.fr        #
+#    Updated: 2023/04/16 22:46:25 by kichkiro         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -16,7 +16,11 @@ NAME		:= minishell
 SRCS		:= \
 				main.c \
 				invalid_input.c \
-				variable_assignment.c
+				variable_assignment.c \
+				lst/t_var_new.c \
+				lst/t_var_add_back.c \
+				lst/t_var_set_to_head.c \
+				lst/t_var_free.c
 SRC_DIR     := src
 SRCS		:= $(SRCS:%=$(SRC_DIR)/%)
 BUILD_DIR   := .build
@@ -26,7 +30,7 @@ LIB         := ft
 LIB_TARGET  := ./lib/libft/libft.a 
 INCS        := ./include ./lib/libft/include
 CC          := clang
-CFLAGS      := -g -Wall -Wextra -Werror
+CFLAGS      := -g # -Wall -Wextra -Werror
 CPPFLAGS    := $(addprefix -I,$(INCS)) -MMD -MP
 LDFLAGS     := $(addprefix -L,$(dir $(LIB_TARGET)))
 LDLIBS      := $(addprefix -l,$(LIB))

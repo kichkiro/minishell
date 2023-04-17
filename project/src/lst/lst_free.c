@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   t_var_add_back.c                                   :+:      :+:    :+:   */
+/*   lst_free.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: kichkiro <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/12/05 11:11:34 by kichkiro          #+#    #+#             */
-/*   Updated: 2023/04/16 20:01:39 by kichkiro         ###   ########.fr       */
+/*   Created: 2022/12/26 00:47:39 by kichkiro          #+#    #+#             */
+/*   Updated: 2023/04/17 17:59:27 by kichkiro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,26 +14,27 @@
 
 /*!
  * @brief 
-	Adds the node ’new’ at the end of the list.
+	Delete and frees the lst.
  * @param lst 
 	Linked list.
- * @param new 
-	The address of a pointer to the node to be added to the list.
  */
-void	t_var_add_back(t_var **lst, t_var *new_node)
+void	*t_var_free(t_var **lst)
 {
 	t_var	*tmp;
 
 	tmp = 0;
 	if (*lst)
 	{
+		t_var_set_to_head(lst);
 		while ((*lst)->next)
+		{
 			*lst = (*lst)->next;
-		(*lst)->next = new_node;
-		tmp = *lst;
-		*lst = (*lst)->next;
-		(*lst)->prev = tmp;
+			tmp = (*lst)->prev;
+			free(tmp);
+			(*lst)->prev = 0;
+		}
+		free(*lst);
+		*lst = 0;
 	}
-	else
-		*lst = new_node;
+	return (0);
 }

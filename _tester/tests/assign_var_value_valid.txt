@@ -6,15 +6,15 @@
 
 - tutto cio che si trova tra singoli apici va interpretato come unica stinga.
 
-- tutto cio che si trova tra singoli apici va interpretato come unica stinga,
+- tutto cio che si trova tra doppi apici va interpretato come unica stinga,
 	ad eccezzione del carattere $.
 
-- se ci sono delle parentesi tonde, fuori da apici, vanno trattate nel seguente
-	modo:
+- le parentesi tonde servono a definire array:
 	- ci possono essere solo una coppia di parentesi, ne piu ne meno.
 	- la prima parentesi deve trovarsi subito dopo l'operatore di assegnamento.
 	- tutti gli spazi all'inizio vengono ignorati.
-	- se c'e' uno spazio dopo var_value, viene ignorato tutto il resto.
+	- gli spazi fungono da delimitatore tra elementi.
+	N.B. gli array non li gestiamo e prendiamo soltanto il primo elemento.
 
 - TEST ----------------------------------------------------------------------->
 

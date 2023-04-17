@@ -6,7 +6,7 @@
 #    By: kichkiro <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/04/05 17:59:55 by kichkiro          #+#    #+#              #
-#    Updated: 2023/04/16 22:46:25 by kichkiro         ###   ########.fr        #
+#    Updated: 2023/04/17 20:33:19 by kichkiro         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -17,10 +17,11 @@ SRCS		:= \
 				main.c \
 				invalid_input.c \
 				variable_assignment.c \
-				lst/t_var_new.c \
-				lst/t_var_add_back.c \
-				lst/t_var_set_to_head.c \
-				lst/t_var_free.c
+				parse_input.c \
+				lst/lst_new.c \
+				lst/lst_add_back.c \
+				lst/lst_set_to_head.c \
+				lst/lst_free.c
 SRC_DIR     := src
 SRCS		:= $(SRCS:%=$(SRC_DIR)/%)
 BUILD_DIR   := .build

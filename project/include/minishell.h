@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kichkiro <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: anvannin <anvannin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/05 17:51:51 by kichkiro          #+#    #+#             */
-/*   Updated: 2023/04/16 22:41:17 by kichkiro         ###   ########.fr       */
+/*   Updated: 2023/04/17 20:54:19 by anvannin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,9 @@
 # include <stdio.h>
 # include <readline/readline.h>
 # include <readline/history.h>
+# include <signal.h>
+# include <sys/ioctl.h>
+# include <sys/wait.h>
 
 // Linked Lists --------------------------------------------------------------->
 

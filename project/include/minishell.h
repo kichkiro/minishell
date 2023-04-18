@@ -6,7 +6,7 @@
 /*   By: anvannin <anvannin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/05 17:51:51 by kichkiro          #+#    #+#             */
-/*   Updated: 2023/04/18 18:54:59 by anvannin         ###   ########.fr       */
+/*   Updated: 2023/04/18 19:22:30 by anvannin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,10 @@ void	*t_cmd_free(t_cmd **lst);
 void	t_cmd_set_to_head(t_cmd **lst);
 t_cmd	*t_cmd_new(char	*token);
 
-
+// User Signals --------------------------------------------------------------->
+char	*ft_whoami(void);
+void	signals(int sig);
+int		ctrl_d(void);
 
 // Functions ------------------------------------------------------------------>
 

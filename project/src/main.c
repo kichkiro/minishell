@@ -6,33 +6,11 @@
 /*   By: anvannin <anvannin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/27 19:07:59 by kichkiro          #+#    #+#             */
-/*   Updated: 2023/04/18 19:05:46 by anvannin         ###   ########.fr       */
+/*   Updated: 2023/04/18 19:47:59 by anvannin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-static char	*ft_whoami(void)
-{
-	return (strcat(getenv("USER"), "@minishell$ "));
-}
-
-static void	signals(int sig)
-{
-	if (sig == SIGINT)
-	{
-		ioctl(0, TIOCSTI, "\n");
-		rl_replace_line("", 0);
-		rl_on_new_line();
-	}
-}
-
-static int	ctrl_d(char *line, char *whoami)
-{
-	printf("\nBye Bye\n");
-	free(whoami);
-	return (0);
-}
 
 int	g_exit_code = 0;
 
@@ -50,15 +28,18 @@ int	main(void)
 	cmd = NULL;
 	// if (!cmd)
 		// return (1);
+
 	while (true)
 	{
 		signal(SIGQUIT, SIG_IGN);
 		signal(SIGINT, signals);
 		input = readline(whoami);
 		if (!input)
-			return (ctrl_d(input, whoami));
+			return (ctrl_d());
 
 		// stampa exit_code
+
+		
 		if (!ft_strncmp(input, "$?", 2))
 		{
 			ft_putnbr_fd(g_exit_code, 2);
@@ -74,9 +55,9 @@ int	main(void)
 		else if (!invalid_input(input, &g_exit_code) && \
 			!variable_assignment(&var, input, &g_exit_code))
 		{
-			parse_input(input, &cmd, var, &g_exit_code);
-
-			// printf("%s\n", input);
+			// parse_input(input, &cmd, var, &g_exit_code);
+			if (input[0])
+				printf("%s\n", input);
 		}
 
 		// debug --->

@@ -10,18 +10,20 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-/*
-gcc user_signals.c -lreadline && ./a.out
-*/
+#include "minishell.h"
 
-#include "../include/minishell.h"
-
-static char	*ft_whoami(void)
+/*!
+ * @brief 
+	Returns a string containing the username and the prompt.
+* @return 
+	The prompt string.
+ */
+char	*ft_whoami(void)
 {
-	return (strcat(getenv("USER"), "@minishell$ "));
+	return (ft_strjoin(getenv("USER"), "@minishell$ "));
 }
 
-static void	signals(int sig)
+void	signals(int sig)
 {
 	if (sig == SIGINT)
 	{
@@ -31,27 +33,8 @@ static void	signals(int sig)
 	}
 }
 
-static int	ctrl_d(char *line, char *whoami)
+int	ctrl_d(void)
 {
 	printf("\nBye Bye\n");
-	free(whoami);
-	return (0);
-}
-
-int	main(int ac, char **av, char **env)
-{
-	char	*whoami;
-	char	*line;
-
-	whoami = ft_whoami();
-	while (1)
-	{
-		signal(SIGQUIT, SIG_IGN);
-		signal(SIGINT, signals);
-		line = readline(whoami);
-		if (!line)
-			return (ctrl_d(line, whoami));
-		add_history(line);
-	}
 	return (0);
 }

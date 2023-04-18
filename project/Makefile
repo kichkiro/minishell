@@ -6,7 +6,7 @@
 #    By: anvannin <anvannin@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/04/05 17:59:55 by kichkiro          #+#    #+#              #
-#    Updated: 2023/04/18 18:54:28 by anvannin         ###   ########.fr        #
+#    Updated: 2023/04/18 19:15:23 by anvannin         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -15,6 +15,7 @@
 NAME		:= minishell
 SRCS		:= \
 				main.c \
+				user_signals.c \
 				invalid_input.c \
 				variable_assignment.c \
 				parse_input.c \

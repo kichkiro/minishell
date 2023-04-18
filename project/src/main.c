@@ -6,7 +6,7 @@
 /*   By: kichkiro <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/27 19:07:59 by kichkiro          #+#    #+#             */
-/*   Updated: 2023/04/17 22:05:48 by kichkiro         ###   ########.fr       */
+/*   Updated: 2023/04/18 16:09:54 by kichkiro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,10 +20,11 @@ int	main(void)
 	t_var	*var;
 	t_cmd	*cmd;
 
-	var = (t_var *)malloc(sizeof(t_var));
-	cmd = (t_cmd *)malloc(sizeof(t_cmd));
-	if (!var || !cmd)
-		return (1);
+	// var = (t_var *)malloc(sizeof(t_var));
+	var = NULL;
+	cmd = NULL;
+	// if (!cmd)
+		// return (1);
 	while (true)
 	{
 		input = readline("\n> ");
@@ -48,9 +49,8 @@ int	main(void)
 			
 			// printf("%s\n", input);
 		}
-		t_var_set_to_head(&var);
 
-		// per debug --->
+		// debug --->
 		// while (var->next)
 		// {
 		// 	printf("var_name: %s\nvar_value: %s\n", var->name, var->value);
@@ -58,6 +58,21 @@ int	main(void)
 		// }
 		// printf("var_name: %s\nvar_value: %s\n", var->name, var->value);
 
+		// FAKE ECHO - FOR TESTING -------------------------------------------->
+		if (cmd)
+		{
+			t_cmd_set_to_head(&cmd);
+			cmd = cmd->next;
+			while (cmd->next)
+			{
+				printf("%s", cmd->token);
+				cmd = cmd->next;
+			}
+			printf("%s", cmd->token);
+			t_cmd_free(&cmd);
+		}
+		// ---------------------------------------------------------------------
+		
 		free(input);
 	}
 	t_var_free(&var);

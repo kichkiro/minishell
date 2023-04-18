@@ -6,7 +6,7 @@
 /*   By: kichkiro <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/05 17:51:51 by kichkiro          #+#    #+#             */
-/*   Updated: 2023/04/17 20:33:00 by kichkiro         ###   ########.fr       */
+/*   Updated: 2023/04/18 16:06:47 by kichkiro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,6 +56,8 @@ typedef struct s_cmd
 }	t_cmd;
 
 void	t_cmd_add_back(t_cmd **lst, t_cmd *new_node);
+void	*t_cmd_free(t_cmd **lst);
+void	t_cmd_set_to_head(t_cmd **lst);
 t_cmd	*t_cmd_new(char	*token);
 
 

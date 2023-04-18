@@ -3,5 +3,5 @@
 
 # _tester
 _tester/.venv
-
+_tester/src/__pycache__
 

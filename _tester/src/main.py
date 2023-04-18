@@ -9,9 +9,9 @@ Tester for the Minishell project of school 42.
 import os
 import sys
 
-# from termcolor import colored
-# import utils
-# from tester import Tester
+from termcolor import colored
+import utils
+from tester import Tester
 
 # Authorship ----------------------------------------------------------------->
 
@@ -24,4 +24,40 @@ __status__ = "Prototype"
 # Functions ------------------------------------------------------------------>
 
 def main():
-    pass
+    """
+    """
+    argv = sys.argv
+
+    if len(argv) != 2:
+        print(colored("\nWrong input arguments...\n", "red", attrs=["bold"]))
+        print(colored("[project_path]\n", "white"))
+        exit()
+
+    project_path = os.path.abspath(argv[1])
+    exe = "minishell"
+
+    utils.banner()
+
+    single_quotes = Tester(project_path, exe, "single_quotes")
+
+    # PRE-TEST --------------------------------------------------------------->
+
+    print(colored(
+        "PRE-TEST ---------------------------------------------------------->"
+        "\n", "white", attrs=["bold"]))
+
+    utils.makefile("", True, project_path)
+
+    # PARSING TEST ----------------------------------------------------------->
+
+    print(colored(
+        "Single quotes - TEST ---------------------------------------------->",
+        "white", 
+        attrs=["bold"]
+    ))
+
+    single_quotes.run()
+
+
+if __name__ == "__main__":
+    main()

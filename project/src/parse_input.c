@@ -6,7 +6,7 @@
 /*   By: kichkiro <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/16 23:03:22 by kichkiro          #+#    #+#             */
-/*   Updated: 2023/04/17 22:02:29 by kichkiro         ###   ########.fr       */
+/*   Updated: 2023/04/18 16:04:12 by kichkiro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ static char	*variable_expand(char *input, size_t *i, t_var *var, int *exit_code)
 	char	*var_name;	
 	char	*var_value;
 
-	t_var_set_to_head(&var);
+	// estrai il nome di variabile
 	var_name = (char *)ft_calloc(1, sizeof(char));
 	if (input[(*i) + 1] == '{')
 	{
@@ -51,10 +51,9 @@ static char	*variable_expand(char *input, size_t *i, t_var *var, int *exit_code)
 	{
 		while (ft_isalnum(input[++(*i)]))
 			var_name = ft_char_append(var_name, input[*i], true);
+		(*i)--;
 	}
 
-	// ft_printf("var_expand: %s\n", var_name);
-		
 	// controlla se e' $?
 	if (var_name[1] == '?')
 		return (ft_itoa(*exit_code));
@@ -62,16 +61,18 @@ static char	*variable_expand(char *input, size_t *i, t_var *var, int *exit_code)
 	// cerca se e' una variabile di ambiente
 	var_value = getenv(var_name);
 	if (var_value)
-		return (var_value);
+		return (ft_strdup(var_value));
 
 	// se non e' una varibile d'ambiente allora cerca nelle locali
-	while (var->next)
+	if (var)
 	{
-		if (!ft_strncmp(var_name, var->name, ft_strlen(var_name)))
-			return (var->value);
-		var = var->next;
-		if (!ft_strncmp(var_name, var->name, ft_strlen(var_name)))
-			return (var->value);
+		t_var_set_to_head(&var);
+		while (var)
+		{
+			if (!ft_strncmp(var_name, var->name, ft_strlen(var_name)))
+				return (ft_strdup(var->value));
+			var = var->next;
+		}
 	}
 
 	// se non ci sono varibili simili, ritorna NULL
@@ -87,11 +88,11 @@ void	parse_input(char *input, t_cmd **cmd, t_var *var, int *exit_code)
 	bool	double_quotes;
 
 	i = -1;
+	token = (char *)ft_calloc(1, sizeof(char));
 	single_quotes = false;
 	double_quotes = false;
 	while (input[++i])
 	{
-		token = NULL;
 		if (input[i] == '\'' && !double_quotes && ++i)
 			single_quotes = !single_quotes;
 		else if (input[i] == '"' && !single_quotes && ++i)
@@ -103,16 +104,19 @@ void	parse_input(char *input, t_cmd **cmd, t_var *var, int *exit_code)
 			token = ft_char_append(token, input[i], true);
 		else if(!single_quotes && !double_quotes && input[i] == ' ')
 		{
-			t_cmd_add_back(cmd, t_cmd_new(token));
-			// ft_free((void **)&token);
+			// debug --->
+			// printf("token: %s\n", token);
+
+			t_cmd_add_back(cmd, t_cmd_new(ft_strdup(token)));
+			ft_free((void **)&token);
 		}
 
 		// espansione variabile
 		else if(!single_quotes && input[i] == '$')
 		{
 			var_value = variable_expand(input, &i, var, exit_code);
-			token = ft_strappend(token, var_value, true, false);
-			printf("var_expand_value: %s\n", token);
+			if (var_value)
+				token = ft_strappend(token, var_value, true, true);
 		}
 
 		// redirect <
@@ -126,6 +130,16 @@ void	parse_input(char *input, t_cmd **cmd, t_var *var, int *exit_code)
 		// pipe
 
 		
+	}
+	if (token)
+	{
+		// debug --->
+		// printf("token: %s\n", token);
+
+		t_cmd_add_back(cmd, t_cmd_new(ft_strdup(token)));
+		t_cmd_set_to_head(cmd);
+		// ft_free((void **)&token);
+		free(token);
 	}
 }
 

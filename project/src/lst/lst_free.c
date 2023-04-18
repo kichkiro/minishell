@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   t_var_free.c                                       :+:      :+:    :+:   */
+/*   lst_free.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: kichkiro <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/26 00:47:39 by kichkiro          #+#    #+#             */
-/*   Updated: 2023/04/16 20:02:30 by kichkiro         ###   ########.fr       */
+/*   Updated: 2023/04/18 16:06:33 by kichkiro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,33 @@ void	*t_var_free(t_var **lst)
 	if (*lst)
 	{
 		t_var_set_to_head(lst);
+		while ((*lst)->next)
+		{
+			*lst = (*lst)->next;
+			tmp = (*lst)->prev;
+			free(tmp);
+			(*lst)->prev = 0;
+		}
+		free(*lst);
+		*lst = 0;
+	}
+	return (0);
+}
+
+/*!
+ * @brief 
+	Delete and frees the lst.
+ * @param lst 
+	Linked list.
+ */
+void	*t_cmd_free(t_cmd **lst)
+{
+	t_cmd	*tmp;
+
+	tmp = 0;
+	if (*lst)
+	{
+		t_cmd_set_to_head(lst);
 		while ((*lst)->next)
 		{
 			*lst = (*lst)->next;

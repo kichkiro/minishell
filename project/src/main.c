@@ -3,31 +3,60 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kichkiro <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: anvannin <anvannin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/27 19:07:59 by kichkiro          #+#    #+#             */
-/*   Updated: 2023/04/16 22:59:18 by kichkiro         ###   ########.fr       */
+/*   Updated: 2023/04/18 19:05:46 by anvannin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
+static char	*ft_whoami(void)
+{
+	return (strcat(getenv("USER"), "@minishell$ "));
+}
+
+static void	signals(int sig)
+{
+	if (sig == SIGINT)
+	{
+		ioctl(0, TIOCSTI, "\n");
+		rl_replace_line("", 0);
+		rl_on_new_line();
+	}
+}
+
+static int	ctrl_d(char *line, char *whoami)
+{
+	printf("\nBye Bye\n");
+	free(whoami);
+	return (0);
+}
+
 int	g_exit_code = 0;
 
-int	main(int argc, char **argv)
+int	main(void)
 {
 	char	*input;
 	t_var	*var;
+	t_cmd	*cmd;
+	char	*whoami;
 
-	(void)argc;
-	(void)argv;
+	whoami = ft_whoami();
 
-	var = (t_var *)malloc(sizeof(t_var));
-	if (!var)
-		return (1);
+	// var = (t_var *)malloc(sizeof(t_var));
+	var = NULL;
+	cmd = NULL;
+	// if (!cmd)
+		// return (1);
 	while (true)
 	{
-		input = readline("\n> ");
+		signal(SIGQUIT, SIG_IGN);
+		signal(SIGINT, signals);
+		input = readline(whoami);
+		if (!input)
+			return (ctrl_d(input, whoami));
 
 		// stampa exit_code
 		if (!ft_strncmp(input, "$?", 2))
@@ -37,23 +66,42 @@ int	main(int argc, char **argv)
 			ft_putstr_fd(RED"command not found\n"RESET, 2);
 			g_exit_code = 127;
 		}
-			
-		// controlla se l'input e' valido, oppure se c'e' un assegnamento, 
+
+		//else if c'e un commento, salva in history e mostra nuovo prompt
+
+		// controlla se l'input e' valido, oppure se c'e' un assegnamento,
 		// esegui l'assegnamento e mostra nuovo prompt.
 		else if (!invalid_input(input, &g_exit_code) && \
 			!variable_assignment(&var, input, &g_exit_code))
 		{
+			parse_input(input, &cmd, var, &g_exit_code);
 
-			
-			printf("%s\n", input);
+			// printf("%s\n", input);
 		}
-		t_var_set_to_head(&var);
-		while (var->next)
+
+		// debug --->
+		// while (var->next)
+		// {
+		// 	printf("var_name: %s\nvar_value: %s\n", var->name, var->value);
+		// 	var = var->next;
+		// }
+		// printf("var_name: %s\nvar_value: %s\n", var->name, var->value);
+
+		// FAKE ECHO - FOR TESTING -------------------------------------------->
+		if (cmd)
 		{
-			printf("var_name: %s\nvar_value: %s\n", var->name, var->value);
-			var = var->next;
+			t_cmd_set_to_head(&cmd);
+			cmd = cmd->next;
+			while (cmd->next)
+			{
+				printf("%s", cmd->token);
+				cmd = cmd->next;
+			}
+			printf("%s", cmd->token);
+			t_cmd_free(&cmd);
 		}
-		printf("var_name: %s\nvar_value: %s\n", var->name, var->value);
+		// ---------------------------------------------------------------------
+
 		free(input);
 	}
 	t_var_free(&var);

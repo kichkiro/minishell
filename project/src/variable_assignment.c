@@ -6,7 +6,7 @@
 /*   By: kichkiro <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/06 14:07:27 by kichkiro          #+#    #+#             */
-/*   Updated: 2023/04/16 22:41:13 by kichkiro         ###   ########.fr       */
+/*   Updated: 2023/04/18 11:39:17 by kichkiro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,6 +103,7 @@ bool	variable_assignment(t_var **var, char *input, int *exit_code)
 		return (false);
 	var_value = tmp_get_var_value(input, ft_strlen(var_name));
 	t_var_add_back(var, t_var_new(var_name, var_value));
+	t_var_set_to_head(var);
 	exit_code = 0;
 	return (true);
 }

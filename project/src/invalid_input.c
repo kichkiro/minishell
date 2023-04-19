@@ -6,11 +6,29 @@
 /*   By: kichkiro <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/06 11:56:59 by kichkiro          #+#    #+#             */
-/*   Updated: 2023/04/16 20:46:35 by kichkiro         ###   ########.fr       */
+/*   Updated: 2023/04/19 09:38:14 by kichkiro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+
+// static bool	closed_brackets(char *input)
+// {
+// 	// controllare se le parentesi - () [] {} - che si trovino fuori da apici 
+// 	// e non siano il delimitatore di heredoc, siano chiuse correttamente.
+// }
+
+// static bool semicolon(char *input)
+// {
+// 	// controllare che non ci siano semicolon - ; - fuori da apici.
+// }
+
+// static bool	backslash(char *input)
+// {
+// 	// controllare che non ci siano backslash fuori da singoli apici.
+// }
+
 
 /*!
  * @brief 
@@ -29,7 +47,7 @@ static bool	closed_quotes(char *input)
 
 	single_quotes = false;
 	double_quotes = false;
-	len = strlen(input);
+	len = ft_strlen(input);
 	i = 0;
 	while (i < len)
 	{

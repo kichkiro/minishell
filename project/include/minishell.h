@@ -6,7 +6,7 @@
 /*   By: anvannin <anvannin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/05 17:51:51 by kichkiro          #+#    #+#             */
-/*   Updated: 2023/04/18 19:22:30 by anvannin         ###   ########.fr       */
+/*   Updated: 2023/04/19 19:33:23 by anvannin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,7 @@
 # include <signal.h>
 # include <sys/ioctl.h>
 # include <sys/wait.h>
+#include <fcntl.h>
 
 // Linked Lists --------------------------------------------------------------->
 
@@ -63,10 +64,20 @@ void	*t_cmd_free(t_cmd **lst);
 void	t_cmd_set_to_head(t_cmd **lst);
 t_cmd	*t_cmd_new(char	*token);
 
-// User Signals --------------------------------------------------------------->
+// Prompt --------------------------------------------------------------------->
 char	*ft_whoami(void);
+
+// User Signals --------------------------------------------------------------->
 void	signals(int sig);
-int		ctrl_d(void);
+int		close_shell(char *input);
+
+// Commands ------------------------------------------------------------------->
+void	temp_commands_control(char *input);
+
+// History -------------------------------------------------------------------->
+void	init_history(void);
+void	ft_add_history(char *input);
+void	print_history(void);
 
 // Functions ------------------------------------------------------------------>
 

@@ -6,9 +6,6 @@ A set of utils functions.
 
 # Libraries ------------------------------------------------------------------>
 
-import re
-import os
-import shutil
 import subprocess
 
 from termcolor import colored
@@ -43,6 +40,7 @@ def banner():
         "/_/   \___//____/ \__/ \___//_/                 \n\n",
         "red",
     ))
+
 
 def makefile(rules: str, must_print: bool, project_path: str):
     """

@@ -38,25 +38,29 @@ class Tester:
         Runs the test cases and prints the results.
 
     Private Methods
+    ---------------
+    __echo(process, stdout, stderr, args, i) -> None
+        Runs the "echo" test case.
+
+    Notes
     --------------------------------------------------------------------
-    __parsing(process, stdout, stderr, args, i):
-        Checks if only one philosopher is alive and died in a specific 
-        sequence.
-    
+    The Tester class is designed to run tests on a project executable. 
+    The test cases are run using subprocess.Popen, which allows for 
+    running external programs and capturing their output.
     """
     
     def __init__(self, project_path: str, exe: str, test: str) -> None:
         self.project_path = project_path
-        if test == "single_quotes":
-            self.args = args.single_quotes
+        if test == "echo":
+            self.args = args.echo
             self.cmd = [f"{project_path}/{exe}"]
             self.test = lambda process, stdout, stderr, args, i: \
-                self.__single_quotes(process, stdout, stderr, args, i)
+                self.__echo(process, stdout, stderr, args, i)
 
 
     def run(self):
         i = 0
-        for args in self.args:
+        for test_input, bash_output in self.args.items():
             process = subprocess.Popen(
                 self.cmd,
                 stdin=subprocess.PIPE,
@@ -64,27 +68,48 @@ class Tester:
                 stderr=subprocess.PIPE
             )
             try:
-                # print(args)
-                stdout, stderr = process.communicate(input=b"echo ' \"\" ' '42'", timeout=5)
-                self.test(process, stdout, stderr, args, i)
+                stdout, stderr = process.communicate(
+                    input=test_input, timeout=5)
+                self.test(process, stdout, stderr, self.args, i)
             except subprocess.TimeoutExpired:
                 process.send_signal(signal.SIGINT)
                 print(colored(
-                    f"TEST {i}: KO\n\n    Deadlock detected\n\n    "
+                    f"TEST {i}: KO\n\n    Timeout\n\n    "
                     f"ARGS: {' '.join(args)}\n", 
                     "red"
                 ))
             i += 1
 
 
-    def __single_quotes(self, process, stdout, stderr, args, i):
-        if stdout.decode().count('\n') != 2:
+    def __echo(self, process, stdout, stderr, args, i):
+        def output_line(stdout, test_input):
+            output = None
+            next_line = False
+            lines = stdout.decode().split('\n')
+            for line in lines:
+                if next_line:
+                    output = line
+                    break
+                if test_input in line:
+                    next_line = True
+            return output
+
+        test_input = (list(args.keys()))[i]
+        bash_output = args[test_input]
+        minishell_output = output_line(stdout, test_input.decode())
+        if minishell_output != bash_output:
             print(colored(
-                f"TEST {i}: KO\n\n"
-                f"    ARGS: {' '.join(args)}\n",
+                f"TEST {i + 1}: KO\n\n"
+                f"    Input:     {test_input.decode()}\n"
+                f"    Bash:      {bash_output}\n"
+                f"    Minishell: {minishell_output}\n",
                 "red"
             ))
-            print(colored(f"{stdout.decode()}\n", 'white'))
         else:
-            print(colored(f"TEST {i}: OK\n", "green"))
+            print(colored(
+                f"TEST {i + 1}: OK\n\n"
+                f"    Input:     {test_input.decode()}\n"
+                f"    Output:    {minishell_output}\n",
+                "green"
+            ))
 

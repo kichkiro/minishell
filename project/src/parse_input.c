@@ -6,7 +6,7 @@
 /*   By: kichkiro <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/16 23:03:22 by kichkiro          #+#    #+#             */
-/*   Updated: 2023/04/19 10:27:01 by kichkiro         ###   ########.fr       */
+/*   Updated: 2023/04/19 21:08:03 by kichkiro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,7 @@ parsing input cmd di bash:
 void	parse_input(char *input, t_cmd **cmd, t_var *var, int *exit_code)
 {
 	size_t	i;
+	char	type;
 	char	*token;
 	char	*var_value;
 	bool	single_quotes;
@@ -48,26 +49,38 @@ void	parse_input(char *input, t_cmd **cmd, t_var *var, int *exit_code)
 	double_quotes = false;
 	while (input[++i])
 	{
-		if (input[i] == '\'' && !double_quotes && ++i)
+		// Rilevatore di apici ------------------------------------------------> 
+
+		if (input[i] == '\'' && !double_quotes)
 			single_quotes = !single_quotes;
-		else if (input[i] == '"' && !single_quotes && ++i)
+		else if (input[i] == '"' && !single_quotes)
 			double_quotes = !double_quotes;
 
-		if (single_quotes || (double_quotes && input[i] != '$') || \
+		// Gestore del tipo STANDARD ---------------->
+
+		else if (single_quotes || (double_quotes && input[i] != '$') || \
 			(!double_quotes && !single_quotes && input[i] != ' ' && input[i] \
 			!= '<' && input[i] != '>' && input[i] != '$' && input[i] != '|'))
-			token = ft_char_append(token, input[i], true);
-		else if (!single_quotes && !double_quotes && input[i] == ' ')
+			{
+				token = ft_char_append(token, input[i], true);
+				type = STANDARD;
+			}
+
+		// Appende token di tipo STANDARD alla lista di comandi --------------->
+
+		else if (type == STANDARD && !single_quotes && !double_quotes && input[i] == ' ' && token)
 		{
 			// debug --->
 			// printf("token: %s\n", token);
 
-			t_cmd_add_back(cmd, t_cmd_new(ft_strdup(token)));
+			t_cmd_add_back(cmd, t_cmd_new(ft_strdup(token), STANDARD));
 			ft_free((void **)&token);
 		}
 
-		// espansione variabile
-		else if (!single_quotes && input[i] == '$')
+		// Espansore di variabili ---------------------------------------------> 
+
+		else if (!single_quotes && input[i] == '$' || (!single_quotes && \
+			input[i] == '$' && (*cmd) && (*cmd)->prev->type != HEREDOC))
 		{
 			var_value = variable_expand(input, &i, var, exit_code);
 			if (*exit_code != 0)
@@ -80,16 +93,29 @@ void	parse_input(char *input, t_cmd **cmd, t_var *var, int *exit_code)
 				token = ft_strappend(token, var_value, true, true);
 		}
 
-		// redirect <
+		// Gestore di redirect ------------------------------------------------>
+		
+		else if (!single_quotes && !double_quotes && (input[i] == '<' || \
+			input[i] == '>'))
+		{
+			token = ft_char_append(token, input[i], true);
+			if (input[i] == '>' && input[i + 1] == '>')
+				token = ft_char_append(token, input[++i], true);
+			type = REDIRECT;
+		}
 
-		// redirect <<
+		// Gestore di Heredoc ------------------------------------------------->
 
-		// redirect >
 
-		// redirect >>
+		// Gestore di pipeline ------------------------------------------------>
 
-		// pipe
 
+		// Gestore di wildcards ----------------------------------------------->
+
+
+		// Appenditore di nodi ------------------------------------------------>
+
+		
 
 	}
 	if (token)
@@ -97,17 +123,8 @@ void	parse_input(char *input, t_cmd **cmd, t_var *var, int *exit_code)
 		// debug --->
 		// printf("token: %s\n", token);
 
-		t_cmd_add_back(cmd, t_cmd_new(ft_strdup(token)));
+		t_cmd_add_back(cmd, t_cmd_new(ft_strdup(token), STANDARD));
 		t_cmd_set_to_head(cmd);
 		free(token);
 	}
 }
-
-
-
-
-
-
-
-
-

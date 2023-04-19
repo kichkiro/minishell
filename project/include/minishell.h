@@ -6,7 +6,7 @@
 /*   By: kichkiro <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/05 17:51:51 by kichkiro          #+#    #+#             */
-/*   Updated: 2023/04/19 09:29:00 by kichkiro         ###   ########.fr       */
+/*   Updated: 2023/04/19 20:48:09 by kichkiro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,17 @@
 # include <stdio.h>
 # include <readline/readline.h>
 # include <readline/history.h>
+
+// Macros --------------------------------------------------------------------->
+
+// // Token types ------------------------------------------------------------->
+
+# define NONE_TYPE	0
+# define STANDARD	1
+# define REDIRECT	2
+# define HEREDOC	3
+# define PIPE		4
+# define WILDCARD	5
 
 // Linked Lists --------------------------------------------------------------->
 
@@ -47,10 +58,10 @@ bool	t_var_n_is_inside(t_var *lst, int n);
 int		t_var_size(t_var *lst);
 int		*t_var_to_arr(t_var *lst);
 
-// lista dove metteremo la riga di comando una volta pulita.
 typedef struct s_cmd
 {
 	char			*token;
+	char			type;
 	struct s_cmd	*next;
 	struct s_cmd	*prev;
 }	t_cmd;
@@ -58,7 +69,7 @@ typedef struct s_cmd
 void	t_cmd_add_back(t_cmd **lst, t_cmd *new_node);
 void	*t_cmd_free(t_cmd **lst);
 void	t_cmd_set_to_head(t_cmd **lst);
-t_cmd	*t_cmd_new(char	*token);
+t_cmd	*t_cmd_new(char	*token, char type);
 
 
 

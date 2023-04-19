@@ -6,7 +6,7 @@
 /*   By: kichkiro <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/05 11:01:31 by kichkiro          #+#    #+#             */
-/*   Updated: 2023/04/17 18:02:16 by kichkiro         ###   ########.fr       */
+/*   Updated: 2023/04/19 19:54:41 by kichkiro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ t_var	*t_var_new(char	*name, char *value)
  * @return 
 	The new node.
  */
-t_cmd	*t_cmd_new(char	*token)
+t_cmd	*t_cmd_new(char	*token, char type)
 {
 	t_cmd	*node;
 
@@ -56,6 +56,7 @@ t_cmd	*t_cmd_new(char	*token)
 	if (!node)
 		return (0);
 	node->token = token;
+	node->type = type;
 	node->next = 0;
 	node->prev = 0;
 	return (node);

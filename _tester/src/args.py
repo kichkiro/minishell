@@ -14,20 +14,84 @@ __status__ = "Prototype"
 
 # ARGS ----------------------------------------------------------------------->
 
-single_quotes = {
-	# ("v=42", "echo '$v'"): "$v",
-    # ("v=42", "echo '$v'$v"): "$v42",
-    "echo 'echo $v >> file.txt'": "echo $v >> file.txt",
-    "echo ' \"\" ' '42'": "\"\"  42",
-	"echo '$?'": "$?",
-    "echo '${$?}'": "${$?}",
-    "echo 42' '42": "42 42"
+echo = {
+    b"echo ": "",
+    b"echo hello world!": "hello world !",
+    b"echo 42test ' 21 '": "42test  21 ",
+    b"echo 42   42    '  '42": "42 42   42",
+    b"echo 'echo $v >> file.txt'": "echo $v >> file.txt",
+    b"echo ' \"\" ' '42'": " \"\"  42",
+	b"echo '$?'": "$?",
+    b"echo '${$?}'": "${$?}",
+    b"echo 42' '42": "42 42",
+    b"echo '$USER'": "$USER",
+    b"echo '<< | | >>'42": "<< | | >>42",
+    b"echo ''": "",
+    b"echo ''''42''": "42",
+    b"echo $'USER'": "USER",
+    b"echo $'USER'USER": "USERUSER",
+    b"echo a'b'c'd'e'f'g'h'i'j'k'l'm'n'o'p'q'r's't'": "abcdefghijklmnopqrst",
+    b"echo a'b'c'd'e'f'g'h'i'j'k'l'm''": "abcdefghijklm",
+    b"echo \" \"'$USER\"'\"42 \" ''\"  | << -1\"": "$USER\"42    | << -1",
+    b"echo \"<< EOF\"": "<< EOF",
 }
 
-# double_quotes = {
-    
-# }
 
-# var_expands = {
-    
-# }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -6,9 +6,6 @@ A set of utils functions.
 
 # Libraries ------------------------------------------------------------------>
 
-import re
-import os
-import shutil
 import subprocess
 
 from termcolor import colored

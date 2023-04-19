@@ -38,25 +38,29 @@ def main():
 
     utils.banner()
 
-    single_quotes = Tester(project_path, exe, "single_quotes")
+    echo = Tester(project_path, exe, "echo")
 
     # PRE-TEST --------------------------------------------------------------->
 
     print(colored(
         "PRE-TEST ---------------------------------------------------------->"
-        "\n", "white", attrs=["bold"]))
-
-    utils.makefile("", True, project_path)
-
-    # PARSING TEST ----------------------------------------------------------->
-
-    print(colored(
-        "Single quotes - TEST ---------------------------------------------->",
+        "\n", 
         "white", 
         attrs=["bold"]
     ))
 
-    single_quotes.run()
+    utils.makefile("", True, project_path)
+
+    # ECHO TEST -------------------------------------------------------------->
+
+    print(colored(
+        "Echo - TEST ------------------------------------------------------->"
+        "\n",
+        "white", 
+        attrs=["bold"]
+    ))
+
+    echo.run()
 
 
 if __name__ == "__main__":

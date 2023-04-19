@@ -6,7 +6,7 @@
 /*   By: kichkiro <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/16 23:03:22 by kichkiro          #+#    #+#             */
-/*   Updated: 2023/04/19 09:40:44 by kichkiro         ###   ########.fr       */
+/*   Updated: 2023/04/19 10:27:01 by kichkiro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,8 @@ parsing input cmd di bash:
 		delimitatore senza espandere variabili.
 */
 
+
+
 void	parse_input(char *input, t_cmd **cmd, t_var *var, int *exit_code)
 {
 	size_t	i;
@@ -50,12 +52,12 @@ void	parse_input(char *input, t_cmd **cmd, t_var *var, int *exit_code)
 			single_quotes = !single_quotes;
 		else if (input[i] == '"' && !single_quotes && ++i)
 			double_quotes = !double_quotes;
-			
+
 		if (single_quotes || (double_quotes && input[i] != '$') || \
 			(!double_quotes && !single_quotes && input[i] != ' ' && input[i] \
 			!= '<' && input[i] != '>' && input[i] != '$' && input[i] != '|'))
 			token = ft_char_append(token, input[i], true);
-		else if(!single_quotes && !double_quotes && input[i] == ' ')
+		else if (!single_quotes && !double_quotes && input[i] == ' ')
 		{
 			// debug --->
 			// printf("token: %s\n", token);
@@ -65,7 +67,7 @@ void	parse_input(char *input, t_cmd **cmd, t_var *var, int *exit_code)
 		}
 
 		// espansione variabile
-		else if(!single_quotes && input[i] == '$')
+		else if (!single_quotes && input[i] == '$')
 		{
 			var_value = variable_expand(input, &i, var, exit_code);
 			if (*exit_code != 0)
@@ -88,7 +90,7 @@ void	parse_input(char *input, t_cmd **cmd, t_var *var, int *exit_code)
 
 		// pipe
 
-		
+
 	}
 	if (token)
 	{
@@ -97,7 +99,6 @@ void	parse_input(char *input, t_cmd **cmd, t_var *var, int *exit_code)
 
 		t_cmd_add_back(cmd, t_cmd_new(ft_strdup(token)));
 		t_cmd_set_to_head(cmd);
-		// ft_free((void **)&token);
 		free(token);
 	}
 }

@@ -6,7 +6,7 @@
 /*   By: kichkiro <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/05 17:51:51 by kichkiro          #+#    #+#             */
-/*   Updated: 2023/04/18 16:06:47 by kichkiro         ###   ########.fr       */
+/*   Updated: 2023/04/19 09:29:00 by kichkiro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,5 +67,6 @@ t_cmd	*t_cmd_new(char	*token);
 bool	invalid_input(char *input, int *g_exit_code);
 bool	variable_assignment(t_var **var, char *input, int *exit_code);
 void	parse_input(char *input, t_cmd **cmd, t_var *var, int *exit_code);
+char	*variable_expand(char *input, size_t *i, t_var *var, int *exit_code);
 
 #endif

@@ -6,7 +6,7 @@
 #    By: kichkiro <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/04/05 17:59:55 by kichkiro          #+#    #+#              #
-#    Updated: 2023/04/17 20:33:19 by kichkiro         ###   ########.fr        #
+#    Updated: 2023/04/19 09:52:16 by kichkiro         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -17,6 +17,7 @@ SRCS		:= \
 				main.c \
 				invalid_input.c \
 				variable_assignment.c \
+				variable_expand.c \
 				parse_input.c \
 				lst/lst_new.c \
 				lst/lst_add_back.c \

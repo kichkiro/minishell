@@ -44,6 +44,7 @@ def banner():
         "red",
     ))
 
+
 def makefile(rules: str, must_print: bool, project_path: str):
     """
     Run the make command with specified rules on a given project path.

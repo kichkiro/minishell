@@ -21,6 +21,7 @@ single_quotes = {
     "echo ' \"\" ' '42'": "\"\"  42",
 	"echo '$?'": "$?",
     "echo '${$?}'": "${$?}",
+    "echo 42' '42": "42 42"
 }
 
 # double_quotes = {

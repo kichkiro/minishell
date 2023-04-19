@@ -6,7 +6,7 @@
 /*   By: kichkiro <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/05 17:51:51 by kichkiro          #+#    #+#             */
-/*   Updated: 2023/04/19 20:48:09 by kichkiro         ###   ########.fr       */
+/*   Updated: 2023/04/19 23:14:25 by kichkiro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,12 +25,13 @@
 
 // // Token types ------------------------------------------------------------->
 
-# define NONE_TYPE	0
+# define NONE		0
 # define STANDARD	1
 # define REDIRECT	2
 # define HEREDOC	3
 # define PIPE		4
-# define WILDCARD	5
+# define BOOLEAN    5
+# define WILDCARD	6
 
 // Linked Lists --------------------------------------------------------------->
 

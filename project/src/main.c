@@ -6,7 +6,7 @@
 /*   By: kichkiro <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/27 19:07:59 by kichkiro          #+#    #+#             */
-/*   Updated: 2023/04/19 20:20:51 by kichkiro         ###   ########.fr       */
+/*   Updated: 2023/04/19 23:10:49 by kichkiro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,14 +45,27 @@ int	main(void)
 			cmd = cmd->next;
 			while (cmd->next)
 			{
-				printf("%s ", cmd->token);
+				if (cmd->type == STANDARD || cmd->type == WILDCARD)
+					printf("%s ", cmd->token);
 				cmd = cmd->next;
 			}
 			printf("%s", cmd->token);
 			t_cmd_free(&cmd);
 		}
 		// ---------------------------------------------------------------------
-		
+		// if (cmd)
+		// {
+		// 	t_cmd_set_to_head(&cmd);
+		// 	while (cmd->next)
+		// 	{
+		// 		printf("token -> %s ---> type -> %d\n", cmd->token, cmd->type);
+		// 		cmd = cmd->next;
+		// 	}
+		// 	printf("token -> %s ---> type -> %d\n", cmd->token, cmd->type);
+		// 	t_cmd_free(&cmd);
+		// }
+		// ---------------------------------------------------------------------
+
 		// Salva history ------------------------------------------------------>
 
 

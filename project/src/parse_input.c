@@ -6,14 +6,14 @@
 /*   By: kichkiro <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/16 23:03:22 by kichkiro          #+#    #+#             */
-/*   Updated: 2023/04/19 21:08:03 by kichkiro         ###   ########.fr       */
+/*   Updated: 2023/04/19 23:15:18 by kichkiro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
 /*
-parsing input cmd di bash:
+Parsing --->
 
 - Ogni spazio che non si trovi tra apici e' un delimitatore tra un elemento e
 	l'altro.
@@ -33,6 +33,13 @@ parsing input cmd di bash:
 */
 
 
+static void	token_append(char **token, char *type, t_cmd **cmd)
+{
+	t_cmd_add_back(cmd, t_cmd_new(ft_strdup(*token), *type));
+	ft_free((void **)token);
+	*type = NONE;
+	t_cmd_set_to_head(cmd);
+}
 
 void	parse_input(char *input, t_cmd **cmd, t_var *var, int *exit_code)
 {
@@ -44,6 +51,7 @@ void	parse_input(char *input, t_cmd **cmd, t_var *var, int *exit_code)
 	bool	double_quotes;
 
 	i = -1;
+	type = NONE;
 	token = (char *)ft_calloc(1, sizeof(char));
 	single_quotes = false;
 	double_quotes = false;
@@ -60,21 +68,22 @@ void	parse_input(char *input, t_cmd **cmd, t_var *var, int *exit_code)
 
 		else if (single_quotes || (double_quotes && input[i] != '$') || \
 			(!double_quotes && !single_quotes && input[i] != ' ' && input[i] \
-			!= '<' && input[i] != '>' && input[i] != '$' && input[i] != '|'))
-			{
-				token = ft_char_append(token, input[i], true);
-				type = STANDARD;
-			}
+			!= '<' && input[i] != '>' && input[i] != '$' && input[i] != '|' \
+			&& input[i] != '*' && input[i] != '?' && input[i] != '['))
+		{
+			token = ft_char_append(token, input[i], true);
+			type = STANDARD;
+		}
 
 		// Appende token di tipo STANDARD alla lista di comandi --------------->
 
-		else if (type == STANDARD && !single_quotes && !double_quotes && input[i] == ' ' && token)
+		else if (type == STANDARD && !single_quotes && !double_quotes \
+			&& input[i] == ' ' && token)
 		{
 			// debug --->
 			// printf("token: %s\n", token);
 
-			t_cmd_add_back(cmd, t_cmd_new(ft_strdup(token), STANDARD));
-			ft_free((void **)&token);
+			token_append(&token, &type, cmd);
 		}
 
 		// Espansore di variabili ---------------------------------------------> 
@@ -94,37 +103,69 @@ void	parse_input(char *input, t_cmd **cmd, t_var *var, int *exit_code)
 		}
 
 		// Gestore di redirect ------------------------------------------------>
-		
+
 		else if (!single_quotes && !double_quotes && (input[i] == '<' || \
 			input[i] == '>'))
 		{
-			token = ft_char_append(token, input[i], true);
-			if (input[i] == '>' && input[i + 1] == '>')
-				token = ft_char_append(token, input[++i], true);
-			type = REDIRECT;
+			if (type == STANDARD)
+				token_append(&token, &type, cmd);	
+			if (input[i] == '<' && input[i + 1] == '<')
+			{
+				token = ft_substr(input, i++, 2);
+				type = HEREDOC;	
+			}
+			else
+			{
+				token = ft_char_append(token, input[i], true);
+				if (input[i] == '>' && input[i + 1] == '>')
+					token = ft_char_append(token, input[++i], true);
+				type = REDIRECT;
+			}
+			token_append(&token, &type, cmd);
 		}
-
-		// Gestore di Heredoc ------------------------------------------------->
-
 
 		// Gestore di pipeline ------------------------------------------------>
 
+		else if (!single_quotes && !double_quotes && input[i] == '|')
+		{
+			if (type == STANDARD)
+				token_append(&token, &type, cmd);
+			token = ft_char_append(token, input[i], true);
+			type = PIPE;
+			token_append(&token, &type, cmd);
+		}
+
+		// Gestore booleani --------------------------------------------------->
+		
+		// TODO
 
 		// Gestore di wildcards ----------------------------------------------->
 
-
-		// Appenditore di nodi ------------------------------------------------>
-
-		
-
+		else if (!single_quotes && !double_quotes && (input[i] == '*' \
+			|| input[i] == '?' || input[i] == '['))
+		{
+			if (type == STANDARD)
+				token_append(&token, &type, cmd);
+			if (input[i] == '[')
+			{
+				if (ft_stridx(input, ']') < (ssize_t)i)
+				{
+					ft_putstr_fd(
+						RED"minishell: detected unclosed brackets\n"RESET, 2);
+					*exit_code = 1;
+					free(token);			
+					return ;
+				}
+				while (input[i] != ']' && input[i])
+					token = ft_char_append(token, input[i++], true);
+				token = ft_char_append(token, input[i], true);
+			}
+			else
+				token = ft_char_append(token, input[i], true);
+			type = WILDCARD;
+			token_append(&token, &type, cmd);
+		}
 	}
-	if (token)
-	{
-		// debug --->
-		// printf("token: %s\n", token);
-
-		t_cmd_add_back(cmd, t_cmd_new(ft_strdup(token), STANDARD));
-		t_cmd_set_to_head(cmd);
-		free(token);
-	}
+	if (token && type)
+		token_append(&token, &type, cmd);
 }

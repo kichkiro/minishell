@@ -6,7 +6,7 @@
 #    By: kichkiro <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/04/05 17:59:55 by kichkiro          #+#    #+#              #
-#    Updated: 2023/04/20 13:23:41 by kichkiro         ###   ########.fr        #
+#    Updated: 2023/04/20 17:24:52 by kichkiro         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -19,10 +19,10 @@ SRCS		:= \
 				commands.c \
 				history.c \
 				user_signals.c \
-				invalid_input.c \
+				invalid_prompt.c \
 				variable_assignment.c \
 				variable_expand.c \
-				parse_input.c \
+				parse_prompt.c \
 				lst/lst_new.c \
 				lst/lst_add_back.c \
 				lst/lst_set_to_head.c \

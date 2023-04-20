@@ -6,7 +6,7 @@
 /*   By: kichkiro <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/27 19:07:59 by kichkiro          #+#    #+#             */
-/*   Updated: 2023/04/20 14:05:24 by kichkiro         ###   ########.fr       */
+/*   Updated: 2023/04/20 17:23:56 by kichkiro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,15 +30,15 @@ int	main(void)
 		prompt = readline(ft_whoami());
 		if (!prompt)
 			return (close_shell(prompt));
-		// else
-		// {
-		// 	temp_commands_control(prompt);
-		// 	continue ;
-		// }
+		else
+		{
+			temp_commands_control(prompt);
+			continue ;
+		}
 
 		// controlla se l'input e' valido, oppure se c'e' un assegnamento,
 		// esegui l'assegnamento e mostra nuovo prompt.
-		if (!invalid_input(prompt, &g_exit_code) && \
+		if (!invalid_prompt(prompt, &g_exit_code) && \
 			!variable_assignment(&var, prompt, &g_exit_code))
 		{
 			parse_input(prompt, &cmd, var, &g_exit_code);
@@ -63,17 +63,17 @@ int	main(void)
 		// 	t_cmd_free(&cmd);
 		// }
 		// DEBUG PARSING ------------------------------------------------------>
-		if (cmd)
-		{
-			t_cmd_set_to_head(&cmd);
-			while (cmd->next)
-			{
-				printf("token -> %s ---> type -> %d\n", cmd->token, cmd->type);
-				cmd = cmd->next;
-			}
-			printf("token -> %s ---> type -> %d\n", cmd->token, cmd->type);
-			t_cmd_free(&cmd);
-		}
+		// if (cmd)
+		// {
+		// 	t_cmd_set_to_head(&cmd);
+		// 	while (cmd->next)
+		// 	{
+		// 		printf("token -> %s ---> type -> %d\n", cmd->token, cmd->type);
+		// 		cmd = cmd->next;
+		// 	}
+		// 	printf("token -> %s ---> type -> %d\n", cmd->token, cmd->type);
+		// 	t_cmd_free(&cmd);
+		// }
 		// ---------------------------------------------------------------------
 
 		// Salva history ------------------------------------------------------>

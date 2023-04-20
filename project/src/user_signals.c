@@ -34,9 +34,9 @@ void	signals(int sig)
 * @return
 	NULL.
 */
-int	close_shell(char *input)
+int	close_shell(char *prompt)
 {
-	if (!input)
+	if (!prompt)
 		printf("\n");
 	printf(YELLOW_B"Goodbye %s. Till next time...\n"RESET, getenv("USER"));
 	return (42);

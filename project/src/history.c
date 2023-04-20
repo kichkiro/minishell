@@ -35,7 +35,7 @@ void	init_history(void)
 * @brief
 	Adds the input to the history and the history file.
 */
-void	ft_add_history(char *input)
+void	ft_add_history(char *prompt)
 {
 	char	*hist;
 	int		fd;
@@ -47,9 +47,9 @@ void	ft_add_history(char *input)
 		i++;
 	hist = ft_strjoin("\t", ft_itoa(i));
 	hist = ft_strjoin(hist, "\t");
-	hist = ft_strjoin(hist, input);
+	hist = ft_strjoin(hist, prompt);
 	ft_putendl_fd(hist, fd);
-	add_history(input);
+	add_history(prompt);
 	close(fd);
 }
 

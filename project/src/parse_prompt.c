@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   parse_input.c                                      :+:      :+:    :+:   */
+/*   parse_prompt.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: kichkiro <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/16 23:03:22 by kichkiro          #+#    #+#             */
-/*   Updated: 2023/04/20 13:35:47 by kichkiro         ###   ########.fr       */
+/*   Updated: 2023/04/20 17:25:08 by kichkiro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ Parsing --->
 
 - Ogni spazio che non si trovi tra apici e' un delimitatore tra un elemento e
 	l'altro.
-- Scorrere l'input:
+- Scorrere il prompt:
 	- Se presenti apici:
 		- Se singoli, copiare ogni singolo char fino a chiusura.
 		- Se doppi, espandere le variabili.
@@ -41,7 +41,7 @@ static void	token_append(char **token, char *type, t_cmd **cmd)
 	t_cmd_set_to_head(cmd);
 }
 
-void	parse_input(char *input, t_cmd **cmd, t_var *var, int *exit_code)
+void	parse_prompt(char *prompt, t_cmd **cmd, t_var *var, int *exit_code)
 {
 	size_t	i;
 	char	type;
@@ -55,30 +55,30 @@ void	parse_input(char *input, t_cmd **cmd, t_var *var, int *exit_code)
 	token = (char *)ft_calloc(1, sizeof(char));
 	single_quotes = false;
 	double_quotes = false;
-	while (input[++i])
+	while (prompt[++i])
 	{
 		// Rilevatore di apici ------------------------------------------------> 
 
-		if (input[i] == '\'' && !double_quotes)
+		if (prompt[i] == '\'' && !double_quotes)
 			single_quotes = !single_quotes;
-		else if (input[i] == '"' && !single_quotes)
+		else if (prompt[i] == '"' && !single_quotes)
 			double_quotes = !double_quotes;
 
 		// Gestore del tipo STANDARD ---------------->
 
-		else if (single_quotes || (double_quotes && input[i] != '$') || \
-			(!double_quotes && !single_quotes && input[i] != ' ' && input[i] \
-			!= '<' && input[i] != '>' && input[i] != '$' && input[i] != '|' \
-			&& input[i] != '*' && input[i] != '?' && input[i] != '['))
+		else if (single_quotes || (double_quotes && prompt[i] != '$') || \
+			(!double_quotes && !single_quotes && prompt[i] != ' ' && prompt[i] \
+			!= '<' && prompt[i] != '>' && prompt[i] != '$' && prompt[i] != '|' \
+			&& prompt[i] != '*' && prompt[i] != '?' && prompt[i] != '['))
 		{
-			token = ft_char_append(token, input[i], true);
+			token = ft_char_append(token, prompt[i], true);
 			type = STANDARD;
 		}
 
 		// Appende token di tipo STANDARD alla lista di comandi --------------->
 
 		else if (type == STANDARD && !single_quotes && !double_quotes \
-			&& input[i] == ' ' && token)
+			&& prompt[i] == ' ' && token)
 		{
 			// debug --->
 			// printf("token: %s\n", token);
@@ -88,10 +88,10 @@ void	parse_input(char *input, t_cmd **cmd, t_var *var, int *exit_code)
 
 		// Espansore di variabili ---------------------------------------------> 
 
-		else if (!single_quotes && input[i] == '$' || (!single_quotes && \
-			input[i] == '$' && (*cmd) && (*cmd)->prev->type != HEREDOC))
+		else if (!single_quotes && prompt[i] == '$' || (!single_quotes && \
+			prompt[i] == '$' && (*cmd) && (*cmd)->prev->type != HEREDOC))
 		{
-			var_value = variable_expand(input, &i, var, exit_code);
+			var_value = variable_expand(prompt, &i, var, exit_code);
 			if (var_value)
 				token = ft_strappend(token, var_value, true, true);
 			type = STANDARD;
@@ -99,21 +99,21 @@ void	parse_input(char *input, t_cmd **cmd, t_var *var, int *exit_code)
 
 		// Gestore di redirect ------------------------------------------------>
 
-		else if (!single_quotes && !double_quotes && (input[i] == '<' || \
-			input[i] == '>'))
+		else if (!single_quotes && !double_quotes && (prompt[i] == '<' || \
+			prompt[i] == '>'))
 		{
 			if (type == STANDARD)
 				token_append(&token, &type, cmd);	
-			if (input[i] == '<' && input[i + 1] == '<')
+			if (prompt[i] == '<' && prompt[i + 1] == '<')
 			{
-				token = ft_substr(input, i++, 2);
+				token = ft_substr(prompt, i++, 2);
 				type = HEREDOC;	
 			}
 			else
 			{
-				token = ft_char_append(token, input[i], true);
-				if (input[i] == '>' && input[i + 1] == '>')
-					token = ft_char_append(token, input[++i], true);
+				token = ft_char_append(token, prompt[i], true);
+				if (prompt[i] == '>' && prompt[i + 1] == '>')
+					token = ft_char_append(token, prompt[++i], true);
 				type = REDIRECT;
 			}
 			token_append(&token, &type, cmd);
@@ -121,11 +121,11 @@ void	parse_input(char *input, t_cmd **cmd, t_var *var, int *exit_code)
 
 		// Gestore di pipeline ------------------------------------------------>
 
-		else if (!single_quotes && !double_quotes && input[i] == '|')
+		else if (!single_quotes && !double_quotes && prompt[i] == '|')
 		{
 			if (type == STANDARD)
 				token_append(&token, &type, cmd);
-			token = ft_char_append(token, input[i], true);
+			token = ft_char_append(token, prompt[i], true);
 			type = PIPE;
 			token_append(&token, &type, cmd);
 		}
@@ -136,14 +136,14 @@ void	parse_input(char *input, t_cmd **cmd, t_var *var, int *exit_code)
 
 		// Gestore di wildcards ----------------------------------------------->
 
-		else if (!single_quotes && !double_quotes && (input[i] == '*' \
-			|| input[i] == '?' || input[i] == '['))
+		else if (!single_quotes && !double_quotes && (prompt[i] == '*' \
+			|| prompt[i] == '?' || prompt[i] == '['))
 		{
 			if (type == STANDARD)
 				token_append(&token, &type, cmd);
-			if (input[i] == '[')
+			if (prompt[i] == '[')
 			{
-				if (ft_stridx(input, ']') < (ssize_t)i)
+				if (ft_stridx(prompt, ']') < (ssize_t)i)
 				{
 					ft_putstr_fd(
 						RED"minishell: detected unclosed brackets\n"RESET, 2);
@@ -151,12 +151,12 @@ void	parse_input(char *input, t_cmd **cmd, t_var *var, int *exit_code)
 					free(token);			
 					return ;
 				}
-				while (input[i] != ']' && input[i])
-					token = ft_char_append(token, input[i++], true);
-				token = ft_char_append(token, input[i], true);
+				while (prompt[i] != ']' && prompt[i])
+					token = ft_char_append(token, prompt[i++], true);
+				token = ft_char_append(token, prompt[i], true);
 			}
 			else
-				token = ft_char_append(token, input[i], true);
+				token = ft_char_append(token, prompt[i], true);
 			type = WILDCARD;
 			token_append(&token, &type, cmd);
 		}

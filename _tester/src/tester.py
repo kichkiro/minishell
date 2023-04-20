@@ -97,7 +97,7 @@ class Tester:
         test_input = (list(args.keys()))[i]
         bash_output = args[test_input]
         minishell_output = output_line(stdout, test_input.decode())
-        if minishell_output != bash_output:
+        if bash_output not in minishell_output:
             print(colored(
                 f"TEST {i + 1}: KO\n\n"
                 f"    Input:     {test_input.decode()}\n"

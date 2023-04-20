@@ -49,8 +49,13 @@ char	*ft_whoami(void)
 {
 	char	*prompt;
 
-	prompt = ft_strjoin(getenv("USER"), "@minishell:~");
-	prompt = ft_strjoin(prompt, curent_dir());
-	prompt = ft_strjoin(prompt, "$ ");
+	prompt = ft_strappend(BLUE"\n┌─"RESET, WHITE_B"[", false, false);
+	prompt = ft_strappend(prompt, getenv("USER"), true, false);
+	prompt = ft_strappend(prompt, "@minishell] "RESET, true, false);
+	prompt = ft_strappend(prompt, BLUE_B"~/", true, false);
+	prompt = ft_strappend(prompt, curent_dir(), true, false);
+	prompt = ft_strappend(prompt, RESET"\n", true, false);
+	prompt = ft_strappend(prompt, BLUE"└─"RESET, true, false);
+	prompt = ft_strappend(prompt, RED_B"[$] "RESET, true, false);
 	return (prompt);
 }

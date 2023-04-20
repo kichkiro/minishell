@@ -6,13 +6,13 @@
 /*   By: kichkiro <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/19 09:22:27 by kichkiro          #+#    #+#             */
-/*   Updated: 2023/04/19 09:30:37 by kichkiro         ###   ########.fr       */
+/*   Updated: 2023/04/20 13:22:31 by kichkiro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-char	*get_var_name(char *input, size_t *i, int *exit_code)
+static char	*get_var_name(char *input, size_t *i, int *exit_code)
 {
 	char	*var_name;
 	char	brackets;

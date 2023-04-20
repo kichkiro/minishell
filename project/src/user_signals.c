@@ -30,14 +30,14 @@ void	signals(int sig)
 
 /*!
 * @brief 
-	Prints a signout message as the shell closes and returns 0.
+	Prints a signout message as the shell closes and returns NULL.
 * @return
-	0
+	NULL.
 */
 int	close_shell(char *input)
 {
 	if (!input)
 		printf("\n");
-	printf("Goodbye %s. Till next time...\n", getenv("USER"));
+	printf(YELLOW_B"Goodbye %s. Till next time...\n"RESET, getenv("USER"));
 	return (42);
 }

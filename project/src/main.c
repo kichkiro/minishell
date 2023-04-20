@@ -6,7 +6,7 @@
 /*   By: kichkiro <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/27 19:07:59 by kichkiro          #+#    #+#             */
-/*   Updated: 2023/04/20 17:23:56 by kichkiro         ###   ########.fr       */
+/*   Updated: 2023/04/20 17:31:41 by kichkiro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ int	main(void)
 		if (!invalid_prompt(prompt, &g_exit_code) && \
 			!variable_assignment(&var, prompt, &g_exit_code))
 		{
-			parse_input(prompt, &cmd, var, &g_exit_code);
+			parse_prompt(prompt, &cmd, var, &g_exit_code);
 			// if (prompt[0])
 			// 	printf("%s\n", prompt);
 		}

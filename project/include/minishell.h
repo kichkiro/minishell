@@ -6,7 +6,7 @@
 /*   By: kichkiro <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/05 17:51:51 by kichkiro          #+#    #+#             */
-/*   Updated: 2023/04/20 17:23:56 by kichkiro         ###   ########.fr       */
+/*   Updated: 2023/04/20 17:31:42 by kichkiro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,6 +101,6 @@ char	*variable_expand(char *prompt, size_t *i, t_var *var, int *exit_code);
 // Parsing -------------------------------------------------------------------->
 
 bool	invalid_prompt(char *prompt, int *g_exit_code);
-void	parse_input(char *prompt, t_cmd **cmd, t_var *var, int *exit_code);
+void	parse_prompt(char *prompt, t_cmd **cmd, t_var *var, int *exit_code);
 
 #endif

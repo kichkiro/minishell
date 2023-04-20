@@ -6,7 +6,7 @@
 /*   By: kichkiro <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/05 17:51:51 by kichkiro          #+#    #+#             */
-/*   Updated: 2023/04/20 13:01:58 by kichkiro         ###   ########.fr       */
+/*   Updated: 2023/04/20 13:15:43 by kichkiro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,16 +75,25 @@ void	*t_cmd_free(t_cmd **lst);
 void	t_cmd_set_to_head(t_cmd **lst);
 t_cmd	*t_cmd_new(char	*token, char type);
 
-// User Signals --------------------------------------------------------------->
+// Prompt --------------------------------------------------------------------->
 char	*ft_whoami(void);
+
+// User Signals --------------------------------------------------------------->
 void	signals(int sig);
-int		ctrl_d(void);
+int		close_shell(char *input);
+
+// Commands ------------------------------------------------------------------->
+void	temp_commands_control(char *input);
+
+// History -------------------------------------------------------------------->
+void	init_history(void);
+void	ft_add_history(char *input);
+void	print_history(void);
 
 // Functions ------------------------------------------------------------------>
 
 bool	invalid_input(char *input, int *g_exit_code);
 bool	variable_assignment(t_var **var, char *input, int *exit_code);
 void	parse_input(char *input, t_cmd **cmd, t_var *var, int *exit_code);
-char	*variable_expand(char *input, size_t *i, t_var *var, int *exit_code);
 
 #endif

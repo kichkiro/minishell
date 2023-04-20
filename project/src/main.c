@@ -6,7 +6,7 @@
 /*   By: kichkiro <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/27 19:07:59 by kichkiro          #+#    #+#             */
-/*   Updated: 2023/04/20 13:04:49 by kichkiro         ###   ########.fr       */
+/*   Updated: 2023/04/20 13:13:25 by kichkiro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,14 +14,14 @@
 
 int	g_exit_code = 0;
 
+// possiamo rinominare input con prompt? mi sembra piu' chiaro
 int	main(void)
 {
 	char	*input;
 	t_var	*var;
 	t_cmd	*cmd;
-	char	*whoami;
 
-	whoami = ft_whoami();
+	init_history();
 
 	var = NULL;
 	cmd = NULL;
@@ -29,13 +29,17 @@ int	main(void)
 	{
 		signal(SIGQUIT, SIG_IGN);
 		signal(SIGINT, signals);
-		input = readline(whoami);
+		input = readline(ft_whoami());
 		if (!input)
-			return (ctrl_d());
-
+			return (close_shell(input));
+		else
+		{
+			temp_commands_control(input);
+			continue ;
+		}
 		// stampa exit_code
 
-		
+
 		if (!ft_strncmp(input, "$?", 2))
 		{
 			ft_putnbr_fd(g_exit_code, 2);

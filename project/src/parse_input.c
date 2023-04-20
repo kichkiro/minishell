@@ -6,7 +6,7 @@
 /*   By: kichkiro <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/16 23:03:22 by kichkiro          #+#    #+#             */
-/*   Updated: 2023/04/20 13:05:31 by kichkiro         ###   ########.fr       */
+/*   Updated: 2023/04/20 13:14:32 by kichkiro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,12 +92,6 @@ void	parse_input(char *input, t_cmd **cmd, t_var *var, int *exit_code)
 			input[i] == '$' && (*cmd) && (*cmd)->prev->type != HEREDOC))
 		{
 			var_value = variable_expand(input, &i, var, exit_code);
-			if (*exit_code != 0)
-			{
-				ft_free((void **)&token);
-				t_cmd_free(cmd);
-				return ;
-			}
 			if (var_value)
 				token = ft_strappend(token, var_value, true, true);
 		}

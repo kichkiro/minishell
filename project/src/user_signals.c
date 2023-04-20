@@ -13,16 +13,11 @@
 #include "minishell.h"
 
 /*!
- * @brief 
+* @brief 
 	Returns a string containing the username and the prompt.
 * @return 
 	The prompt string.
- */
-char	*ft_whoami(void)
-{
-	return (ft_strjoin(getenv("USER"), "@minishell$ "));
-}
-
+*/
 void	signals(int sig)
 {
 	if (sig == SIGINT)
@@ -33,8 +28,16 @@ void	signals(int sig)
 	}
 }
 
-int	ctrl_d(void)
+/*!
+* @brief 
+	Prints a signout message as the shell closes and returns 0.
+* @return
+	0
+*/
+int	close_shell(char *input)
 {
-	printf("\nBye Bye\n");
-	return (0);
+	if (!input)
+		printf("\n");
+	printf("Goodbye %s. Till next time...\n", getenv("USER"));
+	return (42);
 }

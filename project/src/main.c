@@ -6,7 +6,7 @@
 /*   By: kichkiro <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/27 19:07:59 by kichkiro          #+#    #+#             */
-/*   Updated: 2023/04/19 23:10:49 by kichkiro         ###   ########.fr       */
+/*   Updated: 2023/04/20 13:04:49 by kichkiro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,21 +19,41 @@ int	main(void)
 	char	*input;
 	t_var	*var;
 	t_cmd	*cmd;
+	char	*whoami;
+
+	whoami = ft_whoami();
 
 	var = NULL;
 	cmd = NULL;
 	while (true)
 	{
-		input = readline("\n> ");
- 			
-		// controlla se l'input e' valido, oppure se c'e' un assegnamento, 
+		signal(SIGQUIT, SIG_IGN);
+		signal(SIGINT, signals);
+		input = readline(whoami);
+		if (!input)
+			return (ctrl_d());
+
+		// stampa exit_code
+
+		
+		if (!ft_strncmp(input, "$?", 2))
+		{
+			ft_putnbr_fd(g_exit_code, 2);
+			ft_putstr_fd(": ", 2);
+			ft_putstr_fd(RED"command not found\n"RESET, 2);
+			g_exit_code = 127;
+		}
+
+		//else if c'e un commento, salva in history e mostra nuovo prompt
+
+		// controlla se l'input e' valido, oppure se c'e' un assegnamento,
 		// esegui l'assegnamento e mostra nuovo prompt.
 		if (!invalid_input(input, &g_exit_code) && \
 			!variable_assignment(&var, input, &g_exit_code))
 		{
-			parse_input(input, &cmd, var, &g_exit_code);
-			
-			// printf("%s\n", input);
+			// parse_input(input, &cmd, var, &g_exit_code);
+			if (input[0])
+				printf("%s\n", input);
 		}
 
 		// Se c'e un commento, salva in history e mostra nuovo prompt --------->

@@ -6,7 +6,7 @@
 #    By: kichkiro <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/04/05 17:59:55 by kichkiro          #+#    #+#              #
-#    Updated: 2023/04/19 09:52:16 by kichkiro         ###   ########.fr        #
+#    Updated: 2023/04/20 13:00:46 by kichkiro         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -15,6 +15,7 @@
 NAME		:= minishell
 SRCS		:= \
 				main.c \
+				user_signals.c \
 				invalid_input.c \
 				variable_assignment.c \
 				variable_expand.c \
@@ -29,10 +30,11 @@ BUILD_DIR   := .build
 OBJS		:= $(SRCS:$(SRC_DIR)/%.c=$(BUILD_DIR)/%.o)
 DEPS 		:= $(OBJS:.o=.d)
 LIB         := ft
-LIB_TARGET  := ./lib/libft/libft.a 
+LIB_TARGET  := ./lib/libft/libft.a
 INCS        := ./include ./lib/libft/include
 CC          := clang
 CFLAGS      := -g # -Wall -Wextra -Werror
+READLINE	:= -lreadline
 CPPFLAGS    := $(addprefix -I,$(INCS)) -MMD -MP
 LDFLAGS     := $(addprefix -L,$(dir $(LIB_TARGET)))
 LDLIBS      := $(addprefix -l,$(LIB))
@@ -70,7 +72,7 @@ clean:
 fclean: clean
 	for f in $(dir $(LIB_TARGET)); do $(MAKE) -C $$f fclean; done
 	$(RM) $(NAME) $(NAME_CLIENT)
-	
+
 re:
 	$(MAKE) fclean
 	$(MAKE) all
@@ -83,7 +85,7 @@ NO_COLOR	:= ${shell tput sgr0}
 BOLD		:= ${shell tput bold}
 
 banner:
-	${info ${RED}}	
+	${info ${RED}}
 	${info █████████████████████████████████████████████████████ }
 	${info █▄─▀█▀─▄█▄─▄█▄─▀█▄─▄█▄─▄█─▄▄▄▄█─█─█▄─▄▄─█▄─▄███▄─▄███ }
 	${info ██─█▄█─███─███─█▄▀─███─██▄▄▄▄─█─▄─██─▄█▀██─██▀██─██▀█ }
@@ -92,6 +94,6 @@ banner:
 
 # ------------------------------------------------------------------------------
 
-	
 
-	
+
+

@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   parse_prompt.c                                     :+:      :+:    :+:   */
+/*   parsing_system.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: kichkiro <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/16 23:03:22 by kichkiro          #+#    #+#             */
-/*   Updated: 2023/04/20 17:25:08 by kichkiro         ###   ########.fr       */
+/*   Updated: 2023/04/23 14:25:30 by kichkiro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ static void	token_append(char **token, char *type, t_cmd **cmd)
 	t_cmd_set_to_head(cmd);
 }
 
-void	parse_prompt(char *prompt, t_cmd **cmd, t_var *var, int *exit_code)
+void	parsing_system(char *prompt, t_cmd **cmd, t_var *var, int *exit_code)
 {
 	size_t	i;
 	char	type;

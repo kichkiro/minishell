@@ -6,7 +6,7 @@
 #    By: kichkiro <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/10/05 10:44:14 by kichkiro          #+#    #+#              #
-#    Updated: 2023/04/18 09:57:38 by kichkiro         ###   ########.fr        #
+#    Updated: 2023/04/21 19:58:08 by kichkiro         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -73,6 +73,9 @@ SRCS        := \
 	str/ft_strlcpy.c \
 	str/ft_strlen.c \
 	str/ft_strmapi.c \
+	str/ft_strmatrixfree.c \
+	str/ft_strmatrixjoin.c \
+	str/ft_strmatrixlen.c \
 	str/ft_strncmp.c \
 	str/ft_strnstr.c \
 	str/ft_strrchr.c \

@@ -34,6 +34,8 @@ void	init_history(void)
 /*!
 * @brief
 	Adds the input to the history and the history file.
+* @param prompt
+	The input string.
 */
 void	ft_add_history(char *prompt)
 {

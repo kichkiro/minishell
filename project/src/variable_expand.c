@@ -6,7 +6,7 @@
 /*   By: kichkiro <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/19 09:22:27 by kichkiro          #+#    #+#             */
-/*   Updated: 2023/04/20 17:22:44 by kichkiro         ###   ########.fr       */
+/*   Updated: 2023/04/23 14:25:34 by kichkiro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,13 +31,14 @@ static char	*get_var_name(char *prompt, size_t *i, int *exit_code)
 		while (prompt[++(*i)] != brackets && prompt[*i])
 			var_name = ft_char_append(var_name, prompt[(*i)], true);
 	}
+	else if (prompt[(*i) + 1] == '?')
+		var_name = ft_strappend(var_name, "$?", false, false);
 	else
 	{
 		while (ft_isalnum(prompt[++(*i)]))
 			var_name = ft_char_append(var_name, prompt[*i], true);
 		(*i)--;
 	}
-	*exit_code = 0;
 	return (var_name);
 }
 

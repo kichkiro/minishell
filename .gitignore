@@ -1,11 +1,19 @@
+# files
 **.o
 **.a
 **.out
-.vscode
+**.build
 project/minishell
+
+# vscode
+.vscode
+
+# history
 **minishell_history
 
 # _tester
 _tester/.venv
 _tester/src/__pycache__
 
+# _lab
+_lab/*

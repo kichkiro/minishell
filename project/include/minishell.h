@@ -6,7 +6,7 @@
 /*   By: kichkiro <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/05 17:51:51 by kichkiro          #+#    #+#             */
-/*   Updated: 2023/04/20 17:31:42 by kichkiro         ###   ########.fr       */
+/*   Updated: 2023/04/21 19:30:30 by kichkiro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,6 +85,7 @@ int		close_shell(char *prompt);
 
 // Commands ------------------------------------------------------------------->
 
+void	execution_system(t_cmd *cmd, int *exit_code);
 void	temp_commands_control(char *prompt);
 
 // History -------------------------------------------------------------------->
@@ -101,6 +102,6 @@ char	*variable_expand(char *prompt, size_t *i, t_var *var, int *exit_code);
 // Parsing -------------------------------------------------------------------->
 
 bool	invalid_prompt(char *prompt, int *g_exit_code);
-void	parse_prompt(char *prompt, t_cmd **cmd, t_var *var, int *exit_code);
+void	parsing_system(char *prompt, t_cmd **cmd, t_var *var, int *exit_code);
 
 #endif

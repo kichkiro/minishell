@@ -6,7 +6,7 @@
 /*   By: kichkiro <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/06 11:56:59 by kichkiro          #+#    #+#             */
-/*   Updated: 2023/04/20 17:23:22 by kichkiro         ###   ########.fr       */
+/*   Updated: 2023/04/23 14:25:33 by kichkiro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,7 +92,5 @@ bool	invalid_prompt(char *prompt, int *exit_code)
 	}
 	if (invalid)
 		*exit_code = EXIT_FAILURE;
-	else
-		*exit_code = EXIT_SUCCESS;
 	return (invalid);
 }

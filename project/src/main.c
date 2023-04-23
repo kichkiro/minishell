@@ -6,7 +6,7 @@
 /*   By: kichkiro <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/27 19:07:59 by kichkiro          #+#    #+#             */
-/*   Updated: 2023/04/23 14:25:36 by kichkiro         ###   ########.fr       */
+/*   Updated: 2023/04/23 19:51:52 by kichkiro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,14 +38,14 @@ int	main(void)
 
 		// controlla se l'input e' valido, oppure se c'e' un assegnamento,
 		// esegui l'assegnamento e mostra nuovo prompt.
-		if (!invalid_prompt(prompt, &exit_code) && \
+		if (!invalid_prompt(prompt, &exit_code) &&
 			!variable_assignment(&var, prompt, &exit_code))
 		{
 			parsing_system(prompt, &cmd, var, &exit_code);
 			// if (prompt[0])
 			// 	printf("%s\n", prompt);
 
-			execution_system(cmd, &exit_code);
+			execution_system(&cmd, &exit_code);
 		}
 
 		// Se c'e un commento, salva in history e mostra nuovo prompt --------->

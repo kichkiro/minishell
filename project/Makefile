@@ -6,7 +6,7 @@
 #    By: kichkiro <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/04/05 17:59:55 by kichkiro          #+#    #+#              #
-#    Updated: 2023/04/21 19:31:55 by kichkiro         ###   ########.fr        #
+#    Updated: 2023/04/23 22:09:20 by kichkiro         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -15,8 +15,10 @@
 NAME		:= minishell
 SRCS		:= \
 				main.c \
+				errors_handler.c \
 				prompt.c \
 				execution_system.c \
+				redirections.c \
 				commands.c \
 				history.c \
 				user_signals.c \

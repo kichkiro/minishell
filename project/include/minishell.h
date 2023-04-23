@@ -6,7 +6,7 @@
 /*   By: kichkiro <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/05 17:51:51 by kichkiro          #+#    #+#             */
-/*   Updated: 2023/04/21 19:30:30 by kichkiro         ###   ########.fr       */
+/*   Updated: 2023/04/23 22:00:14 by kichkiro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,15 @@
 # define PIPE		4
 # define BOOLEAN    5
 # define WILDCARD	6
+
+// Structs -------------------------------------------------------------------->
+
+typedef struct s_fd
+{
+	int		original_fd;
+	int		original_std;
+	int		redirected_fd;
+}	t_fd;
 
 // Linked Lists --------------------------------------------------------------->
 
@@ -85,7 +94,9 @@ int		close_shell(char *prompt);
 
 // Commands ------------------------------------------------------------------->
 
-void	execution_system(t_cmd *cmd, int *exit_code);
+void	execution_system(t_cmd **cmd, int *exit_code);
+int		execute(char *exe, char ***args, int *exit_code);
+void	redirections(t_cmd **cmd, char *exe, char ***args, int *exit_code);
 void	temp_commands_control(char *prompt);
 
 // History -------------------------------------------------------------------->
@@ -103,5 +114,8 @@ char	*variable_expand(char *prompt, size_t *i, t_var *var, int *exit_code);
 
 bool	invalid_prompt(char *prompt, int *g_exit_code);
 void	parsing_system(char *prompt, t_cmd **cmd, t_var *var, int *exit_code);
+
+
+void	error_handler(char *error, int *exit_code, int status);
 
 #endif

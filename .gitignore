@@ -1,6 +1,7 @@
 # files
 **.o
 **.a
+**.d
 **.out
 **.build
 project/minishell

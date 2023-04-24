@@ -6,16 +6,15 @@
 /*   By: kichkiro <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/23 21:53:07 by kichkiro          #+#    #+#             */
-/*   Updated: 2023/04/24 17:25:26 by kichkiro         ###   ########.fr       */
+/*   Updated: 2023/04/24 21:33:08 by kichkiro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-unsigned char	error_handler(char request, char *msg, unsigned char code,
-	bool print_perror)
+int	error_handler(char request, char *msg, int code, bool print_perror)
 {
-	static unsigned char	exit_status;
+	static int	exit_status;
 
 	if (request == GET)
 		return (exit_status);
@@ -32,7 +31,7 @@ unsigned char	error_handler(char request, char *msg, unsigned char code,
 			ft_putstr_fd(": ", STDERR_FILENO);
 			perror(NULL);
 		}
-		ft_putstr_fd(RESET, STDERR_FILENO);
+		ft_putstr_fd(RESET"\n", STDERR_FILENO);
 	}
 	if (request == PRINT_FREE)
 		free(msg);

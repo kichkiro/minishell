@@ -32,7 +32,12 @@ static void	ft_echo(char ***args)
 	if (!ft_strncmp(args[0][1], "-n", 2) && ++n)
 		i++;
 	while (args[0][++i])
-		printf("%s ", args[0][i]);
+	{
+		if (!args[0][i + 1])
+			printf("%s", args[0][i]);
+		else
+			printf("%s ", args[0][i]);
+	}
 	if (!n)
 		printf("\n");
 }

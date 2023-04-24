@@ -6,7 +6,7 @@
 /*   By: kichkiro <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/19 09:22:27 by kichkiro          #+#    #+#             */
-/*   Updated: 2023/04/24 00:45:07 by kichkiro         ###   ########.fr       */
+/*   Updated: 2023/04/24 21:09:29 by kichkiro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,8 +24,7 @@ static char	*get_var_name(char *prompt, size_t *i)
 		brackets = prompt[*i] + 2;
 		if (ft_stridx(prompt, brackets) < (ssize_t)(*i))
 		{
-			errno = EPERM;
-			perror(RED"minishell: detected unclosed brackets"RESET);
+			error_handler(PRINT, "detected unclosed brackets", 1, false);
 			return (NULL);
 		}
 		while (prompt[++(*i)] != brackets && prompt[*i])
@@ -50,7 +49,7 @@ char	*variable_expand(char *prompt, size_t *i, t_var *var)
 
 	// controlla se e' $?
 	if (var_name[1] == '?')
-		return (ft_itoa(errno));
+		return (ft_itoa(error_handler(GET, NULL, 0, false)));
 
 	// cerca se e' una variabile di ambiente
 	else if (getenv(var_name))

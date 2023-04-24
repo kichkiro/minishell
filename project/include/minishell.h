@@ -6,7 +6,7 @@
 /*   By: kichkiro <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/05 17:51:51 by kichkiro          #+#    #+#             */
-/*   Updated: 2023/04/24 20:13:13 by kichkiro         ###   ########.fr       */
+/*   Updated: 2023/04/24 21:36:28 by kichkiro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,7 +104,7 @@ int		close_shell(char *prompt);
 // Commands ------------------------------------------------------------------->
 
 void	execution_system(t_cmd **cmd);
-int		execute(char *exe, char ***args);
+void	execute(char *exe, char ***args);
 void	redirections(t_cmd **cmd, char *exe, char ***args, bool built_in);
 
 // Builtins ------------------------------------------------------------------->
@@ -133,8 +133,8 @@ char	*variable_expand(char *prompt, size_t *i, t_var *var);
 bool	invalid_prompt(char *prompt);
 void	parsing_system(char *prompt, t_cmd **cmd, t_var *var);
 
+// Errors Handler ------------------------------------------------------------->
 
-unsigned char	error_handler(char request, char *msg, unsigned char code,
-	bool print_perror);
+int	error_handler(char request, char *msg, int code, bool print_perror);
 
 #endif

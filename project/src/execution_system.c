@@ -6,39 +6,39 @@
 /*   By: kichkiro <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/21 11:45:46 by kichkiro          #+#    #+#             */
-/*   Updated: 2023/04/24 17:24:17 by kichkiro         ###   ########.fr       */
+/*   Updated: 2023/04/24 21:32:04 by kichkiro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	execute(char *exe, char ***args)
+void	execute(char *exe, char ***args)
 {
 	int	pid;
-	int	ret;
+	int	exit_code;
 
 	pid = 0;
-	ret = 1;
-	if (access(exe, X_OK) == 0)
+	exit_code = 0;
+	if (!access(exe, X_OK))
 	{
-		ret = 0;
 		pid = fork();
 		if (pid == -1)
 			error_handler(PRINT, NULL, 1, true);
 		else if (!pid)
 		{
-			ret = execve(exe, *args, NULL);
-			if (ret == -1)
+			if (execve(exe, *args, NULL) == -1)
 				exit(EXIT_FAILURE);
 			exit(EXIT_SUCCESS);
 		}
 		else
-			waitpid(pid, NULL, 0);
+			waitpid(pid, &exit_code, 0);
+		if (exit_code != 0)
+			error_handler(PRINT, NULL, exit_code, true);
+		else
+			error_handler(SET, NULL, exit_code, false);
 	}
 	else
 		error_handler(PRINT, exe, 126, true);
-	// ft_strmatrixfree(args);
-	return (ret);
 }
 
 static bool	find_executable(char **exe)
@@ -64,7 +64,7 @@ static bool	find_executable(char **exe)
 		}
 		ft_free((void **)&tmp);
 	}
-	// ft_strmatrixfree(&path);
+	ft_strmatrixfree(path, true);
 	if (!found)
 		error_handler(PRINT_FREE, ft_strjoin(*exe, ": command not found"), 127, 0);
 	return (found);
@@ -105,9 +105,12 @@ void	execution_system(t_cmd **cmd)
 				router(cmd, exe, &args, true);
 			else if (args && access(exe, F_OK) == 0 || find_executable(&exe))
 				router(cmd, exe, &args, false);
+			// ft_strmatrixfree(args, true);
 		}
 		else
 			router(cmd, NULL, NULL, false);
+		if (error_handler(GET, NULL, 0, false))
+			break ;
 		if (*cmd)
 			*cmd = (*cmd)->next;
 	}

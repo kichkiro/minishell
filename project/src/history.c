@@ -55,7 +55,7 @@ void	init_history(void)
 * @param prompt
 	The input string.
 */
-void	ft_add_history(char *prompt)
+void	ft_add_history(char ***prompt)
 {
 	char	*hist;
 	int		fd;
@@ -64,8 +64,8 @@ void	ft_add_history(char *prompt)
 	fd = open(hist, O_RDWR | O_APPEND | O_CREAT, 0644);
 	while (ft_get_next_line(fd))
 		continue ;
-	ft_putendl_fd(prompt, fd);
-	add_history(prompt);
+	ft_putendl_fd(*prompt, fd);
+	add_history(*prompt);
 	close(fd);
 }
 
@@ -81,7 +81,7 @@ void	print_history(void)
 
 	i = 1;
 	hist = ft_strjoin(getenv("HOME"), "/.minishell_history");
-	fd = open(hist, O_RDWR | O_APPEND | O_CREAT, 0644);
+	fd = open(hist, O_RDONLY);
 	hist = ft_get_next_line(fd);
 	while (hist)
 	{

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kichkiro <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: anvannin <anvannin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/05 17:51:51 by kichkiro          #+#    #+#             */
-/*   Updated: 2023/04/23 23:58:40 by kichkiro         ###   ########.fr       */
+/*   Updated: 2023/04/24 14:01:30 by anvannin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,12 +98,12 @@ int		close_shell(char *prompt);
 void	execution_system(t_cmd **cmd);
 int		execute(char *exe, char ***args);
 void	redirections(t_cmd **cmd, char *exe, char ***args);
-void	temp_commands_control(char *prompt);
+void	builtins(char ***prompt);
 
 // History -------------------------------------------------------------------->
 
 void	init_history(void);
-void	ft_add_history(char *prompt);
+void	ft_add_history(char ***prompt);
 void	print_history(void);
 
 // Variable  ------------------------------------------------------------------>

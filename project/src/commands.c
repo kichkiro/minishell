@@ -12,6 +12,21 @@
 
 #include "minishell.h"
 
+void	execute_builtin(char *exe, char ***args)
+{
+	printf("qui viene eseguito il comando builtin\n");
+}
+
+bool	is_builtin(char *exe)
+{
+	if (!ft_strncmp(exe, "echo", 5) || !ft_strncmp(exe, "cd", 3) || \
+		!ft_strncmp(exe, "pwd", 4) || !ft_strncmp(exe, "export", 7) || \
+		!ft_strncmp(exe, "unset", 6) || !ft_strncmp(exe, "env", 4) || \
+		!ft_strncmp(exe, "exit", 5) || !ft_strncmp(exe, "history", 7))
+		return (true);
+	return (false);
+}
+
 // first argument is the shell path, second is the command, third is NULL
 //	execve("42Cursus/minishell/project", ft_split(input, ' '), NULL);
 

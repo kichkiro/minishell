@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: anvannin <anvannin@student.42.fr>          +#+  +:+       +#+        */
+/*   By: kichkiro <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/05 17:51:51 by kichkiro          #+#    #+#             */
-/*   Updated: 2023/04/24 14:42:36 by anvannin         ###   ########.fr       */
+/*   Updated: 2023/04/24 17:24:32 by kichkiro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,15 +28,21 @@
 # include <errno.h>
 # include <dirent.h>
 
-// Token types ---------------------------------------------------------------->
+// Token TYPES ---------------------------------------------------------------->
 
 # define NONE		0
 # define STANDARD	1
 # define REDIRECT	2
-# define HEREDOC	3
-# define PIPE		4
-# define BOOLEAN    5
-# define WILDCARD	6
+# define PIPE		3
+# define BOOLEAN    4
+# define WILDCARD	5
+
+// Errors Handler REQUESTS ---------------------------------------------------->
+
+# define GET		0
+# define SET		1
+# define PRINT		2
+# define PRINT_FREE 3
 
 // Structs -------------------------------------------------------------------->
 
@@ -120,6 +126,7 @@ bool	invalid_prompt(char *prompt);
 void	parsing_system(char *prompt, t_cmd **cmd, t_var *var);
 
 
-// void	error_handler(char *error, int status);
+unsigned char	error_handler(char request, char *msg, unsigned char code,
+	bool print_perror);
 
 #endif

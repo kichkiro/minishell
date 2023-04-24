@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execution_system.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: anvannin <anvannin@student.42.fr>          +#+  +:+       +#+        */
+/*   By: kichkiro <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/21 11:45:46 by kichkiro          #+#    #+#             */
-/*   Updated: 2023/04/24 15:40:31 by anvannin         ###   ########.fr       */
+/*   Updated: 2023/04/24 17:24:17 by kichkiro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ int	execute(char *exe, char ***args)
 		ret = 0;
 		pid = fork();
 		if (pid == -1)
-			perror(RED"minishell"RESET);
+			error_handler(PRINT, NULL, 1, true);
 		else if (!pid)
 		{
 			ret = execve(exe, *args, NULL);
@@ -36,10 +36,7 @@ int	execute(char *exe, char ***args)
 			waitpid(pid, NULL, 0);
 	}
 	else
-	{
-		errno = EACCES;
-		perror(RED"minishell"RESET);
-	}
+		error_handler(PRINT, exe, 126, true);
 	// ft_strmatrixfree(args);
 	return (ret);
 }
@@ -69,16 +66,13 @@ static bool	find_executable(char **exe)
 	}
 	// ft_strmatrixfree(&path);
 	if (!found)
-	{
-		errno = 127;
-		perror(RED"minishell: command not found"RESET);
-	}
+		error_handler(PRINT_FREE, ft_strjoin(*exe, ": command not found"), 127, 0);
 	return (found);
 }
 
 static void	router(t_cmd **cmd, char *exe, char ***args, bool built_in)
 {
-	if ((*cmd) && ((*cmd)->type == REDIRECT || (*cmd)->type == HEREDOC))
+	if ((*cmd) && (*cmd)->type == REDIRECT)
 		redirections(cmd, exe, args, built_in);
 	// else if ((*cmd)->type == PIPE)
 	// 	pipes();

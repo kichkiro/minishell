@@ -6,7 +6,7 @@
 /*   By: kichkiro <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/16 23:03:22 by kichkiro          #+#    #+#             */
-/*   Updated: 2023/04/24 00:47:30 by kichkiro         ###   ########.fr       */
+/*   Updated: 2023/04/24 16:01:14 by kichkiro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,7 +89,8 @@ void	parsing_system(char *prompt, t_cmd **cmd, t_var *var)
 		// Espansore di variabili ---------------------------------------------> 
 
 		else if (!single_quotes && prompt[i] == '$' || (!single_quotes && \
-			prompt[i] == '$' && (*cmd) && (*cmd)->prev->type != HEREDOC))
+			prompt[i] == '$' && (*cmd) && (*cmd)->prev->type && \
+			ft_strncmp((*cmd)->prev->token, "<<", 3)))
 		{
 			var_value = variable_expand(prompt, &i, var);
 			if (var_value)
@@ -104,18 +105,11 @@ void	parsing_system(char *prompt, t_cmd **cmd, t_var *var)
 		{
 			if (type == STANDARD)
 				token_append(&token, &type, cmd);	
-			if (prompt[i] == '<' && prompt[i + 1] == '<')
-			{
-				token = ft_substr(prompt, i++, 2);
-				type = HEREDOC;	
-			}
-			else
-			{
-				token = ft_char_append(token, prompt[i], true);
-				if (prompt[i] == '>' && prompt[i + 1] == '>')
-					token = ft_char_append(token, prompt[++i], true);
-				type = REDIRECT;
-			}
+
+			token = ft_char_append(token, prompt[i], true);
+			if (prompt[i + 1] == '<' || prompt[i + 1] == '>')
+				token = ft_char_append(token, prompt[++i], true);
+			type = REDIRECT;
 			token_append(&token, &type, cmd);
 		}
 

@@ -6,7 +6,7 @@
 /*   By: kichkiro <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/06 11:56:59 by kichkiro          #+#    #+#             */
-/*   Updated: 2023/04/23 14:25:33 by kichkiro         ###   ########.fr       */
+/*   Updated: 2023/04/24 00:55:42 by kichkiro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,28 +69,25 @@ static bool	closed_quotes(char *prompt)
 	quotes.
  * @param prompt 
 	The prompt string to check.
- * @param exit_code 
-	A pointer to an integer variable that will be set to the exit code if 
-	invalid prompt is detected.
  * @return 
 	true if invalid prompt is detected, false otherwise.
  */
-bool	invalid_prompt(char *prompt, int *exit_code)
+bool	invalid_prompt(char *prompt)
 {
 	bool	invalid;
 
 	invalid = false;
 	if (ft_stridx(prompt, '\\') != -1 || ft_stridx(prompt, ';') != -1)
 	{
-		ft_putstr_fd(RED"minishell: detected '\\' or ';'\n"RESET, 2);
+		perror(RED"minishell: detected '\\' or ';'"RESET);
 		invalid = true;
 	}
 	else if (!closed_quotes(prompt))
 	{
-		ft_putstr_fd(RED"minishell: detected unclosed quotes\n"RESET, 2);
+		perror(RED"minishell: detected unclosed quotes"RESET);
 		invalid = true;
 	}
 	if (invalid)
-		*exit_code = EXIT_FAILURE;
+		errno = EPERM;
 	return (invalid);
 }

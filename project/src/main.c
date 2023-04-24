@@ -6,7 +6,7 @@
 /*   By: anvannin <anvannin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/27 19:07:59 by kichkiro          #+#    #+#             */
-/*   Updated: 2023/04/24 12:15:20 by anvannin         ###   ########.fr       */
+/*   Updated: 2023/04/24 12:16:09 by anvannin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,16 +15,17 @@
 int	main(void)
 {
 	char	*prompt;
-	int		exit_code;
+	// int		exit_code;
 	t_var	*var;
 	t_cmd	*cmd;
 
-	exit_code = 0;
+	// exit_code = 0;
 	var = NULL;
 	cmd = NULL;
 	init_history();
 	while (true)
 	{
+		// printf("%d\n", errno);
 		signal(SIGQUIT, SIG_IGN);
 		signal(SIGINT, signals);
 		prompt = readline(ft_whoami());
@@ -38,14 +39,14 @@ int	main(void)
 
 		// controlla se l'input e' valido, oppure se c'e' un assegnamento,
 		// esegui l'assegnamento e mostra nuovo prompt.
-		if (!invalid_prompt(prompt, &exit_code) &&
-			!variable_assignment(&var, prompt, &exit_code))
+		if (!invalid_prompt(prompt) &&
+			!variable_assignment(&var, prompt))
 		{
-			parsing_system(prompt, &cmd, var, &exit_code);
+			parsing_system(prompt, &cmd, var);
 			// if (prompt[0])
 			// 	printf("%s\n", prompt);
 
-			execution_system(&cmd, &exit_code);
+			execution_system(&cmd);
 		}
 
 		// Se c'e un commento, salva in history e mostra nuovo prompt --------->

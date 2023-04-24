@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execution_system.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kichkiro <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: anvannin <anvannin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/21 11:45:46 by kichkiro          #+#    #+#             */
-/*   Updated: 2023/04/24 00:59:48 by kichkiro         ###   ########.fr       */
+/*   Updated: 2023/04/24 14:41:27 by anvannin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,57 +76,19 @@ static bool	find_executable(char **exe)
 	return (found);
 }
 
-static void	router(t_cmd **cmd, char *exe, char ***args)
+static void	router(t_cmd **cmd, char *exe, char ***args, bool built_in)
 {
 	if ((*cmd) && ((*cmd)->type == REDIRECT || (*cmd)->type == HEREDOC))
-		redirections(cmd, exe, args);
+		redirections(cmd, exe, args, built_in);
 	// else if ((*cmd)->type == PIPE)
 	// 	pipes();
 	// else if ((*cmd)->type == BOOLEAN)
 	// 	boolean();
+	else if (built_in)
+		execute_builtin(args);
 	else
 		execute(exe, args);
 }
-
-// static void	standard_token(t_cmd **cmd)
-// {
-// 	// token STANDARD ----------------------------------------------------->
-
-// 		// se il token e' di tipo STANDARD:
-// 		//	- controlla che il token non sia un comando built-in
-// 		//	- se non e' un comando built-in:
-// 		//		- si prova ad eseguire execve()
-// 		//		- se execve non esegue, puo essere che non abbiamo il path 
-// 		//			assoluto o relativo e quindi lo cerchiamo con access() e 
-// 		//			convertiamo il comando in una matrice in quanto il secondo 
-// 		//			argomento di execve richiede gli argomenti del comando sotto
-// 		//			forma di matrice.
-// 		//		- se neppure con execve non si trova, allora si stampa:
-// 		//			"command not found"
-
-// 		// Vedere se e' un built-in:
-// 		//	TODO
-
-// 		// Provare ad eseguire con execve()
-
-// 	char	**cmd_matrix;
-// 	char	*exe;
-
-// 	while (*cmd && ((*cmd)->type == STANDARD || (*cmd)->type == WILDCARD))
-// 	{
-// 		cmd_matrix = ft_strmatrixjoin(&cmd_matrix, ft_strdup((*cmd)->token), \
-// 			true, true);
-// 		*cmd = (*cmd)->next;
-// 	}
-// 	exe = cmd_matrix[0];
-// 	if (cmd_matrix && access(exe, F_OK) == 0)
-// 		router(cmd, exe, &cmd_matrix);
-// 	else if (find_executable(&exe))
-// 	{
-// 		printf("%s\n", exe);
-// 		router(cmd, exe, &cmd_matrix);
-// 	}
-// }
 
 void	execution_system(t_cmd **cmd)
 {
@@ -142,15 +104,17 @@ void	execution_system(t_cmd **cmd)
 			while (*cmd && (*cmd)->type == STANDARD)
 			{
 				args = ft_strmatrixjoin(
-					&args, ft_strdup((*cmd)->token), false, false);
+					&args, ft_strdup((*cmd)->token), true, false);
 				*cmd = (*cmd)->next;
 			}
 			exe = args[0];
-			if (args && access(exe, F_OK) == 0 || find_executable(&exe))
-				router(cmd, exe, &args);
+			if (is_builtin(exe))
+				router(cmd, exe, &args, true);
+			else if (args && access(exe, F_OK) == 0 || find_executable(&exe))
+				router(cmd, exe, &args, false);
 		}
 		else
-			router(cmd, NULL, NULL);
+			router(cmd, NULL, NULL, false);
 		if (*cmd)
 			*cmd = (*cmd)->next;
 	}

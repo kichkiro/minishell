@@ -25,13 +25,14 @@ static char	*curent_dir(void)
 	int		i;
 
 	i = 2;
+
+	if (!getcwd(NULL, 0))
+		return ("~/");
 	path = ft_split(getcwd(NULL, 0), '/');
-	str = NULL;
+	str = "~/";
 	while (path[++i])
 	{
-		if (!str)
-			str = ft_strjoin(path[i], "/");
-		else if (!path[i + 1])
+		if (!path[i + 1])
 			str = ft_strjoin(str, path[i]);
 		else
 			str = ft_strjoin(str, ft_strjoin(path[i], "/"));
@@ -52,8 +53,8 @@ char	*ft_whoami(void)
 	prompt = ft_strappend(BLUE"\n┌─"RESET, WHITE_B"[", false, false);
 	prompt = ft_strappend(prompt, getenv("USER"), true, false);
 	prompt = ft_strappend(prompt, "@minishell] "RESET, true, false);
-	prompt = ft_strappend(prompt, BLUE_B"~/", true, false);
-	prompt = ft_strappend(prompt, curent_dir(), true, false);
+	prompt = ft_strappend(prompt, BLUE_B, true, false);
+	// prompt = ft_strappend(prompt, curent_dir(), true, false);
 	prompt = ft_strappend(prompt, RESET"\n", true, false);
 	prompt = ft_strappend(prompt, BLUE"└─"RESET, true, false);
 	prompt = ft_strappend(prompt, RED_B"[$] "RESET, true, false);

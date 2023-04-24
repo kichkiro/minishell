@@ -12,31 +12,42 @@
 
 #include "minishell.h"
 
-void	builtins(char ***prompt)
+void	execute_builtin(char ***args)
 {
-	if (!ft_strncmp(*prompt[0], "cd", 2))
+	// printf("%s\t%s\t%s\n", *args[0], args[0][1], args[0][2]);
+	if (!ft_strncmp(*args[0], "cd", 2))
 	{
-		if (*prompt[2])
-		{
-			printf("cd: too many arguments\n");
-			return ;
-		}
-		if (!*prompt[1] || *prompt[1] == '~'
-			|| !ft_strncmp(*prompt[1], "$HOME", 5))
+		if (!args[0][1])
 			chdir(getenv("HOME"));
+		else if (!opendir(args[0][1]))
+			printf("cd: no such file or directory: %s\n", args[0][1]);
 		else
-			chdir(*prompt[1]);
+			chdir(args[0][1]);
 	}
-	else if (!ft_strncmp(*prompt[1], "pwd", 3))
+	else if (!ft_strncmp(*args[0], "pwd", 3))
 		printf("%s\n", getcwd(NULL, 0));
-	else if (!ft_strncmp(*prompt[1], "exit", 4))
-		exit(close_shell(*prompt[1]));
-	else if (!ft_strncmp(*prompt[1], "history", 7))
+	else if (!ft_strncmp(*args[0], "exit", 4))
+		exit(close_shell(*args[0]));
+	else if (!ft_strncmp(*args[0], "history", 7))
 		print_history();
 	else
-	{
-		printf("%s: command not found\n", ft_strtrim(prompt, " "));
-		return ;
-	}
-	ft_add_history(prompt);
+		printf("%s: command not found\n", ft_strtrim(args[0][1], " "));
+}
+
+/*!
+* @brief 
+*	Checks if the command is a builtin.
+* @param exe
+*	The command to check.
+* @return
+*	True if the command is a builtin, false otherwise.
+*/
+bool	is_builtin(char *exe)
+{
+	if (!ft_strncmp(exe, "echo", 5) || !ft_strncmp(exe, "cd", 3) || \
+		!ft_strncmp(exe, "pwd", 4) || !ft_strncmp(exe, "export", 7) || \
+		!ft_strncmp(exe, "unset", 6) || !ft_strncmp(exe, "env", 4) || \
+		!ft_strncmp(exe, "exit", 5) || !ft_strncmp(exe, "history", 7))
+		return (true);
+	return (false);
 }

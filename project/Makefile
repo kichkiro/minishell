@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: kichkiro <marvin@42.fr>                    +#+  +:+       +#+         #
+#    By: anvannin <anvannin@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/04/05 17:59:55 by kichkiro          #+#    #+#              #
-#    Updated: 2023/04/23 22:09:20 by kichkiro         ###   ########.fr        #
+#    Updated: 2023/04/24 14:07:48 by anvannin         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -19,7 +19,7 @@ SRCS		:= \
 				prompt.c \
 				execution_system.c \
 				redirections.c \
-				commands.c \
+				builtins.c \
 				history.c \
 				user_signals.c \
 				invalid_prompt.c \

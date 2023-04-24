@@ -6,7 +6,7 @@
 /*   By: anvannin <anvannin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/05 17:51:51 by kichkiro          #+#    #+#             */
-/*   Updated: 2023/04/24 14:01:30 by anvannin         ###   ########.fr       */
+/*   Updated: 2023/04/24 14:42:36 by anvannin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,8 +23,10 @@
 # include <signal.h>
 # include <sys/ioctl.h>
 # include <sys/wait.h>
+# include <sys/types.h>
 # include <fcntl.h>
 # include <errno.h>
+# include <dirent.h>
 
 // Token types ---------------------------------------------------------------->
 
@@ -96,14 +98,15 @@ int		close_shell(char *prompt);
 // Commands ------------------------------------------------------------------->
 
 void	execution_system(t_cmd **cmd);
+bool	is_builtin(char *exe);
+void	execute_builtin(char ***args);
 int		execute(char *exe, char ***args);
-void	redirections(t_cmd **cmd, char *exe, char ***args);
-void	builtins(char ***prompt);
+void	redirections(t_cmd **cmd, char *exe, char ***args, bool built_in);
 
 // History -------------------------------------------------------------------->
 
 void	init_history(void);
-void	ft_add_history(char ***prompt);
+void	ft_add_history(char *prompt);
 void	print_history(void);
 
 // Variable  ------------------------------------------------------------------>

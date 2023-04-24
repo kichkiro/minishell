@@ -49,6 +49,12 @@ void	execute_builtin(char ***args)
 		exit(close_shell(*args[0]));
 	else if (!ft_strncmp(*args[0], "history", 7))
 		print_history();
+	else if (!ft_strncmp(*args[0], "env", 3))
+		ft_env(args);
+	else if (!ft_strncmp(*args[0], "export", 6))
+		ft_export(args);
+	else if (!ft_strncmp(*args[0], "unset", 5))
+		ft_unset(args);
 	else
 		printf("%s: command not found\n", ft_strtrim(*args[0], " "));
 }

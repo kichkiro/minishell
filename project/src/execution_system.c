@@ -6,7 +6,7 @@
 /*   By: anvannin <anvannin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/21 11:45:46 by kichkiro          #+#    #+#             */
-/*   Updated: 2023/04/24 14:41:27 by anvannin         ###   ########.fr       */
+/*   Updated: 2023/04/24 15:40:31 by anvannin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,8 +103,7 @@ void	execution_system(t_cmd **cmd)
 		{
 			while (*cmd && (*cmd)->type == STANDARD)
 			{
-				args = ft_strmatrixjoin(
-					&args, ft_strdup((*cmd)->token), true, false);
+				args = ft_strmatrixjoin(args, ft_strdup((*cmd)->token), 1, 1);
 				*cmd = (*cmd)->next;
 			}
 			exe = args[0];

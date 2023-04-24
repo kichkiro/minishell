@@ -6,7 +6,7 @@
 /*   By: kichkiro <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/05 17:51:51 by kichkiro          #+#    #+#             */
-/*   Updated: 2023/04/23 22:00:14 by kichkiro         ###   ########.fr       */
+/*   Updated: 2023/04/23 23:58:40 by kichkiro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,7 @@
 # include <sys/ioctl.h>
 # include <sys/wait.h>
 # include <fcntl.h>
+# include <errno.h>
 
 // Token types ---------------------------------------------------------------->
 
@@ -94,9 +95,9 @@ int		close_shell(char *prompt);
 
 // Commands ------------------------------------------------------------------->
 
-void	execution_system(t_cmd **cmd, int *exit_code);
-int		execute(char *exe, char ***args, int *exit_code);
-void	redirections(t_cmd **cmd, char *exe, char ***args, int *exit_code);
+void	execution_system(t_cmd **cmd);
+int		execute(char *exe, char ***args);
+void	redirections(t_cmd **cmd, char *exe, char ***args);
 void	temp_commands_control(char *prompt);
 
 // History -------------------------------------------------------------------->
@@ -107,15 +108,15 @@ void	print_history(void);
 
 // Variable  ------------------------------------------------------------------>
 
-bool	variable_assignment(t_var **var, char *prompt, int *exit_code);
-char	*variable_expand(char *prompt, size_t *i, t_var *var, int *exit_code);
+bool	variable_assignment(t_var **var, char *prompt);
+char	*variable_expand(char *prompt, size_t *i, t_var *var);
 
 // Parsing -------------------------------------------------------------------->
 
-bool	invalid_prompt(char *prompt, int *g_exit_code);
-void	parsing_system(char *prompt, t_cmd **cmd, t_var *var, int *exit_code);
+bool	invalid_prompt(char *prompt);
+void	parsing_system(char *prompt, t_cmd **cmd, t_var *var);
 
 
-void	error_handler(char *error, int *exit_code, int status);
+// void	error_handler(char *error, int status);
 
 #endif

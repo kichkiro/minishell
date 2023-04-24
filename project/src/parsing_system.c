@@ -6,7 +6,7 @@
 /*   By: kichkiro <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/16 23:03:22 by kichkiro          #+#    #+#             */
-/*   Updated: 2023/04/23 14:25:30 by kichkiro         ###   ########.fr       */
+/*   Updated: 2023/04/24 00:47:30 by kichkiro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ static void	token_append(char **token, char *type, t_cmd **cmd)
 	t_cmd_set_to_head(cmd);
 }
 
-void	parsing_system(char *prompt, t_cmd **cmd, t_var *var, int *exit_code)
+void	parsing_system(char *prompt, t_cmd **cmd, t_var *var)
 {
 	size_t	i;
 	char	type;
@@ -91,7 +91,7 @@ void	parsing_system(char *prompt, t_cmd **cmd, t_var *var, int *exit_code)
 		else if (!single_quotes && prompt[i] == '$' || (!single_quotes && \
 			prompt[i] == '$' && (*cmd) && (*cmd)->prev->type != HEREDOC))
 		{
-			var_value = variable_expand(prompt, &i, var, exit_code);
+			var_value = variable_expand(prompt, &i, var);
 			if (var_value)
 				token = ft_strappend(token, var_value, true, true);
 			type = STANDARD;
@@ -147,7 +147,7 @@ void	parsing_system(char *prompt, t_cmd **cmd, t_var *var, int *exit_code)
 				{
 					ft_putstr_fd(
 						RED"minishell: detected unclosed brackets\n"RESET, 2);
-					*exit_code = 1;
+					errno = EPERM;
 					free(token);			
 					return ;
 				}

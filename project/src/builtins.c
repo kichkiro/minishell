@@ -12,18 +12,37 @@
 
 #include "minishell.h"
 
+static void	ft_cd(char ***args)
+{
+	if (!args[0][1] || args[0][1][0] == '~')
+		chdir(getenv("HOME"));
+	else if (chdir(args[0][1]) == -1)
+		printf("cd: no such file or directory: %s\n", args[0][1]);
+	else
+		chdir(args[0][1]);
+}
+
+static void	ft_echo(char ***args)
+{
+	int		i;
+	int		n;
+
+	n = 0;
+	i = 0;
+	if (!ft_strncmp(args[0][1], "-n", 2) && ++n)
+		i++;
+	while (args[0][++i])
+		printf("%s ", args[0][i]);
+	if (!n)
+		printf("\n");
+}
+
 void	execute_builtin(char ***args)
 {
-	// printf("%s\t%s\t%s\n", *args[0], args[0][1], args[0][2]);
 	if (!ft_strncmp(*args[0], "cd", 2))
-	{
-		if (!args[0][1])
-			chdir(getenv("HOME"));
-		else if (!opendir(args[0][1]))
-			printf("cd: no such file or directory: %s\n", args[0][1]);
-		else
-			chdir(args[0][1]);
-	}
+		ft_cd(args);
+	else if (!ft_strncmp(*args[0], "echo", 4))
+		ft_echo(args);
 	else if (!ft_strncmp(*args[0], "pwd", 3))
 		printf("%s\n", getcwd(NULL, 0));
 	else if (!ft_strncmp(*args[0], "exit", 4))
@@ -31,11 +50,11 @@ void	execute_builtin(char ***args)
 	else if (!ft_strncmp(*args[0], "history", 7))
 		print_history();
 	else
-		printf("%s: command not found\n", ft_strtrim(args[0][1], " "));
+		printf("%s: command not found\n", ft_strtrim(*args[0], " "));
 }
 
 /*!
-* @brief 
+* @brief
 *	Checks if the command is a builtin.
 * @param exe
 *	The command to check.

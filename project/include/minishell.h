@@ -6,7 +6,7 @@
 /*   By: kichkiro <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/05 17:51:51 by kichkiro          #+#    #+#             */
-/*   Updated: 2023/04/24 17:24:32 by kichkiro         ###   ########.fr       */
+/*   Updated: 2023/04/24 20:13:13 by kichkiro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,10 +104,18 @@ int		close_shell(char *prompt);
 // Commands ------------------------------------------------------------------->
 
 void	execution_system(t_cmd **cmd);
-bool	is_builtin(char *exe);
-void	execute_builtin(char ***args);
 int		execute(char *exe, char ***args);
 void	redirections(t_cmd **cmd, char *exe, char ***args, bool built_in);
+
+// Builtins ------------------------------------------------------------------->
+
+bool	is_builtin(char *exe);
+void	execute_builtin(char ***args);
+
+// ENV ------------------------------------------------------------------------>
+void	ft_env(char ***args);
+void	ft_export(char ***args);
+void	ft_unset(char ***args);
 
 // History -------------------------------------------------------------------->
 

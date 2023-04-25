@@ -6,7 +6,7 @@
 /*   By: anvannin <anvannin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/23 17:35:15 by kichkiro          #+#    #+#             */
-/*   Updated: 2023/04/24 14:41:27 by anvannin         ###   ########.fr       */
+/*   Updated: 2023/04/25 09:26:31 by anvannin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,7 +75,7 @@ static t_fd	appending_redirected_output(char *output_file)
 // 	TODO
 // }
 
-void	redirections(t_cmd **cmd, char *exe, char ***args, bool built_in)
+void	redirections(t_cmd **cmd, char *exe, char ***args, bool built_in, t_var **var)
 {
 	t_fd	fd;
 
@@ -89,7 +89,7 @@ void	redirections(t_cmd **cmd, char *exe, char ***args, bool built_in)
 	// else if (!ft_strncmp((*cmd)->prev->token, "<<", 2))
 	// 	fd = heredoc((*cmd)->token);
 	if (built_in)
-		execute_builtin(args);
+		execute_builtin(args, var);
 	else if (exe && args)
 		execute(exe, args);
 	if (*cmd)

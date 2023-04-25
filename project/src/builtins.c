@@ -29,6 +29,11 @@ static void	ft_echo(char ***args)
 
 	n = 0;
 	i = 0;
+	if (!args[0][1])
+	{
+		printf("\n");
+		return ;
+	}
 	if (!ft_strncmp(args[0][1], "-n", 2) && ++n)
 		i++;
 	while (args[0][++i])
@@ -37,7 +42,7 @@ static void	ft_echo(char ***args)
 		printf("\n");
 }
 
-void	execute_builtin(char ***args)
+void	execute_builtin(char ***args, t_var **var)
 {
 	if (!ft_strncmp(*args[0], "cd", 2))
 		ft_cd(args);
@@ -52,9 +57,9 @@ void	execute_builtin(char ***args)
 	else if (!ft_strncmp(*args[0], "env", 3))
 		ft_env(args);
 	else if (!ft_strncmp(*args[0], "export", 6))
-		ft_export(args);
+		ft_export(args, var);
 	else if (!ft_strncmp(*args[0], "unset", 5))
-		ft_unset(args);
+		ft_unset(args, var);
 	else
 		printf("%s: command not found\n", ft_strtrim(*args[0], " "));
 }

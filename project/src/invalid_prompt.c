@@ -3,15 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   invalid_prompt.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kichkiro <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: anvannin <anvannin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/06 11:56:59 by kichkiro          #+#    #+#             */
-/*   Updated: 2023/04/24 00:55:42 by kichkiro         ###   ########.fr       */
+/*   Updated: 2023/04/25 10:16:28 by anvannin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
 
 // static bool	closed_brackets(char *prompt)
 // {
@@ -28,7 +27,6 @@
 // {
 // 	// controllare che non ci siano backslash fuori da singoli apici.
 // }
-
 
 /*!
  * @brief 

@@ -85,7 +85,7 @@ void	print_history(void)
 	hist = ft_get_next_line(fd);
 	while (hist)
 	{
-		ft_printf("\t%d\t%s", i++, hist);
+		ft_printf("\t%d.\t%s", i++, hist);
 		hist = ft_get_next_line(fd);
 	}
 	close(fd);

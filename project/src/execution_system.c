@@ -6,7 +6,7 @@
 /*   By: anvannin <anvannin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/21 11:45:46 by kichkiro          #+#    #+#             */
-/*   Updated: 2023/04/24 15:40:31 by anvannin         ###   ########.fr       */
+/*   Updated: 2023/04/25 10:20:13 by anvannin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,21 +76,21 @@ static bool	find_executable(char **exe)
 	return (found);
 }
 
-static void	router(t_cmd **cmd, char *exe, char ***args, bool built_in)
+static void	router(t_cmd **cmd, char *exe, char ***args, bool built_in, t_var **var)
 {
 	if ((*cmd) && ((*cmd)->type == REDIRECT || (*cmd)->type == HEREDOC))
-		redirections(cmd, exe, args, built_in);
+		redirections(cmd, exe, args, built_in, var);
 	// else if ((*cmd)->type == PIPE)
 	// 	pipes();
 	// else if ((*cmd)->type == BOOLEAN)
 	// 	boolean();
 	else if (built_in)
-		execute_builtin(args);
+		execute_builtin(args, var);
 	else
 		execute(exe, args);
 }
 
-void	execution_system(t_cmd **cmd)
+void	execution_system(t_cmd **cmd, t_var **var)
 {
 	char	**args;
 	char	*exe;
@@ -108,12 +108,12 @@ void	execution_system(t_cmd **cmd)
 			}
 			exe = args[0];
 			if (is_builtin(exe))
-				router(cmd, exe, &args, true);
+				router(cmd, exe, &args, true, var);
 			else if (args && access(exe, F_OK) == 0 || find_executable(&exe))
-				router(cmd, exe, &args, false);
+				router(cmd, exe, &args, false, var);
 		}
 		else
-			router(cmd, NULL, NULL, false);
+			router(cmd, NULL, NULL, false, var);
 		if (*cmd)
 			*cmd = (*cmd)->next;
 	}

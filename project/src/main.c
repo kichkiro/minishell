@@ -6,13 +6,13 @@
 /*   By: anvannin <anvannin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/27 19:07:59 by kichkiro          #+#    #+#             */
-/*   Updated: 2023/04/24 14:29:34 by anvannin         ###   ########.fr       */
+/*   Updated: 2023/04/25 10:19:20 by anvannin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	main(void)
+int	main(int argc, char **argv, char **envp)
 {
 	char	*prompt;
 	// int		exit_code;
@@ -31,22 +31,16 @@ int	main(void)
 		prompt = readline(ft_whoami());
 		if (!prompt)
 			return (close_shell(prompt));
-		// else
-		// {
-		// 	temp_commands_control(prompt);
-		// 	continue ;
-		// }
 
 		// controlla se l'input e' valido, oppure se c'e' un assegnamento,
 		// esegui l'assegnamento e mostra nuovo prompt.
-		if (!invalid_prompt(prompt) &&
-			!variable_assignment(&var, prompt))
+		if (!invalid_prompt(prompt) && !variable_assignment(&var, prompt))
 		{
 			parsing_system(prompt, &cmd, var);
 			// if (prompt[0])
 			// 	printf("%s\n", prompt);
 
-			execution_system(&cmd);
+			execution_system(&cmd, &var);
 		}
 
 		// Se c'e un commento, salva in history e mostra nuovo prompt --------->
@@ -82,11 +76,9 @@ int	main(void)
 		// ---------------------------------------------------------------------
 
 		// Salva history ------------------------------------------------------>
-
-		// TODO
+		ft_add_history(prompt);
 
 		// Free ---------------------------------------------------------------> 
-		ft_add_history(prompt);
 		ft_free((void **)&prompt);
 		t_cmd_free(&cmd);
 	}

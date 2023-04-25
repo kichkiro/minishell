@@ -6,7 +6,7 @@
 /*   By: kichkiro <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/23 21:53:07 by kichkiro          #+#    #+#             */
-/*   Updated: 2023/04/24 17:25:26 by kichkiro         ###   ########.fr       */
+/*   Updated: 2023/04/25 11:38:50 by kichkiro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ unsigned char	error_handler(char request, char *msg, unsigned char code,
 	else if (request == PRINT || request == PRINT_FREE)
 	{
 		exit_status = code;
-		ft_putstr_fd(RED"minishell: ", STDERR_FILENO);	
+		ft_putstr_fd(RED"minishell: ", STDERR_FILENO);
 		if (msg)
 			ft_putstr_fd(msg, STDERR_FILENO);
 		if (print_perror)

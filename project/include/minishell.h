@@ -6,7 +6,7 @@
 /*   By: anvannin <anvannin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/05 17:51:51 by kichkiro          #+#    #+#             */
-/*   Updated: 2023/04/25 11:12:53 by anvannin         ###   ########.fr       */
+/*   Updated: 2023/04/25 11:31:36 by anvannin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,15 +27,21 @@
 # include <errno.h>
 # include <dirent.h>
 
-// Token types ---------------------------------------------------------------->
+// Token TYPES ---------------------------------------------------------------->
 
 # define NONE		0
 # define STANDARD	1
 # define REDIRECT	2
-# define HEREDOC	3
-# define PIPE		4
-# define BOOLEAN    5
-# define WILDCARD	6
+# define PIPE		3
+# define BOOLEAN    4
+# define WILDCARD	5
+
+// Errors Handler REQUESTS ---------------------------------------------------->
+
+# define GET		0
+# define SET		1
+# define PRINT		2
+# define PRINT_FREE 3
 
 // Structs -------------------------------------------------------------------->
 
@@ -96,7 +102,7 @@ int		close_shell(char *prompt);
 // Commands ------------------------------------------------------------------->
 
 void	execution_system(t_cmd **cmd, t_var **var);
-int		execute(char *exe, char ***args);
+void	execute(char *exe, char ***args);
 void	redirections(t_cmd **cmd, char *exe, char ***args, bool built_in, t_var **var);
 
 // Builtins ------------------------------------------------------------------->
@@ -125,6 +131,6 @@ void	parsing_system(char *prompt, t_cmd **cmd, t_var *var);
 // Muffin --------------------------------------------------------------------->
 void	muffin_time(void);
 
-// void	error_handler(char *error, int status);
+int	error_handler(char request, char *msg, int code, bool print_perror);
 
 #endif

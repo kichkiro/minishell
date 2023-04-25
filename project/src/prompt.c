@@ -24,6 +24,7 @@ static char	*curent_dir(void)
 	char	*str;
 	int		i;
 
+	i = 0;
 	path = ft_split(getcwd(NULL, 0), '/');
 	while (path[i])
 		i++;
@@ -60,7 +61,7 @@ char	*ft_whoami(void)
 	prompt = ft_strappend(BLUE"\n┌─"RESET, WHITE_B"[", false, false);
 	prompt = ft_strappend(prompt, getenv("USER"), true, false);
 	prompt = ft_strappend(prompt, "@minishell] "RESET, true, false);
-	prompt = ft_strappend(prompt, BLUE_B, true, false);
+	prompt = ft_strappend(prompt, RED_B, true, false);
 	prompt = ft_strappend(prompt, curent_dir(), true, false);
 	prompt = ft_strappend(prompt, RESET"\n", true, false);
 	prompt = ft_strappend(prompt, BLUE"└─"RESET, true, false);

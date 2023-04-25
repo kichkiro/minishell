@@ -6,42 +6,39 @@
 /*   By: anvannin <anvannin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/21 11:45:46 by kichkiro          #+#    #+#             */
-/*   Updated: 2023/04/25 10:20:13 by anvannin         ###   ########.fr       */
+/*   Updated: 2023/04/25 11:33:24 by anvannin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	execute(char *exe, char ***args)
+void	execute(char *exe, char ***args)
 {
 	int	pid;
-	int	ret;
+	int	exit_code;
 
 	pid = 0;
-	ret = 1;
-	if (access(exe, X_OK) == 0)
+	exit_code = 0;
+	if (!access(exe, X_OK))
 	{
-		ret = 0;
 		pid = fork();
 		if (pid == -1)
-			perror(RED"minishell"RESET);
+			error_handler(PRINT, NULL, 1, true);
 		else if (!pid)
 		{
-			ret = execve(exe, *args, NULL);
-			if (ret == -1)
+			if (execve(exe, *args, NULL) == -1)
 				exit(EXIT_FAILURE);
 			exit(EXIT_SUCCESS);
 		}
 		else
-			waitpid(pid, NULL, 0);
+			waitpid(pid, &exit_code, 0);
+		if (exit_code != 0)
+			error_handler(PRINT, NULL, exit_code, true);
+		else
+			error_handler(SET, NULL, exit_code, false);
 	}
 	else
-	{
-		errno = EACCES;
-		perror(RED"minishell"RESET);
-	}
-	// ft_strmatrixfree(args);
-	return (ret);
+		error_handler(PRINT, exe, 126, true);
 }
 
 static bool	find_executable(char **exe)
@@ -67,18 +64,15 @@ static bool	find_executable(char **exe)
 		}
 		ft_free((void **)&tmp);
 	}
-	// ft_strmatrixfree(&path);
+	ft_strmatrixfree(path, true);
 	if (!found)
-	{
-		errno = 127;
-		perror(RED"minishell: command not found"RESET);
-	}
+		error_handler(PRINT_FREE, ft_strjoin(*exe, ": command not found"), 127, 0);
 	return (found);
 }
 
 static void	router(t_cmd **cmd, char *exe, char ***args, bool built_in, t_var **var)
 {
-	if ((*cmd) && ((*cmd)->type == REDIRECT || (*cmd)->type == HEREDOC))
+	if ((*cmd) && (*cmd)->type == REDIRECT)
 		redirections(cmd, exe, args, built_in, var);
 	// else if ((*cmd)->type == PIPE)
 	// 	pipes();
@@ -110,10 +104,12 @@ void	execution_system(t_cmd **cmd, t_var **var)
 			if (is_builtin(exe))
 				router(cmd, exe, &args, true, var);
 			else if (args && access(exe, F_OK) == 0 || find_executable(&exe))
-				router(cmd, exe, &args, false, var);
+				router(cmd, exe, &args, false , var);
 		}
 		else
 			router(cmd, NULL, NULL, false, var);
+		if (error_handler(GET, NULL, 0, false))
+			break ;
 		if (*cmd)
 			*cmd = (*cmd)->next;
 	}

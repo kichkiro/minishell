@@ -6,7 +6,7 @@
 /*   By: anvannin <anvannin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/06 11:56:59 by kichkiro          #+#    #+#             */
-/*   Updated: 2023/04/25 10:16:28 by anvannin         ###   ########.fr       */
+/*   Updated: 2023/04/25 11:33:52 by anvannin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,15 +77,13 @@ bool	invalid_prompt(char *prompt)
 	invalid = false;
 	if (ft_stridx(prompt, '\\') != -1 || ft_stridx(prompt, ';') != -1)
 	{
-		perror(RED"minishell: detected '\\' or ';'"RESET);
+		error_handler(PRINT, "detected '\\' or ';'", 1, false);
 		invalid = true;
 	}
 	else if (!closed_quotes(prompt))
 	{
-		perror(RED"minishell: detected unclosed quotes"RESET);
+		error_handler(PRINT, "detected unclosed quotes", 1, false);
 		invalid = true;
 	}
-	if (invalid)
-		errno = EPERM;
 	return (invalid);
 }

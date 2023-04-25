@@ -6,7 +6,7 @@
 /*   By: anvannin <anvannin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/27 19:07:59 by kichkiro          #+#    #+#             */
-/*   Updated: 2023/04/25 11:32:23 by anvannin         ###   ########.fr       */
+/*   Updated: 2023/04/25 13:09:03 by anvannin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ int	main(int argc, char **argv, char **envp)
 
 	var = NULL;
 	cmd = NULL;
-	init_history();
+	init_all(envp, &var);
 	while (true)
 	{
 		signal(SIGQUIT, SIG_IGN);

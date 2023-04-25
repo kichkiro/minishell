@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   variable_assignment.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kichkiro <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: anvannin <anvannin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/06 14:07:27 by kichkiro          #+#    #+#             */
-/*   Updated: 2023/04/24 21:03:04 by kichkiro         ###   ########.fr       */
+/*   Updated: 2023/04/25 14:33:10 by anvannin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,7 +102,7 @@ bool	variable_assignment(t_var **var, char *prompt)
 	if (!var_name)
 		return (false);
 	var_value = tmp_get_var_value(prompt, ft_strlen(var_name));
-	t_var_add_back(var, t_var_new(var_name, var_value));
+	t_var_add_back(var, t_var_new(var_name, var_value, LOCAL));
 	t_var_set_to_head(var);
 	return (true);
 }

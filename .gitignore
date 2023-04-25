@@ -4,6 +4,7 @@
 **.d
 **.out
 **.build
+**.nfs*
 project/minishell
 
 # vscode

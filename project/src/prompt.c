@@ -12,26 +12,34 @@
 
 #include "minishell.h"
 
-/*!
-* @brief 
-	Returns a string containing the relative path of the current directory.
-* @return
-	The relative path string.
-*/
-static char	*curent_dir(void)
+static int	usr_dir_level(void)
 {
-	char	**path;
-	char	*str;
 	int		i;
+	int		j;
+	char	**path;
 
 	i = 0;
+	j = 2;
 	path = ft_split(getcwd(NULL, 0), '/');
 	while (path[i])
+	{
+		if (!ft_strncmp(path[i], getenv("USER"), ft_strlen(path[i])))
+			j = i;
 		i++;
-	if (i > 2)
+	}
+	return (j);
+}
+
+static char	*build_path(char **path, int i)
+{
+	char	*str;
+	int		j;
+
+	j = usr_dir_level();
+	if (i > j)
 	{
 		str = "~/";
-		i = 2;
+		i = j;
 	}
 	else
 	{
@@ -49,7 +57,25 @@ static char	*curent_dir(void)
 }
 
 /*!
-* @brief 
+* @brief
+	Returns a string containing the relative path of the current directory.
+* @return
+	The relative path string.
+*/
+static char	*curent_dir(void)
+{
+	char	**path;
+	int		i;
+
+	i = 0;
+	path = ft_split(getcwd(NULL, 0), '/');
+	while (path[i])
+		i++;
+	return (build_path(path, i));
+}
+
+/*!
+* @brief
 	Returns the command prompt a string.
 * @return
 	The prompt string.

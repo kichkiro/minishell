@@ -24,8 +24,8 @@ static void	ft_cd(char ***args)
 
 static void	ft_echo(char ***args)
 {
-	int		i;
-	int		n;
+	int	i;
+	int	n;
 
 	n = 0;
 	i = 0;
@@ -60,7 +60,7 @@ void	execute_builtin(char ***args, t_var **var)
 	else if (!ft_strncmp(*args[0], "history", 7))
 		print_history();
 	else if (!ft_strncmp(*args[0], "env", 3))
-		ft_env(args);
+		ft_env(args, var);
 	else if (!ft_strncmp(*args[0], "export", 6))
 		ft_export(args, var);
 	else if (!ft_strncmp(*args[0], "unset", 5))

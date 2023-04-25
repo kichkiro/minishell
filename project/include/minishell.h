@@ -6,7 +6,7 @@
 /*   By: anvannin <anvannin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/05 17:51:51 by kichkiro          #+#    #+#             */
-/*   Updated: 2023/04/25 11:31:36 by anvannin         ###   ########.fr       */
+/*   Updated: 2023/04/25 15:24:22 by anvannin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,6 @@
 # define MINISHELL_H
 
 // Libraries ------------------------------------------------------------------>
-
 # include "../lib/libft/include/libft.h"
 # include <stdio.h>
 # include <readline/readline.h>
@@ -28,7 +27,6 @@
 # include <dirent.h>
 
 // Token TYPES ---------------------------------------------------------------->
-
 # define NONE		0
 # define STANDARD	1
 # define REDIRECT	2
@@ -37,14 +35,17 @@
 # define WILDCARD	5
 
 // Errors Handler REQUESTS ---------------------------------------------------->
-
 # define GET		0
 # define SET		1
 # define PRINT		2
 # define PRINT_FREE 3
 
-// Structs -------------------------------------------------------------------->
+// var TYPES ------------------------------------------------------------------>
+# define ENV		0
+# define EXPORT		1
+# define LOCAL		2
 
+// Structs -------------------------------------------------------------------->
 typedef struct s_fd
 {
 	int		original_fd;
@@ -53,19 +54,35 @@ typedef struct s_fd
 }	t_fd;
 
 // Linked Lists --------------------------------------------------------------->
-
 typedef struct s_var
 {
 	char			*name;
 	char			*value;
+	char			type;
 	struct s_var	*next;
 	struct s_var	*prev;
 }	t_var;
 
+typedef struct s_cmd
+{
+	char			*token;
+	char			type;
+	struct s_cmd	*next;
+	struct s_cmd	*prev;
+}	t_cmd;
+
+typedef struct s_shell
+{
+	char	***args;
+	char	**envp;
+	t_var	**var;
+	t_cmd	*cmd;
+}	t_shell;
+
 void	t_var_add_back(t_var **lst, t_var *new_node);
 void	*t_var_free(t_var **lst);
 void	t_var_set_to_head(t_var **lst);
-t_var	*t_var_new(char	*name, char *value);
+t_var	*t_var_new(char	*name, char *value, char type);
 
 // non ancora utilizzate --->
 void	t_var_del_last(t_var **lst);
@@ -77,46 +94,36 @@ bool	t_var_n_is_inside(t_var *lst, int n);
 int		t_var_size(t_var *lst);
 int		*t_var_to_arr(t_var *lst);
 
-typedef struct s_cmd
-{
-	char			*token;
-	char			type;
-	struct s_cmd	*next;
-	struct s_cmd	*prev;
-}	t_cmd;
-
 void	t_cmd_add_back(t_cmd **lst, t_cmd *new_node);
 void	*t_cmd_free(t_cmd **lst);
 void	t_cmd_set_to_head(t_cmd **lst);
 t_cmd	*t_cmd_new(char	*token, char type);
 
-// Prompt --------------------------------------------------------------------->
+// Init ----------------------------------------------------------------------->
+void	init_all(char **envp, t_var **var);
 
+// Prompt --------------------------------------------------------------------->
 char	*ft_whoami(void);
 
 // User Signals --------------------------------------------------------------->
-
 void	signals(int sig);
 int		close_shell(char *prompt);
 
 // Commands ------------------------------------------------------------------->
-
 void	execution_system(t_cmd **cmd, t_var **var);
 void	execute(char *exe, char ***args);
 void	redirections(t_cmd **cmd, char *exe, char ***args, bool built_in, t_var **var);
 
 // Builtins ------------------------------------------------------------------->
-
 bool	is_builtin(char *exe);
 void	execute_builtin(char ***args, t_var **var);
 
 // ENV ------------------------------------------------------------------------>
-void	ft_env(char ***args);
+void	ft_env(char ***args, t_var **var);
 void	ft_export(char ***args, t_var **var);
 void	ft_unset(char ***args, t_var **var);
 
 // History -------------------------------------------------------------------->
-void	init_history(void);
 void	ft_add_history(char *prompt);
 void	print_history(void);
 
@@ -127,9 +134,6 @@ char	*variable_expand(char *prompt, size_t *i, t_var *var);
 // Parsing -------------------------------------------------------------------->
 bool	invalid_prompt(char *prompt);
 void	parsing_system(char *prompt, t_cmd **cmd, t_var *var);
-
-// Muffin --------------------------------------------------------------------->
-void	muffin_time(void);
 
 int	error_handler(char request, char *msg, int code, bool print_perror);
 

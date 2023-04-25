@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lst_new.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kichkiro <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: anvannin <anvannin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/05 11:01:31 by kichkiro          #+#    #+#             */
-/*   Updated: 2023/04/19 19:54:41 by kichkiro         ###   ########.fr       */
+/*   Updated: 2023/04/25 14:33:35 by anvannin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@
  * @return 
 	The new node.
  */
-t_var	*t_var_new(char	*name, char *value)
+t_var	*t_var_new(char	*name, char *value, char type)
 {
 	t_var	*node;
 
@@ -32,6 +32,7 @@ t_var	*t_var_new(char	*name, char *value)
 		return (0);
 	node->name = name;
 	node->value = value;
+	node->type = type;
 	node->next = 0;
 	node->prev = 0;
 	return (node);

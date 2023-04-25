@@ -3,42 +3,42 @@
 /*                                                        :::      ::::::::   */
 /*   execution_system.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kichkiro <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: anvannin <anvannin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/21 11:45:46 by kichkiro          #+#    #+#             */
-/*   Updated: 2023/04/24 17:24:17 by kichkiro         ###   ########.fr       */
+/*   Updated: 2023/04/25 11:33:24 by anvannin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	execute(char *exe, char ***args)
+void	execute(char *exe, char ***args)
 {
 	int	pid;
-	int	ret;
+	int	exit_code;
 
 	pid = 0;
-	ret = 1;
-	if (access(exe, X_OK) == 0)
+	exit_code = 0;
+	if (!access(exe, X_OK))
 	{
-		ret = 0;
 		pid = fork();
 		if (pid == -1)
 			error_handler(PRINT, NULL, 1, true);
 		else if (!pid)
 		{
-			ret = execve(exe, *args, NULL);
-			if (ret == -1)
+			if (execve(exe, *args, NULL) == -1)
 				exit(EXIT_FAILURE);
 			exit(EXIT_SUCCESS);
 		}
 		else
-			waitpid(pid, NULL, 0);
+			waitpid(pid, &exit_code, 0);
+		if (exit_code != 0)
+			error_handler(PRINT, NULL, exit_code, true);
+		else
+			error_handler(SET, NULL, exit_code, false);
 	}
 	else
 		error_handler(PRINT, exe, 126, true);
-	// ft_strmatrixfree(args);
-	return (ret);
 }
 
 static bool	find_executable(char **exe)
@@ -64,27 +64,27 @@ static bool	find_executable(char **exe)
 		}
 		ft_free((void **)&tmp);
 	}
-	// ft_strmatrixfree(&path);
+	ft_strmatrixfree(path, true);
 	if (!found)
 		error_handler(PRINT_FREE, ft_strjoin(*exe, ": command not found"), 127, 0);
 	return (found);
 }
 
-static void	router(t_cmd **cmd, char *exe, char ***args, bool built_in)
+static void	router(t_cmd **cmd, char *exe, char ***args, bool built_in, t_var **var)
 {
 	if ((*cmd) && (*cmd)->type == REDIRECT)
-		redirections(cmd, exe, args, built_in);
+		redirections(cmd, exe, args, built_in, var);
 	// else if ((*cmd)->type == PIPE)
 	// 	pipes();
 	// else if ((*cmd)->type == BOOLEAN)
 	// 	boolean();
 	else if (built_in)
-		execute_builtin(args);
+		execute_builtin(args, var);
 	else
 		execute(exe, args);
 }
 
-void	execution_system(t_cmd **cmd)
+void	execution_system(t_cmd **cmd, t_var **var)
 {
 	char	**args;
 	char	*exe;
@@ -102,12 +102,14 @@ void	execution_system(t_cmd **cmd)
 			}
 			exe = args[0];
 			if (is_builtin(exe))
-				router(cmd, exe, &args, true);
+				router(cmd, exe, &args, true, var);
 			else if (args && access(exe, F_OK) == 0 || find_executable(&exe))
-				router(cmd, exe, &args, false);
+				router(cmd, exe, &args, false , var);
 		}
 		else
-			router(cmd, NULL, NULL, false);
+			router(cmd, NULL, NULL, false, var);
+		if (error_handler(GET, NULL, 0, false))
+			break ;
 		if (*cmd)
 			*cmd = (*cmd)->next;
 	}

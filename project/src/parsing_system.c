@@ -6,7 +6,7 @@
 /*   By: kichkiro <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/16 23:03:22 by kichkiro          #+#    #+#             */
-/*   Updated: 2023/04/24 16:01:14 by kichkiro         ###   ########.fr       */
+/*   Updated: 2023/04/24 21:05:20 by kichkiro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -139,9 +139,7 @@ void	parsing_system(char *prompt, t_cmd **cmd, t_var *var)
 			{
 				if (ft_stridx(prompt, ']') < (ssize_t)i)
 				{
-					ft_putstr_fd(
-						RED"minishell: detected unclosed brackets\n"RESET, 2);
-					errno = EPERM;
+					error_handler(PRINT, "detected unclosed brackets", 1, 0);
 					free(token);			
 					return ;
 				}

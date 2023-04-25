@@ -85,7 +85,10 @@ class Tester:
         def output_line(stdout, test_input):
             output = None
             next_line = False
-            lines = stdout.decode().split('\n')
+            try:
+                lines = stdout.decode().split('\n')
+            except UnicodeDecodeError:
+                lines = stdout.decode('latin-1').split('\n')
             for line in lines:
                 if next_line:
                     output = line
@@ -97,7 +100,7 @@ class Tester:
         test_input = (list(args.keys()))[i]
         bash_output = args[test_input]
         minishell_output = output_line(stdout, test_input.decode())
-        if bash_output not in minishell_output:
+        if bash_output != minishell_output:
             print(colored(
                 f"TEST {i + 1}: KO\n\n"
                 f"    Input:     {test_input.decode()}\n"
@@ -109,7 +112,8 @@ class Tester:
             print(colored(
                 f"TEST {i + 1}: OK\n\n"
                 f"    Input:     {test_input.decode()}\n"
-                f"    Output:    {minishell_output}\n",
+                f"    Bash:      {bash_output}\n"
+                f"    Minishell: {minishell_output}\n",
                 "green"
             ))
 

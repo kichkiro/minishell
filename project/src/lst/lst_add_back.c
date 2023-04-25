@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lst_add_back.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kichkiro <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: anvannin <anvannin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/05 11:11:34 by kichkiro          #+#    #+#             */
-/*   Updated: 2023/04/17 17:59:31 by kichkiro         ###   ########.fr       */
+/*   Updated: 2023/04/25 09:57:59 by anvannin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,5 +63,3 @@ void	t_cmd_add_back(t_cmd **lst, t_cmd *new_node)
 	else
 		*lst = new_node;
 }
-
-

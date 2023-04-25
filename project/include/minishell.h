@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kichkiro <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: anvannin <anvannin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/05 17:51:51 by kichkiro          #+#    #+#             */
-/*   Updated: 2023/04/24 17:24:32 by kichkiro         ###   ########.fr       */
+/*   Updated: 2023/04/25 11:31:36 by anvannin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,6 @@
 // Libraries ------------------------------------------------------------------>
 
 # include "../lib/libft/include/libft.h"
-
 # include <stdio.h>
 # include <readline/readline.h>
 # include <readline/history.h>
@@ -68,7 +67,6 @@ void	*t_var_free(t_var **lst);
 void	t_var_set_to_head(t_var **lst);
 t_var	*t_var_new(char	*name, char *value);
 
-
 // non ancora utilizzate --->
 void	t_var_del_last(t_var **lst);
 t_var	*t_var_from_arr(long *arr, int size, bool need_to_free);
@@ -103,30 +101,36 @@ int		close_shell(char *prompt);
 
 // Commands ------------------------------------------------------------------->
 
-void	execution_system(t_cmd **cmd);
+void	execution_system(t_cmd **cmd, t_var **var);
+void	execute(char *exe, char ***args);
+void	redirections(t_cmd **cmd, char *exe, char ***args, bool built_in, t_var **var);
+
+// Builtins ------------------------------------------------------------------->
+
 bool	is_builtin(char *exe);
-void	execute_builtin(char ***args);
-int		execute(char *exe, char ***args);
-void	redirections(t_cmd **cmd, char *exe, char ***args, bool built_in);
+void	execute_builtin(char ***args, t_var **var);
+
+// ENV ------------------------------------------------------------------------>
+void	ft_env(char ***args);
+void	ft_export(char ***args, t_var **var);
+void	ft_unset(char ***args, t_var **var);
 
 // History -------------------------------------------------------------------->
-
 void	init_history(void);
 void	ft_add_history(char *prompt);
 void	print_history(void);
 
 // Variable  ------------------------------------------------------------------>
-
 bool	variable_assignment(t_var **var, char *prompt);
 char	*variable_expand(char *prompt, size_t *i, t_var *var);
 
 // Parsing -------------------------------------------------------------------->
-
 bool	invalid_prompt(char *prompt);
 void	parsing_system(char *prompt, t_cmd **cmd, t_var *var);
 
+// Muffin --------------------------------------------------------------------->
+void	muffin_time(void);
 
-unsigned char	error_handler(char request, char *msg, unsigned char code,
-	bool print_perror);
+int	error_handler(char request, char *msg, int code, bool print_perror);
 
 #endif

@@ -6,7 +6,7 @@
 #    By: anvannin <anvannin@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/04/05 17:59:55 by kichkiro          #+#    #+#              #
-#    Updated: 2023/04/24 14:07:48 by anvannin         ###   ########.fr        #
+#    Updated: 2023/04/25 11:13:30 by anvannin         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -20,6 +20,8 @@ SRCS		:= \
 				execution_system.c \
 				redirections.c \
 				builtins.c \
+				env.c \
+				muffin.c \
 				history.c \
 				user_signals.c \
 				invalid_prompt.c \

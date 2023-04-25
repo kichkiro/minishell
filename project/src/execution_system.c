@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execution_system.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: anvannin <anvannin@student.42.fr>          +#+  +:+       +#+        */
+/*   By: kichkiro <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/21 11:45:46 by kichkiro          #+#    #+#             */
-/*   Updated: 2023/04/25 11:33:24 by anvannin         ###   ########.fr       */
+/*   Updated: 2023/04/25 13:09:13 by kichkiro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,8 @@
 
 void	execute(char *exe, char ***args)
 {
-	int	pid;
-	int	exit_code;
+	pid_t	pid;
+	int		exit_code;
 
 	pid = 0;
 	exit_code = 0;

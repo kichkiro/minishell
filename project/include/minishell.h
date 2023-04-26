@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: anvannin <anvannin@student.42.fr>          +#+  +:+       +#+        */
+/*   By: kichkiro <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/05 17:51:51 by kichkiro          #+#    #+#             */
-/*   Updated: 2023/04/25 15:24:22 by anvannin         ###   ########.fr       */
+/*   Updated: 2023/04/26 15:49:14 by kichkiro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,12 @@
 # include <errno.h>
 # include <dirent.h>
 
+// Handlers REQUESTS ---------------------------------------------------------->
+# define GET		0
+# define SET		1
+# define PRINT		2
+# define PRINT_FREE 3
+
 // Token TYPES ---------------------------------------------------------------->
 # define NONE		0
 # define STANDARD	1
@@ -34,24 +40,10 @@
 # define BOOLEAN    4
 # define WILDCARD	5
 
-// Errors Handler REQUESTS ---------------------------------------------------->
-# define GET		0
-# define SET		1
-# define PRINT		2
-# define PRINT_FREE 3
-
-// var TYPES ------------------------------------------------------------------>
+// Variables TYPES ------------------------------------------------------------>
 # define ENV		0
 # define EXPORT		1
-# define LOCAL		2
-
-// Structs -------------------------------------------------------------------->
-typedef struct s_fd
-{
-	int		original_fd;
-	int		original_std;
-	int		redirected_fd;
-}	t_fd;
+# define SHELL		2
 
 // Linked Lists --------------------------------------------------------------->
 typedef struct s_var
@@ -70,14 +62,6 @@ typedef struct s_cmd
 	struct s_cmd	*next;
 	struct s_cmd	*prev;
 }	t_cmd;
-
-typedef struct s_shell
-{
-	char	***args;
-	char	**envp;
-	t_var	**var;
-	t_cmd	*cmd;
-}	t_shell;
 
 void	t_var_add_back(t_var **lst, t_var *new_node);
 void	*t_var_free(t_var **lst);
@@ -99,20 +83,41 @@ void	*t_cmd_free(t_cmd **lst);
 void	t_cmd_set_to_head(t_cmd **lst);
 t_cmd	*t_cmd_new(char	*token, char type);
 
+// Structs -------------------------------------------------------------------->
+typedef struct s_fd
+{
+	int		original_fd;
+	int		original_std;
+	int		redirected_fd;
+}	t_fd;
+
+typedef struct s_shell
+{
+	char	***args;
+	char	**envp;
+	t_var	**var;
+	t_cmd	*cmd;
+}	t_shell;
+
 // Init ----------------------------------------------------------------------->
 void	init_all(char **envp, t_var **var);
 
 // Prompt --------------------------------------------------------------------->
 char	*ft_whoami(void);
 
-// User Signals --------------------------------------------------------------->
-void	signals(int sig);
+// Signals Handler ------------------------------------------------------------>
+void	signal_handler(int sig);
 int		close_shell(char *prompt);
+bool	signals_controller(char request, char value);
+
+// Errors Handler ------------------------------------------------------------->
+int		error_handler(char request, char *msg, int code, bool print_perror);
 
 // Commands ------------------------------------------------------------------->
 void	execution_system(t_cmd **cmd, t_var **var);
 void	execute(char *exe, char ***args);
-void	redirections(t_cmd **cmd, char *exe, char ***args, bool built_in, t_var **var);
+void	redirections(t_cmd **cmd, char *exe, char ***args, t_var **var);
+t_fd	heredoc(char *delimiter, char *exe, char ***args, t_var **var);
 
 // Builtins ------------------------------------------------------------------->
 bool	is_builtin(char *exe);
@@ -134,7 +139,5 @@ char	*variable_expand(char *prompt, size_t *i, t_var *var);
 // Parsing -------------------------------------------------------------------->
 bool	invalid_prompt(char *prompt);
 void	parsing_system(char *prompt, t_cmd **cmd, t_var *var);
-
-int	error_handler(char request, char *msg, int code, bool print_perror);
 
 #endif

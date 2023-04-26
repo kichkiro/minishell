@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   variable_assignment.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: anvannin <anvannin@student.42.fr>          +#+  +:+       +#+        */
+/*   By: kichkiro <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/06 14:07:27 by kichkiro          #+#    #+#             */
-/*   Updated: 2023/04/25 14:33:10 by anvannin         ###   ########.fr       */
+/*   Updated: 2023/04/26 15:57:27 by kichkiro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ static char	*is_assignment(char *prompt)
 	i = 0;
 	var_name_len = ft_stridx(prompt, '=');
 	if (var_name_len == -1 || (prompt[i] != '_' && !ft_isalpha(prompt[i])) || \
-		(prompt[i] == '_' && prompt[i + 1] != '_' && !ft_isalnum(prompt[i + 1])) \
+		(prompt[i] == '_' && prompt[i + 1] != '_' && !ft_isalnum(prompt[i + 1]))
 		|| !prompt[var_name_len + 1])
 		return (NULL);
 	while (prompt[++i] != '=')
@@ -102,7 +102,7 @@ bool	variable_assignment(t_var **var, char *prompt)
 	if (!var_name)
 		return (false);
 	var_value = tmp_get_var_value(prompt, ft_strlen(var_name));
-	t_var_add_back(var, t_var_new(var_name, var_value, LOCAL));
+	t_var_add_back(var, t_var_new(var_name, var_value, SHELL));
 	t_var_set_to_head(var);
 	return (true);
 }

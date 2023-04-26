@@ -6,7 +6,7 @@
 /*   By: kichkiro <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/21 11:45:46 by kichkiro          #+#    #+#             */
-/*   Updated: 2023/04/25 13:09:13 by kichkiro         ###   ########.fr       */
+/*   Updated: 2023/04/26 15:48:52 by kichkiro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,16 +32,16 @@ void	execute(char *exe, char ***args)
 		}
 		else
 			waitpid(pid, &exit_code, 0);
-		if (exit_code != 0)
-			error_handler(PRINT, NULL, exit_code, true);
-		else
-			error_handler(SET, NULL, exit_code, false);
+		if (exit_code == EXIT_SUCCESS && pid != -1)
+			error_handler(SET, NULL, EXIT_SUCCESS, false);
+		else if (exit_code == EXIT_FAILURE && pid != -1)
+			error_handler(PRINT, NULL, EXIT_FAILURE, true);
 	}
 	else
 		error_handler(PRINT, exe, 126, true);
 }
 
-static bool	find_executable(char **exe)
+static bool	find_exe(char **exe)
 {
 	bool	found;
 	char	**path;
@@ -70,15 +70,15 @@ static bool	find_executable(char **exe)
 	return (found);
 }
 
-static void	router(t_cmd **cmd, char *exe, char ***args, bool built_in, t_var **var)
+static void	router(t_cmd **cmd, char *exe, char ***args, t_var **var)
 {
 	if ((*cmd) && (*cmd)->type == REDIRECT)
-		redirections(cmd, exe, args, built_in, var);
+		redirections(cmd, exe, args, var);
 	// else if ((*cmd)->type == PIPE)
 	// 	pipes();
 	// else if ((*cmd)->type == BOOLEAN)
 	// 	boolean();
-	else if (built_in)
+	else if (is_builtin(exe))
 		execute_builtin(args, var);
 	else
 		execute(exe, args);
@@ -101,14 +101,12 @@ void	execution_system(t_cmd **cmd, t_var **var)
 				*cmd = (*cmd)->next;
 			}
 			exe = args[0];
-			if (is_builtin(exe))
-				router(cmd, exe, &args, true, var);
-			else if (args && access(exe, F_OK) == 0 || find_executable(&exe))
-				router(cmd, exe, &args, false , var);
+			if (is_builtin(exe) || args && !access(exe, F_OK) || find_exe(&exe))
+				router(cmd, exe, &args, var);
 		}
 		else
-			router(cmd, NULL, NULL, false, var);
-		if (error_handler(GET, NULL, 0, false))
+			router(cmd, NULL, NULL, var);
+		if (error_handler(GET, NULL, 0, false) != EXIT_SUCCESS)
 			break ;
 		if (*cmd)
 			*cmd = (*cmd)->next;

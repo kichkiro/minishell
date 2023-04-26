@@ -6,7 +6,7 @@
 /*   By: kichkiro <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/23 21:53:07 by kichkiro          #+#    #+#             */
-/*   Updated: 2023/04/25 11:41:13 by kichkiro         ###   ########.fr       */
+/*   Updated: 2023/04/26 15:48:56 by kichkiro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ int	error_handler(char request, char *msg, int code, bool print_perror)
 			ft_putstr_fd(": ", STDERR_FILENO);
 			perror(NULL);
 		}
-		ft_putstr_fd(RESET"\n", STDERR_FILENO);
+		ft_putstr_fd(RESET, STDERR_FILENO);
 	}
 	if (request == PRINT_FREE)
 		free(msg);

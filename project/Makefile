@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: anvannin <anvannin@student.42.fr>          +#+  +:+       +#+         #
+#    By: kichkiro <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/04/05 17:59:55 by kichkiro          #+#    #+#              #
-#    Updated: 2023/04/25 15:23:48 by anvannin         ###   ########.fr        #
+#    Updated: 2023/04/26 15:50:09 by kichkiro         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -16,14 +16,15 @@ NAME		:= minishell
 SRCS		:= \
 				main.c \
 				init.c \
+				signal_handler.c \
 				errors_handler.c \
 				prompt.c \
 				execution_system.c \
 				redirections.c \
+				heredoc.c \
 				builtins.c \
 				env.c \
 				history.c \
-				user_signals.c \
 				invalid_prompt.c \
 				variable_assignment.c \
 				variable_expand.c \

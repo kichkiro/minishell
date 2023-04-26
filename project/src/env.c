@@ -77,12 +77,14 @@ void	ft_export(char ***args, t_var **var)
 	}
 	else
 	{
-		while ((*var))
+		while ((*var)->next)
 		{
 			if ((*var)->type == EXPORT)
 				printf("declare -x %s=\"%s\"\n", (*var)->name, (*var)->value);
 			(*var) = (*var)->next;
 		}
+		if ((*var)->type == EXPORT)
+			printf("declare -x %s=\"%s\"\n", (*var)->name, (*var)->value);
 	}
 	t_var_set_to_head(var);
 }

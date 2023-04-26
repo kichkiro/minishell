@@ -45,6 +45,7 @@ static void	ft_echo(char ***args)
 	}
 	if (!n)
 		printf("\n");
+	error_handler(SET, NULL, EXIT_SUCCESS, false);
 }
 
 void	execute_builtin(char ***args, t_var **var)
@@ -65,8 +66,6 @@ void	execute_builtin(char ***args, t_var **var)
 		ft_export(args, var);
 	else if (!ft_strncmp(*args[0], "unset", 5))
 		ft_unset(args, var);
-	else
-		printf("%s: command not found\n", ft_strtrim(*args[0], " "));
 }
 
 /*!
@@ -79,10 +78,10 @@ void	execute_builtin(char ***args, t_var **var)
 */
 bool	is_builtin(char *exe)
 {
-	if (!ft_strncmp(exe, "echo", 5) || !ft_strncmp(exe, "cd", 3) || \
+	if (exe && (!ft_strncmp(exe, "echo", 5) || !ft_strncmp(exe, "cd", 3) || \
 		!ft_strncmp(exe, "pwd", 4) || !ft_strncmp(exe, "export", 7) || \
 		!ft_strncmp(exe, "unset", 6) || !ft_strncmp(exe, "env", 4) || \
-		!ft_strncmp(exe, "exit", 5) || !ft_strncmp(exe, "history", 7))
+		!ft_strncmp(exe, "exit", 5) || !ft_strncmp(exe, "history", 7)))
 		return (true);
 	return (false);
 }

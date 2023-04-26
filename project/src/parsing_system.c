@@ -6,7 +6,7 @@
 /*   By: kichkiro <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/16 23:03:22 by kichkiro          #+#    #+#             */
-/*   Updated: 2023/04/24 21:05:20 by kichkiro         ###   ########.fr       */
+/*   Updated: 2023/04/26 15:48:52 by kichkiro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,6 +57,13 @@ void	parsing_system(char *prompt, t_cmd **cmd, t_var *var)
 	double_quotes = false;
 	while (prompt[++i])
 	{
+		// // Delimitatore di Heredoc -------------------------------------------->
+		// if ((*cmd) && (*cmd)->prev && !ft_strncmp((*cmd)->prev->token, "<<", 2)
+		// 	&& (*cmd)->prev->type == REDIRECT)
+		// 	{
+				
+		// 	}
+
 		// Rilevatore di apici ------------------------------------------------> 
 
 		if (prompt[i] == '\'' && !double_quotes)
@@ -89,8 +96,7 @@ void	parsing_system(char *prompt, t_cmd **cmd, t_var *var)
 		// Espansore di variabili ---------------------------------------------> 
 
 		else if (!single_quotes && prompt[i] == '$' || (!single_quotes && \
-			prompt[i] == '$' && (*cmd) && (*cmd)->prev->type && \
-			ft_strncmp((*cmd)->prev->token, "<<", 3)))
+			prompt[i] == '$' && (*cmd) && (*cmd)->prev->type))
 		{
 			var_value = variable_expand(prompt, &i, var);
 			if (var_value)

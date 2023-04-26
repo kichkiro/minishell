@@ -6,7 +6,7 @@
 /*   By: kichkiro <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/19 09:22:27 by kichkiro          #+#    #+#             */
-/*   Updated: 2023/04/24 21:09:29 by kichkiro         ###   ########.fr       */
+/*   Updated: 2023/04/26 15:48:52 by kichkiro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,8 @@ char	*variable_expand(char *prompt, size_t *i, t_var *var)
 		t_var_set_to_head(&var);
 		while (var)
 		{
-			if (!ft_strncmp(var_name, var->name, ft_strlen(var_name)))
+			if (!ft_strncmp(var_name, var->name, ft_strlen(var_name)) && \
+				var->type == SHELL)
 				return (ft_strdup(var->value));
 			var = var->next;
 		}

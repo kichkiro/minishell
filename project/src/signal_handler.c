@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   user_signals.c                                     :+:      :+:    :+:   */
+/*   signal_handler.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: anvannin <anvannin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -18,14 +18,26 @@
 * @return 
 	The prompt string.
 */
-void	signals(int sig)
+void	signal_handler(int sig)
 {
 	if (sig == SIGINT)
 	{
 		ioctl(0, TIOCSTI, "\n");
 		rl_replace_line("", 0);
 		rl_on_new_line();
+		signals_controller(SET, true);
 	}
+}
+
+bool	signals_controller(char request, char value)
+{
+	static bool	sigint_received;
+
+	if (request == GET)
+		return (sigint_received);
+	if (request == SET)
+		sigint_received = value;
+	return (sigint_received);
 }
 
 /*!

@@ -6,7 +6,7 @@
 /*   By: kichkiro <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/23 17:35:15 by kichkiro          #+#    #+#             */
-/*   Updated: 2023/04/26 16:02:12 by kichkiro         ###   ########.fr       */
+/*   Updated: 2023/04/26 19:43:20 by kichkiro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,8 @@ static t_fd	redirecting_input(char	*file, t_cmd **cmd)
 		error_handler(PRINT, file, 1, true);
 	if (fd.redirected_fd != -1 && dup2(fd.redirected_fd, STDIN_FILENO) == -1)
 		error_handler(PRINT, file, 1, true);
-	if ((*cmd) && (*cmd)->next && (*cmd)->next->type == REDIRECT)
+	if ((*cmd) && (*cmd)->next && (*cmd)->next->type == REDIRECT && \
+		!ft_strncmp((*cmd)->next->token, ">", 1))
 		*cmd = (*cmd)->next;
 	return (fd);
 }
@@ -54,7 +55,8 @@ static t_fd	redirecting_output(char	*file, t_cmd **cmd)
 		error_handler(PRINT, file, 1, true);
 	if (dup2(fd.redirected_fd, STDOUT_FILENO) == -1)
 		error_handler(PRINT, file, 1, true);
-	if ((*cmd) && (*cmd)->next && (*cmd)->next->type == REDIRECT)
+	if ((*cmd) && (*cmd)->next && (*cmd)->next->type == REDIRECT && \
+		!ft_strncmp((*cmd)->next->token, ">", 1))
 			*cmd = (*cmd)->next;
 	return (fd);
 }
@@ -72,7 +74,8 @@ static t_fd	appending_redirected_output(char *file, t_cmd **cmd)
 		error_handler(PRINT, file, 1, true);
 	if (dup2(fd.redirected_fd, STDOUT_FILENO) == -1)
 		error_handler(PRINT, file, 1, true);
-	if ((*cmd) && (*cmd)->next && (*cmd)->next->type == REDIRECT)
+	if ((*cmd) && (*cmd)->next && (*cmd)->next->type == REDIRECT && \
+		!ft_strncmp((*cmd)->next->token, ">", 1))
 		*cmd = (*cmd)->next;
 	return (fd);
 }
@@ -83,14 +86,14 @@ void	redirections(t_cmd **cmd, char *exe, char ***args, t_var **var)
 
 	*cmd = (*cmd)->next;
 	if (!ft_strncmp((*cmd)->prev->token, "<<", 2))
-		fd = heredoc((*cmd)->token, exe, args, var);
+		fd = heredoc((*cmd)->token, cmd, exe, args);
 	else if (!ft_strncmp((*cmd)->prev->token, "<", 2))
 		fd = redirecting_input((*cmd)->token, cmd);
 	else if (!ft_strncmp((*cmd)->prev->token, ">", 2))
 		fd = redirecting_output((*cmd)->token, cmd);
 	else if (!ft_strncmp((*cmd)->prev->token, ">>", 2))
 		fd = appending_redirected_output((*cmd)->token, cmd);
-	if ((*cmd) && (*cmd)->next && (*cmd)->next->type == REDIRECT)
+	if ((*cmd) && (*cmd)->type == REDIRECT && !ft_strncmp((*cmd)->token, ">", 1))
 		redirections(cmd, exe, args, var);
 	else
 		last(SET, true);
@@ -101,7 +104,7 @@ void	redirections(t_cmd **cmd, char *exe, char ***args, t_var **var)
 	last(SET, false);
 	if (*cmd)
 		*cmd = (*cmd)->next;
-	// close(fd.redirected_fd);
+	close(fd.redirected_fd);
 	if (dup2(fd.original_fd, fd.original_std) == -1)
 		error_handler(PRINT, NULL, 1, true);
 }

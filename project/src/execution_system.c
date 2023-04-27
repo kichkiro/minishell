@@ -6,7 +6,7 @@
 /*   By: kichkiro <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/21 11:45:46 by kichkiro          #+#    #+#             */
-/*   Updated: 2023/04/26 15:48:52 by kichkiro         ###   ########.fr       */
+/*   Updated: 2023/04/27 14:29:25 by kichkiro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,7 @@ static bool	find_exe(char **exe)
 		}
 		ft_free((void **)&tmp);
 	}
-	ft_strmatrixfree(path, true);
+	ft_strmatrixfree(path);
 	if (!found)
 		error_handler(PRINT_FREE, ft_strjoin(*exe, ": command not found"), 127, 0);
 	return (found);
@@ -82,6 +82,10 @@ static void	router(t_cmd **cmd, char *exe, char ***args, t_var **var)
 		execute_builtin(args, var);
 	else
 		execute(exe, args);
+	// ft_strmatrixfree(args[0]);
+	args[0] = NULL;
+	if ((*cmd) && (*cmd)->type == REDIRECT)
+		router(cmd, exe, args, var);
 }
 
 void	execution_system(t_cmd **cmd, t_var **var)
@@ -108,7 +112,7 @@ void	execution_system(t_cmd **cmd, t_var **var)
 			router(cmd, NULL, NULL, var);
 		if (error_handler(GET, NULL, 0, false) != EXIT_SUCCESS)
 			break ;
-		if (*cmd)
+		if (*cmd && (*cmd)->type)
 			*cmd = (*cmd)->next;
 	}
 }

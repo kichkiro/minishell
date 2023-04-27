@@ -6,7 +6,7 @@
 /*   By: kichkiro <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/07 10:15:10 by kichkiro          #+#    #+#             */
-/*   Updated: 2023/04/24 15:31:40 by kichkiro         ###   ########.fr       */
+/*   Updated: 2023/04/26 20:12:32 by kichkiro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -119,7 +119,7 @@ typedef struct s_ls
 t_ls	*ft_lis(int *arr, int size, bool need_to_free);
 t_ls	*ft_lds(int *arr, int size, bool need_to_free);
 bool	ft_n_is_in_arr(int *arr, int size, int n);
-void	ft_strmatrixfree(char **matrix, bool free_matrix);
+void	ft_strmatrixfree(char **matrix);
 char	**ft_strmatrixjoin(char **mtx, char *s, bool free_mtx, bool free_s);
 size_t	ft_strmatrixlen(char **matrix);
 

@@ -6,13 +6,13 @@
 /*   By: kichkiro <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/26 12:05:42 by kichkiro          #+#    #+#             */
-/*   Updated: 2023/04/26 16:06:12 by kichkiro         ###   ########.fr       */
+/*   Updated: 2023/04/26 19:24:20 by kichkiro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-t_fd	heredoc(char *delimiter, char *exe, char ***args, t_var **var)
+t_fd	heredoc(char *delimiter, t_cmd **cmd, char *exe, char ***args)
 {
 	t_fd	fd;
 	char	*prompt;
@@ -51,41 +51,19 @@ t_fd	heredoc(char *delimiter, char *exe, char ***args, t_var **var)
 		doc = ft_strappend(doc, prompt, true, false);
 		doc = ft_strappend(doc, "\n", true, false);
 	}
-	// printf("%s\n", doc);
 
+	// Pipe ------------------------------------------------------------------->
+	
 	if (pipe(pipe_fd) == -1)
-	{
 		error_handler(PRINT, NULL, 1, true);
-		// return ;
-	}
-	// fd.redirected_fd = pipe_fd[0];
+	fd.redirected_fd = pipe_fd[0];
+	write(pipe_fd[1], doc, ft_strlen(doc));
+	dup2(fd.redirected_fd, STDIN_FILENO);
+	close(pipe_fd[1]);
 
-	pid = fork();
-	if (pid == -1)
-		error_handler(PRINT, NULL, 1, true);
-	else if (pid == 0)
-	{
-		close(pipe_fd[1]);
-		dup2(pipe_fd[0], STDIN_FILENO);
-		close(pipe_fd[0]);
-		// if (built_in)
-		// 	execute_builtin(args, var);
-		// else if (exe && args)
-		// 	execute(exe, args);
-
-		if (execve(exe, *args, NULL) == -1)
-			exit(EXIT_FAILURE);
-		exit(EXIT_SUCCESS);
-
-	}
-	else
-	{
-		close(pipe_fd[0]);
-		write(pipe_fd[1], doc, ft_strlen(doc));
-		close(pipe_fd[1]);
-		wait(NULL);
-	}
-
+	if ((*cmd) && (*cmd)->next && (*cmd)->next->type == REDIRECT && \
+		!ft_strncmp((*cmd)->next->token, ">", 1))
+		*cmd = (*cmd)->next;
 
 
 

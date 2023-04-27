@@ -51,5 +51,5 @@ int	close_shell(char *prompt)
 	if (!prompt)
 		printf("\n");
 	printf(YELLOW_B"Goodbye %s. Till next time...\n"RESET, getenv("USER"));
-	return (42);
+	return (0);
 }

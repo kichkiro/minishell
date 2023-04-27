@@ -39,6 +39,7 @@ def main():
     utils.banner()
 
     echo = Tester(project_path, exe, "echo")
+    redirect = Tester(project_path, exe, "redirects")
 
     # PRE-TEST --------------------------------------------------------------->
 
@@ -62,6 +63,16 @@ def main():
 
     echo.run()
 
+    # REDIRECTS TEST --------------------------------------------------------->
+
+    print(colored(
+        "Redirects - TEST -------------------------------------------------->"
+        "\n",
+        "white", 
+        attrs=["bold"]
+    ))
+
+    redirect.run()
 
 if __name__ == "__main__":
     main()

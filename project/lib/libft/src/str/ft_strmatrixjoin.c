@@ -6,7 +6,7 @@
 /*   By: kichkiro <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/21 19:16:30 by kichkiro          #+#    #+#             */
-/*   Updated: 2023/04/24 15:31:10 by kichkiro         ###   ########.fr       */
+/*   Updated: 2023/04/26 20:15:26 by kichkiro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ char	**ft_strmatrixjoin(char **mtx, char *s, bool free_mtx, bool free_s)
 		new_matrix[i] = ft_strdup(mtx[i]);
 	new_matrix[i] = ft_strdup(s);
 	if (free_mtx)
-		ft_strmatrixfree(mtx, false);
+		ft_strmatrixfree(mtx);
 	if (free_s)
 		free(s);
 	return (new_matrix);

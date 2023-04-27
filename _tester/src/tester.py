@@ -44,7 +44,7 @@ class Tester:
 
     Private Methods
     ---------------
-    __echo(...) <- DOCUMENT FROM HERE
+    __echo(...) <- DOCUMENT FROM HERE ******************
 
     Notes
     --------------------------------------------------------------------
@@ -110,28 +110,6 @@ class Tester:
                 i += 1
                 shutil.rmtree(lab)
 
-
-    # def output_line(self, stdout, test_input):
-
-    #         output = ""
-    #         next_line = False
-    #         try:
-    #             lines = stdout.decode().split('\n')
-    #         except UnicodeDecodeError:
-    #             lines = stdout.decode('latin-1').split('\n')
-    #         for line in lines:
-    #             if next_line:
-    #                 for char in line:
-    #                     if char not in "!@#$%^&*()_+-=[]{}|;':\"<>,.?/\\":
-    #                         output += char
-    #                     else:
-    #                         break
-    #             if test_input in line:
-    #                 next_line = True
-    #         # regex_bytes = br'\x1b\[([0-9]{1,2}(;[0-9]{1,2})?)?[m|K]'
-    #         # output = re.sub(regex_bytes, b'', output.encode()).decode()
-    #         print(output)
-    #         return output
     
     def output_line(self, stdout, test_input):
         output = ""
@@ -152,8 +130,6 @@ class Tester:
                 next_line = True
         return output
 
-
-    
 
     def init_lab(self, lab: str) -> tuple:
 

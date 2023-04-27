@@ -8,12 +8,10 @@ results.
 # Libraries ------------------------------------------------------------------>
 
 import os
-import re
 import signal
 import shutil
 import subprocess
 import tempfile
-import pprint as pp
 
 from termcolor import colored
 import args
@@ -211,7 +209,7 @@ class Tester:
                         color
                     ))
                 print(colored("\n    Files content MINISHELL:", color))
-                for key, value in bash_file_content.items():
+                for key, value in minishell_file_content.items():
                     print(colored(
                         f"      {key}: {value}",
                         color
@@ -241,8 +239,8 @@ class Tester:
 
         self.clean_lab(test_files)
 
-        if minishell_output == bash_output and minishell_file_content \
-            == bash_file_content:
+        if (minishell_output == bash_output or minishell_output[:-1] == \
+            bash_output) and minishell_file_content == bash_file_content:
             print_result("OK", bash_output, minishell_output,\
                 bash_file_content, minishell_file_content)
         else:

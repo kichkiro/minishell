@@ -6,20 +6,32 @@
 /*   By: kichkiro <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/23 17:35:15 by kichkiro          #+#    #+#             */
-/*   Updated: 2023/04/26 19:43:20 by kichkiro         ###   ########.fr       */
+/*   Updated: 2023/04/27 21:19:56 by kichkiro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static bool	last(char request, bool value)
+bool	last(char request, bool value, int fd)
 {
 	static bool	flag;
+	static int	original_stdin_fd;
 
 	if (request == GET)
 		return (flag);
+	else if (request == 42)
+		return (original_stdin_fd);
 	else if (request == SET)
+	{
 		flag = value;
+		if (fd && !original_stdin_fd)
+		{
+			original_stdin_fd = fd;
+			printf("%d\n", original_stdin_fd);
+			printf("isatty: %d\n", isatty(original_stdin_fd));
+		}
+			
+	}
 	return (flag);
 }
 
@@ -36,8 +48,7 @@ static t_fd	redirecting_input(char	*file, t_cmd **cmd)
 		error_handler(PRINT, file, 1, true);
 	if (fd.redirected_fd != -1 && dup2(fd.redirected_fd, STDIN_FILENO) == -1)
 		error_handler(PRINT, file, 1, true);
-	if ((*cmd) && (*cmd)->next && (*cmd)->next->type == REDIRECT && \
-		!ft_strncmp((*cmd)->next->token, ">", 1))
+	if ((*cmd) && (*cmd)->next && (*cmd)->next->type == REDIRECT)
 		*cmd = (*cmd)->next;
 	return (fd);
 }
@@ -55,8 +66,7 @@ static t_fd	redirecting_output(char	*file, t_cmd **cmd)
 		error_handler(PRINT, file, 1, true);
 	if (dup2(fd.redirected_fd, STDOUT_FILENO) == -1)
 		error_handler(PRINT, file, 1, true);
-	if ((*cmd) && (*cmd)->next && (*cmd)->next->type == REDIRECT && \
-		!ft_strncmp((*cmd)->next->token, ">", 1))
+	if ((*cmd) && (*cmd)->next && (*cmd)->next->type == REDIRECT)
 			*cmd = (*cmd)->next;
 	return (fd);
 }
@@ -74,8 +84,7 @@ static t_fd	appending_redirected_output(char *file, t_cmd **cmd)
 		error_handler(PRINT, file, 1, true);
 	if (dup2(fd.redirected_fd, STDOUT_FILENO) == -1)
 		error_handler(PRINT, file, 1, true);
-	if ((*cmd) && (*cmd)->next && (*cmd)->next->type == REDIRECT && \
-		!ft_strncmp((*cmd)->next->token, ">", 1))
+	if ((*cmd) && (*cmd)->next && (*cmd)->next->type == REDIRECT)
 		*cmd = (*cmd)->next;
 	return (fd);
 }
@@ -86,22 +95,22 @@ void	redirections(t_cmd **cmd, char *exe, char ***args, t_var **var)
 
 	*cmd = (*cmd)->next;
 	if (!ft_strncmp((*cmd)->prev->token, "<<", 2))
-		fd = heredoc((*cmd)->token, cmd, exe, args);
+		fd = heredoc((*cmd)->token, cmd);
 	else if (!ft_strncmp((*cmd)->prev->token, "<", 2))
 		fd = redirecting_input((*cmd)->token, cmd);
 	else if (!ft_strncmp((*cmd)->prev->token, ">", 2))
 		fd = redirecting_output((*cmd)->token, cmd);
 	else if (!ft_strncmp((*cmd)->prev->token, ">>", 2))
 		fd = appending_redirected_output((*cmd)->token, cmd);
-	if ((*cmd) && (*cmd)->type == REDIRECT && !ft_strncmp((*cmd)->token, ">", 1))
+	if ((*cmd) && (*cmd)->type == REDIRECT)
 		redirections(cmd, exe, args, var);
 	else
-		last(SET, true);
-	if (is_builtin(exe) && !error_handler(GET, NULL, 0, false) && last(GET, 0))
+		last(SET, true, 0);
+	if (is_builtin(exe) && !error_handler(GET, NULL, 0, false) && last(GET, 0, 0))
 		execute_builtin(args, var);
-	else if (exe && args && !error_handler(GET, NULL, 0, false) && last(GET, 0))
+	else if (exe && args && !error_handler(GET, NULL, 0, false) && last(GET, 0, 0))
 		execute(exe, args);
-	last(SET, false);
+	last(SET, false, 0);
 	if (*cmd)
 		*cmd = (*cmd)->next;
 	close(fd.redirected_fd);

@@ -6,7 +6,7 @@
 /*   By: kichkiro <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/05 17:51:51 by kichkiro          #+#    #+#             */
-/*   Updated: 2023/04/26 16:56:15 by kichkiro         ###   ########.fr       */
+/*   Updated: 2023/04/27 20:57:23 by kichkiro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,7 @@
 # include <sys/types.h>
 # include <fcntl.h>
 # include <errno.h>
+# include <termios.h>
 # include <dirent.h>
 
 // Handlers REQUESTS ---------------------------------------------------------->
@@ -117,7 +118,8 @@ int		error_handler(char request, char *msg, int code, bool print_perror);
 void	execution_system(t_cmd **cmd, t_var **var);
 void	execute(char *exe, char ***args);
 void	redirections(t_cmd **cmd, char *exe, char ***args, t_var **var);
-t_fd	heredoc(char *delimiter, t_cmd **cmd, char *exe, char ***args);
+t_fd	heredoc(char *delimiter, t_cmd **cmd);
+bool	last(char request, bool value, int fd);
 
 // Builtins ------------------------------------------------------------------->
 bool	is_builtin(char *exe);

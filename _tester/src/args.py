@@ -48,7 +48,10 @@ echo = [
 ]
 
 redirect = [
+    "echo 42 < file1",
     "< file1",
+    "> file1",
+    ">> file1",
     "cat < file1",
     "cat < file1 > file2 > file3",
     "cat < file1 >> file2 >> file3",
@@ -58,4 +61,10 @@ redirect = [
     "cat < file1 < file2 < file3 < file4",
     "cat < file1 < file2 > file3 >> file4",
     "cat < file1 < file2 > file3 > file4",
+    "cat < file1 >> file2 >> file3 < file4",
+    "cat < file1 > file2 < file3",
+    "cat > file1 < file2",
+    "cat >> file1 < file2 < file3",
+    "cat >> file1 > file2 < file3 < file4",
+    "cat << EOF\nEOF\n",
 ]

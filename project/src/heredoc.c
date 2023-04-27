@@ -6,13 +6,13 @@
 /*   By: kichkiro <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/26 12:05:42 by kichkiro          #+#    #+#             */
-/*   Updated: 2023/04/26 19:24:20 by kichkiro         ###   ########.fr       */
+/*   Updated: 2023/04/28 00:15:17 by kichkiro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-t_fd	heredoc(char *delimiter, t_cmd **cmd, char *exe, char ***args)
+t_fd	heredoc(char *delimiter, t_cmd **cmd)
 {
 	t_fd	fd;
 	char	*prompt;
@@ -25,10 +25,14 @@ t_fd	heredoc(char *delimiter, t_cmd **cmd, char *exe, char ***args)
 	if (!fd.original_fd)
 		error_handler(PRINT, NULL, 1, true);
 	fd.original_std = STDIN_FILENO;
+
+	
+
 	while (true)
 	{
 		signal(SIGQUIT, SIG_IGN);
 		signal(SIGINT, signal_handler);
+		// rl_instream = STDIN_FILENO;
 		prompt = readline(YELLOW_B"> "RESET);
 		if (signals_controller(GET, 0) == true || !prompt)
 		{
@@ -47,10 +51,11 @@ t_fd	heredoc(char *delimiter, t_cmd **cmd, char *exe, char ***args)
 			free(prompt);
 			break ;
 		}
-
 		doc = ft_strappend(doc, prompt, true, false);
 		doc = ft_strappend(doc, "\n", true, false);
 	}
+	if (!doc)	
+		doc = ft_strappend(doc, "", true, false);
 
 	// Pipe ------------------------------------------------------------------->
 	
@@ -60,12 +65,7 @@ t_fd	heredoc(char *delimiter, t_cmd **cmd, char *exe, char ***args)
 	write(pipe_fd[1], doc, ft_strlen(doc));
 	dup2(fd.redirected_fd, STDIN_FILENO);
 	close(pipe_fd[1]);
-
-	if ((*cmd) && (*cmd)->next && (*cmd)->next->type == REDIRECT && \
-		!ft_strncmp((*cmd)->next->token, ">", 1))
+	if ((*cmd) && (*cmd)->next && (*cmd)->next->type == REDIRECT)
 		*cmd = (*cmd)->next;
-
-
-
 	return (fd);
 }

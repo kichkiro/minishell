@@ -6,7 +6,7 @@
 /*   By: kichkiro <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/05 17:51:51 by kichkiro          #+#    #+#             */
-/*   Updated: 2023/04/27 20:57:23 by kichkiro         ###   ########.fr       */
+/*   Updated: 2023/04/28 18:50:16 by kichkiro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,15 +23,21 @@
 # include <sys/wait.h>
 # include <sys/types.h>
 # include <fcntl.h>
-# include <errno.h>
-# include <termios.h>
-# include <dirent.h>
 
 // Handlers REQUESTS ---------------------------------------------------------->
-# define GET		0
-# define SET		1
-# define PRINT		2
-# define PRINT_FREE 3
+# define RESTORE	0
+# define GET		1
+# define SET		2
+
+# define PRINT		3
+# define PRINT_FREE 4
+
+# define SET_LAST	5
+# define SET_FD_IN	6
+# define SET_FD_OUT	7
+# define GET_LAST	8
+# define GET_FD_IN	9
+# define GET_FD_OUT	10
 
 // Token TYPES ---------------------------------------------------------------->
 # define NONE		0
@@ -46,6 +52,12 @@
 # define EXPORT		1
 # define SHELL		2
 
+// Redirect TYPES ------------------------------------------------------------->
+# define HEREDOC	0
+# define INPUT		1
+# define OUTPUT		2
+# define APPEND		3
+
 // Linked Lists --------------------------------------------------------------->
 typedef struct s_var
 {
@@ -56,6 +68,11 @@ typedef struct s_var
 	struct s_var	*prev;
 }	t_var;
 
+void	t_var_add_back(t_var **lst, t_var *new_node);
+void	*t_var_free(t_var **lst);
+void	t_var_set_to_head(t_var **lst);
+t_var	*t_var_new(char	*name, char *value, char type);
+
 typedef struct s_cmd
 {
 	char			*token;
@@ -64,10 +81,19 @@ typedef struct s_cmd
 	struct s_cmd	*prev;
 }	t_cmd;
 
-void	t_var_add_back(t_var **lst, t_var *new_node);
-void	*t_var_free(t_var **lst);
-void	t_var_set_to_head(t_var **lst);
-t_var	*t_var_new(char	*name, char *value, char type);
+void	t_cmd_add_back(t_cmd **lst, t_cmd *new_node);
+void	*t_cmd_free(t_cmd **lst);
+void	t_cmd_set_to_head(t_cmd **lst);
+t_cmd	*t_cmd_new(char	*token, char type);
+
+// typedef struct s_fd
+// {
+// 	char	operator;
+// 	int		original_fd;
+// 	int		original_std;
+// 	int		redirected_fd;
+// }	t_fd2;
+
 
 // non ancora utilizzate --->
 void	t_var_del_last(t_var **lst);
@@ -79,10 +105,6 @@ bool	t_var_n_is_inside(t_var *lst, int n);
 int		t_var_size(t_var *lst);
 int		*t_var_to_arr(t_var *lst);
 
-void	t_cmd_add_back(t_cmd **lst, t_cmd *new_node);
-void	*t_cmd_free(t_cmd **lst);
-void	t_cmd_set_to_head(t_cmd **lst);
-t_cmd	*t_cmd_new(char	*token, char type);
 
 // Structs -------------------------------------------------------------------->
 typedef struct s_fd
@@ -119,7 +141,7 @@ void	execution_system(t_cmd **cmd, t_var **var);
 void	execute(char *exe, char ***args);
 void	redirections(t_cmd **cmd, char *exe, char ***args, t_var **var);
 t_fd	heredoc(char *delimiter, t_cmd **cmd);
-bool	last(char request, bool value, int fd);
+t_fd	redirect_handler(char request, t_fd fd);
 
 // Builtins ------------------------------------------------------------------->
 bool	is_builtin(char *exe);

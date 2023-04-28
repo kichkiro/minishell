@@ -6,7 +6,7 @@
 /*   By: kichkiro <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/23 17:35:15 by kichkiro          #+#    #+#             */
-/*   Updated: 2023/04/27 21:19:56 by kichkiro         ###   ########.fr       */
+/*   Updated: 2023/04/28 09:49:05 by kichkiro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,6 +50,7 @@ static t_fd	redirecting_input(char	*file, t_cmd **cmd)
 		error_handler(PRINT, file, 1, true);
 	if ((*cmd) && (*cmd)->next && (*cmd)->next->type == REDIRECT)
 		*cmd = (*cmd)->next;
+	
 	return (fd);
 }
 

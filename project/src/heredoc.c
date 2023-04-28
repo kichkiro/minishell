@@ -6,7 +6,7 @@
 /*   By: kichkiro <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/26 12:05:42 by kichkiro          #+#    #+#             */
-/*   Updated: 2023/04/28 00:15:17 by kichkiro         ###   ########.fr       */
+/*   Updated: 2023/04/28 09:50:13 by kichkiro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,13 +26,10 @@ t_fd	heredoc(char *delimiter, t_cmd **cmd)
 		error_handler(PRINT, NULL, 1, true);
 	fd.original_std = STDIN_FILENO;
 
-	
-
 	while (true)
 	{
 		signal(SIGQUIT, SIG_IGN);
 		signal(SIGINT, signal_handler);
-		// rl_instream = STDIN_FILENO;
 		prompt = readline(YELLOW_B"> "RESET);
 		if (signals_controller(GET, 0) == true || !prompt)
 		{

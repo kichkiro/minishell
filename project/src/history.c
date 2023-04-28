@@ -21,14 +21,23 @@
 void	ft_add_history(char *prompt)
 {
 	char	*hist;
+	char	*tmp;
 	int		fd;
 
+	if (prompt[0] == '\n' || prompt[0] == '\0')
+		return ;
 	hist = ft_strjoin(getenv("HOME"), "/.minishell_history");
 	fd = open(hist, O_RDWR | O_APPEND | O_CREAT, 0644);
-	while (ft_get_next_line(fd))
-		continue ;
-	ft_putendl_fd(prompt, fd);
-	add_history(prompt);
+	while (hist)
+	{
+		tmp = hist;
+		hist = ft_get_next_line(fd);
+	}
+	if (ft_strncmp(prompt, tmp, ft_strlen(prompt)))
+	{
+		ft_putendl_fd(prompt, fd);
+		add_history(prompt);
+	}	
 	close(fd);
 }
 
@@ -43,6 +52,7 @@ void	print_history(void)
 	int		i;
 
 	i = 1;
+	ft_add_history("history");
 	hist = ft_strjoin(getenv("HOME"), "/.minishell_history");
 	fd = open(hist, O_RDONLY);
 	hist = ft_get_next_line(fd);

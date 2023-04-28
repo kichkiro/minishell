@@ -12,16 +12,41 @@
 
 #include "minishell.h"
 
+/*!
+* @brief
+*	Executes the builtin command cd.
+* @param args
+*	Folder to be changed.
+*/
 static void	ft_cd(char ***args)
 {
+	char	**path;
+	int		i;
+
+	i = 0;
+	path = ft_split(args[0][1], '/');
 	if (!args[0][1] || args[0][1][0] == '~')
 		chdir(getenv("HOME"));
+	else if (!ft_strncmp(args[0][1], "..", 2))
+		while (path[i++])
+			chdir("..");
+	else if (args[0][1][0] == '-')
+		chdir(getenv("OLDPWD"));
+	else if (args[0][2])
+		printf("cd: too many arguments\n");
 	else if (chdir(args[0][1]) == -1)
 		printf("cd: no such file or directory: %s\n", args[0][1]);
 	else
 		chdir(args[0][1]);
+	free(path);
 }
 
+/*!
+* @brief
+*	Executes the builtin command echo with the option -n.
+* @param args
+*	Arguments to be printed.
+*/
 static void	ft_echo(char ***args)
 {
 	int	i;
@@ -48,6 +73,14 @@ static void	ft_echo(char ***args)
 	error_handler(SET, NULL, EXIT_SUCCESS, false);
 }
 
+/*!
+* @brief
+*	Executes the builtin command.
+* @param args
+*	Arguments to be executed.
+* @param var
+*	Environment variables.
+*/
 void	execute_builtin(char ***args, t_var **var)
 {
 	if (!ft_strncmp(*args[0], "cd", 2))

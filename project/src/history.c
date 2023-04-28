@@ -15,6 +15,8 @@
 /*!
 * @brief
 	Adds the input to the history and the history file.
+	If the input is the same as the last input, it will not be added.
+	If the input is empty, it will not be added.
 * @param prompt
 	The input string.
 */

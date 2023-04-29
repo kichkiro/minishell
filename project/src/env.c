@@ -12,13 +12,25 @@
 
 #include "minishell.h"
 
+/*!
+* @brief
+*	Print all the enviroment variables.
+* @param args
+*	Arguments passed to the function.
+*	If an argument is passed, it will print an error message.
+* @param var
+*	Enviroment variables.
+*/
 void	ft_env(char ***args, t_var **var)
 {
 	int		i;
 
 	i = -1;
 	if (args[0][1])
-		printf("env: %s: No such file or directory\n", args[0][1]);
+	{
+		printf("env: you can't set an env variable, because the");
+		printf(" subject says so\n");
+	}
 	else
 	{
 		while ((*var)->next)
@@ -64,6 +76,17 @@ static int	set_export_var(char *arg, t_var **var)
 	return (1);
 }
 
+/*!
+* @brief
+*	Set one or more enviroment variables.
+*	If the variable already exists, it will be updated.
+*	If no arguments are passed, it will print all the exportable enviroment
+*	variables.
+* @param args
+*	Arguments passed to the function.
+* @param var
+*	Enviroment variables.
+*/
 void	ft_export(char ***args, t_var **var)
 {
 	int		i;
@@ -89,6 +112,14 @@ void	ft_export(char ***args, t_var **var)
 	t_var_set_to_head(var);
 }
 
+/*!
+* @brief
+*	Unset an enviroment variable.
+* @param	arg
+*	The name of the variable to unset.
+* @param	var
+*	The list of variables.
+*/
 static void	unset_var(char *arg, t_var **var)
 {
 	while ((*var))
@@ -119,6 +150,11 @@ static void	unset_var(char *arg, t_var **var)
 	t_var_set_to_head(var);
 }
 
+/*!
+* @brief
+*	Unset an enviroment variable.
+*	If no arguments are given, prints a new line.
+*/
 void	ft_unset(char ***args, t_var **var)
 {
 	int	i;

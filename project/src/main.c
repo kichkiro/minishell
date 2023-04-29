@@ -6,7 +6,7 @@
 /*   By: kichkiro <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/27 19:07:59 by kichkiro          #+#    #+#             */
-/*   Updated: 2023/04/28 18:34:37 by kichkiro         ###   ########.fr       */
+/*   Updated: 2023/04/29 22:32:06 by kichkiro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,21 +18,6 @@
 // Altrimenti se il comando precedente si e' concluso con un exit status diverso
 // da 0, e il comando successivo -finito a buon fine- non reimposta l'exit 
 // status, nessun altro comando potra essere eseguito. 
-
-// -----------------------------------------------------------------------------
-
-//------------------------------------------------------------------------------
-
-// DA FIXARE: 
-// Se il prompt e' vuoto o doppione, non aggiungere alla history.
-
-//------------------------------------------------------------------------------
-
-//------------------------------------------------------------------------------
-
-// DA FIXARE: 
-// Il path nel prompt ora funziona correttamente anche con due livelli, solo che
-// se fai "cd .." da /home/user va direttamente in "/"
 
 //------------------------------------------------------------------------------
 

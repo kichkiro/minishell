@@ -6,37 +6,47 @@
 /*   By: kichkiro <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/26 12:05:42 by kichkiro          #+#    #+#             */
-/*   Updated: 2023/04/28 18:49:59 by kichkiro         ###   ########.fr       */
+/*   Updated: 2023/04/29 22:27:09 by kichkiro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-t_fd	heredoc(char *delimiter, t_cmd **cmd)
+/*!
+ * @brief 
+	Reset the terminal fd's.
+ * @param fd 
+	Linked list containing data from previous redirects.
+ */
+static void	reset_terminal(t_fd **fd)
 {
-	t_fd	fd;
+	t_fd_set_to_head(fd);
+	while (*fd)
+	{
+		if (isatty((*fd)->prev_fd))
+		{
+			if (dup2((*fd)->prev_fd, (*fd)->redirect) == -1)
+				error_handler(PRINT, NULL, 1, true);
+		}
+		if ((*fd)->next)
+			*fd = (*fd)->next;
+		else
+			break ;
+	}
+}
+
+/*!
+ * @brief 
+	Gets the document with readline().
+ * @param delimiter 
+	Heredoc delimiter.
+ * @param doc 
+	Heredoc document.
+ */
+static void	get_doc(char *delimiter, char **doc)
+{
 	char	*prompt;
-	char	*doc;
-	pid_t	pid;
-	int		pipe_fd[2];
 
-	doc = NULL;
-	fd.original_fd = dup(STDIN_FILENO);
-	if (!fd.original_fd)
-		error_handler(PRINT, NULL, 1, true);
-	fd.original_std = STDIN_FILENO;
-
-
-
-	// t_fd	fd_stdin = redirect_handler(GET_FD_IN, fd);
-	// t_fd	fd_stdout = redirect_handler(GET_FD_OUT, fd);
-	// if (fd_stdin.original_fd && dup2(fd_stdin.original_fd, STDIN_FILENO))
-	// 	error_handler(PRINT, NULL, 1, true);
-	// if (fd_stdout.original_fd && dup2(fd_stdout.original_fd, STDOUT_FILENO))
-	// 	error_handler(PRINT, NULL, 1, true);
-
-
-	
 	while (true)
 	{
 		signal(SIGQUIT, SIG_IGN);
@@ -46,40 +56,104 @@ t_fd	heredoc(char *delimiter, t_cmd **cmd)
 		{
 			signals_controller(SET, false);
 			free(prompt);
-			ft_free((void **)&doc);
+			ft_free((void **)doc);
 			break ;
 		}
-
-		// parsing
-		// TODO
-
 		if (!ft_strncmp(prompt, delimiter, ft_strlen(delimiter)) && \
 			ft_strlen(prompt) == ft_strlen(delimiter))
 		{
 			free(prompt);
 			break ;
 		}
-		doc = ft_strappend(doc, prompt, true, false);
-		doc = ft_strappend(doc, "\n", true, false);
+		*doc = ft_strappend(*doc, prompt, true, false);
+		*doc = ft_strappend(*doc, "\n", true, false);
 	}
-	if (!doc)	
-		doc = ft_strappend(doc, "", true, false);
+	if (!*doc)
+		*doc = ft_strappend(*doc, "", true, false);
+}
 
-	// if (fd_stdin.redirected_fd && dup2(fd_stdin.redirected_fd, STDIN_FILENO))
-	// 	error_handler(PRINT, NULL, 1, true);
-	// if (fd_stdout.redirected_fd && dup2(fd_stdout.redirected_fd, STDOUT_FILENO))
-	// 	error_handler(PRINT, NULL, 1, true);
+/*!
+ * @brief 
+	Reset previous fd's.
+ * @param fd 
+	Linked list containing data from previous redirects.
+ */
+static void	reset_prev(t_fd **fd)
+{
+	bool	input;
+	bool	output;
 
+	input = false;
+	output = false;
+	t_fd_set_to_last(fd);
+	while ((*fd))
+	{
+		if (!input && (*fd)->redirect == STDIN_FILENO)
+		{
+			if (dup2((*fd)->new_fd, STDIN_FILENO) == -1)
+				error_handler(PRINT, NULL, 1, true);
+			input = true;
+		}
+		else if (!output && (*fd)->redirect == STDOUT_FILENO)
+		{
+			if (dup2((*fd)->new_fd, STDOUT_FILENO) == -1)
+				error_handler(PRINT, NULL, 1, true);
+			output = true;
+		}
+		if ((*fd)->prev)
+			*fd = (*fd)->prev;
+		else
+			break ;
+	}
+}
 
-	// Pipe ------------------------------------------------------------------->
-	
+/*!
+ * @brief 
+	Creates a file to which the document is written and redirects the input to 
+	the same file.
+ * @param doc 
+	Heredoc document.
+ * @param cmd 
+	Linked list containing command line.
+ */
+static void	redirection_pipe(char *doc, t_cmd **cmd)
+{
+	int	prev_fd;
+	int	new_fd;
+	int	pipe_fd[2];
+
+	prev_fd = dup(STDIN_FILENO);
+	if (!prev_fd)
+		error_handler(PRINT, NULL, 1, true);
 	if (pipe(pipe_fd) == -1)
 		error_handler(PRINT, NULL, 1, true);
-	fd.redirected_fd = pipe_fd[0];
+	new_fd = pipe_fd[0];
 	write(pipe_fd[1], doc, ft_strlen(doc));
-	dup2(fd.redirected_fd, STDIN_FILENO);
+	if (dup2(new_fd, STDIN_FILENO) == -1)
+		error_handler(PRINT, NULL, 1, true);
 	close(pipe_fd[1]);
+	redirect_handler(SET, t_fd_new(STDIN_FILENO, prev_fd, new_fd));
 	if ((*cmd) && (*cmd)->next && (*cmd)->next->type == REDIRECT)
 		*cmd = (*cmd)->next;
-	return (fd);
+}
+
+/*!
+ * @brief 
+	Main function of the heredoc.
+ * @param delimiter 
+	Heredoc delimiter.
+ * @param cmd 
+	Linked list containing command line.
+ */
+void	heredoc(char *delimiter, t_cmd **cmd)
+{
+	t_fd	*fd;
+	char	*doc;
+
+	fd = redirect_handler(GET, NULL);
+	doc = NULL;
+	reset_terminal(&fd);
+	get_doc(delimiter, &doc);
+	reset_prev(&fd);
+	redirection_pipe(doc, cmd);
 }

@@ -6,7 +6,7 @@
 #    By: kichkiro <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/04/05 17:59:55 by kichkiro          #+#    #+#              #
-#    Updated: 2023/04/26 15:50:09 by kichkiro         ###   ########.fr        #
+#    Updated: 2023/04/29 19:04:21 by kichkiro         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -29,10 +29,12 @@ SRCS		:= \
 				variable_assignment.c \
 				variable_expand.c \
 				parsing_system.c \
-				lst/lst_new.c \
 				lst/lst_add_back.c \
+				lst/lst_free_last.c \
+				lst/lst_free.c \
+				lst/lst_new.c \
 				lst/lst_set_to_head.c \
-				lst/lst_free.c
+				lst/lst_set_to_last.c
 SRC_DIR     := src
 SRCS		:= $(SRCS:%=$(SRC_DIR)/%)
 BUILD_DIR   := .build

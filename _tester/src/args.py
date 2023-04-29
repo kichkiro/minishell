@@ -68,3 +68,11 @@ redirect = [
     "cat >> file1 > file2 < file3 < file4",
     "cat << EOF\nEOF\n",
 ]
+
+heredoc = [
+    "cat << EOF",
+    "cat < file1 < file2 < file3 << EOF",
+    "cat < file1 > file2 << EOF",
+    "cat < file1 > file2 << EOF > file3 << EOF",
+    
+]

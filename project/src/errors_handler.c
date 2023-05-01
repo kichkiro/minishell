@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   errors_handler.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kichkiro <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: anvannin <anvannin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/23 21:53:07 by kichkiro          #+#    #+#             */
-/*   Updated: 2023/04/26 15:48:56 by kichkiro         ###   ########.fr       */
+/*   Updated: 2023/05/01 16:34:35 by anvannin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,7 @@ int	error_handler(char request, char *msg, int code, bool print_perror)
 			perror(NULL);
 		}
 		ft_putstr_fd(RESET, STDERR_FILENO);
+		ft_putstr_fd("\n", STDERR_FILENO);
 	}
 	if (request == PRINT_FREE)
 		free(msg);

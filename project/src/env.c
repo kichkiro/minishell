@@ -28,8 +28,8 @@ void	ft_env(char ***args, t_var **var)
 	i = -1;
 	if (args[0][1])
 	{
-		printf("env: you can't set an env variable, because the");
-		printf(" subject says so\n");
+		printf("env: you can't set an env variable, because the ");
+		printf("subject says so\n");
 	}
 	else
 	{

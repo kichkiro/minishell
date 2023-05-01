@@ -24,7 +24,8 @@ static void	ft_cd(char ***args)
 	int		i;
 
 	i = 0;
-	path = ft_split(args[0][1], '/');
+	if (args[0][1])
+		path = ft_split(args[0][1], '/');
 	if (!args[0][1] || args[0][1][0] == '~')
 		chdir(getenv("HOME"));
 	else if (!ft_strncmp(args[0][1], "..", 2))

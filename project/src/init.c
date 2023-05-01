@@ -12,15 +12,15 @@
 
 #include "minishell.h"
 
-static void	init_env(char **envp, t_var **var)
+static void	init_env(t_var **var)
 {
 	int		i;
 	char	**str;
 
 	i = -1;
-	while (envp[++i])
+	while (__environ[++i])
 	{
-		str = ft_split(envp[i], '=');
+		str = ft_split(__environ[i], '=');
 		if (str[0][0] == '_')
 			t_var_add_back(var, t_var_new(str[0], str[1], ENV));
 		else
@@ -66,8 +66,8 @@ static void	init_history(void)
 	close(fd);
 }
 
-void	init_all(char **envp, t_var **var)
+void	init_all(t_var **var)
 {
-	init_env(envp, var);
+	init_env(var);
 	init_history();
 }

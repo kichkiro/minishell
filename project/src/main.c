@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kichkiro <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: anvannin <anvannin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/27 19:07:59 by kichkiro          #+#    #+#             */
-/*   Updated: 2023/04/29 22:32:06 by kichkiro         ###   ########.fr       */
+/*   Updated: 2023/05/01 18:17:54 by anvannin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,14 +16,14 @@
 // errors_handler(SET, NULL, EXIT_SUCCESS, false);
 
 // Altrimenti se il comando precedente si e' concluso con un exit status diverso
-// da 0, e il comando successivo -finito a buon fine- non reimposta l'exit 
-// status, nessun altro comando potra essere eseguito. 
+// da 0, e il comando successivo -finito a buon fine- non reimposta l'exit
+// status, nessun altro comando potra essere eseguito.
 
 //------------------------------------------------------------------------------
 
 #include "minishell.h"
 
-int	main(int argc, char **argv, char **envp)
+int	main(void)
 {
 	char	*prompt;
 	t_var	*var;
@@ -31,10 +31,11 @@ int	main(int argc, char **argv, char **envp)
 
 	var = NULL;
 	cmd = NULL;
-	init_all(envp, &var);
+	init_all(&var);
 	while (true)
 	{
 		signal(SIGQUIT, SIG_IGN);
+		signal(SIGTSTP, SIG_IGN);
 		signal(SIGINT, signal_handler);
 		prompt = readline(ft_whoami());
 		if (!prompt)
@@ -49,11 +50,11 @@ int	main(int argc, char **argv, char **envp)
 		// Se c'e un commento, salva in history e mostra nuovo prompt --------->
 
 			// TODO
-		
+
 		// History ------------------------------------------------------------>
 		ft_add_history(prompt);
 
-		// Free ---------------------------------------------------------------> 
+		// Free --------------------------------------------------------------->
 		ft_free((void **)&prompt);
 		t_cmd_free(&cmd);
 	}

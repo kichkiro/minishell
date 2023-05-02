@@ -12,7 +12,7 @@ __email__ = "kichkiro@student.42firenze.it"
 __slack__ = "kichkiro"
 __status__ = "Prototype"
 
-# ARGS ----------------------------------------------------------------------->
+# TESTS ---------------------------------------------------------------------->
 
 echo = [
     "echo ",
@@ -66,13 +66,21 @@ redirect = [
     "cat > file1 < file2",
     "cat >> file1 < file2 < file3",
     "cat >> file1 > file2 < file3 < file4",
-    "cat << EOF\nEOF\n",
+    # "cat << EOF\nEOF",
 ]
 
 heredoc = [
     "cat << EOF",
+    "cat << \"E OF>\"file1",
+    "cat << \"E OF\"",
+    "cat << \"\"E\"O\"F\"\"",
+    "cat << ''EOF''",
+    "cat << '''E'O'F'''",
+    "cat << \"\"E\"O\"F\"\"",
+    "cat << \"EOF\"\"\"",
+
     "cat < file1 < file2 < file3 << EOF",
     "cat < file1 > file2 << EOF",
     "cat < file1 > file2 << EOF > file3 << EOF",
-    
+
 ]

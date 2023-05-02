@@ -1,0 +1,18 @@
+TODO List (per me)
+
+Functions:
+[ ] heredoc_parsing
+[ ] invalid_prompt
+[ ] variable_assignment
+
+Documentation:
+[ ] heredoc_parsing
+[ ] invalid_prompt
+[ ] variable_assignment
+[ ] variable_expand
+[ ] lst functions
+
+Tester:
+[ ] Heredoc
+[ ] Commands
+[ ] Exit status 

@@ -66,7 +66,7 @@ def makefile(rules: str, must_print: bool, project_path: str):
             stdout=subprocess.PIPE, 
             stderr=subprocess.PIPE
         )
-    stdout, stderr = process.communicate()
+    _, stderr = process.communicate()
     if not process.returncode and must_print:
         print(colored("Make: OK\n", "green",))
     elif process.returncode:

@@ -6,7 +6,7 @@
 /*   By: kichkiro <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/16 23:03:22 by kichkiro          #+#    #+#             */
-/*   Updated: 2023/04/26 15:48:52 by kichkiro         ###   ########.fr       */
+/*   Updated: 2023/04/30 13:20:04 by kichkiro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,9 +60,9 @@ void	parsing_system(char *prompt, t_cmd **cmd, t_var *var)
 		// // Delimitatore di Heredoc -------------------------------------------->
 		// if ((*cmd) && (*cmd)->prev && !ft_strncmp((*cmd)->prev->token, "<<", 2)
 		// 	&& (*cmd)->prev->type == REDIRECT)
-		// 	{
-				
-		// 	}
+		// {
+		// 	while (prompt[i] != ' ' && prompt[i] != )
+		// }
 
 		// Rilevatore di apici ------------------------------------------------> 
 

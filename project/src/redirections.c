@@ -6,7 +6,7 @@
 /*   By: kichkiro <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/23 17:35:15 by kichkiro          #+#    #+#             */
-/*   Updated: 2023/04/29 22:29:00 by kichkiro         ###   ########.fr       */
+/*   Updated: 2023/04/29 22:38:58 by kichkiro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -151,7 +151,7 @@ void	redirections(t_cmd **cmd, char *exe, char ***args, t_var **var)
 	*cmd = (*cmd)->next;
 	if (!ft_strncmp((*cmd)->prev->token, "<<", 2))
 		heredoc((*cmd)->token, cmd);
-	if (!ft_strncmp((*cmd)->prev->token, "<", 2))
+	else if (!ft_strncmp((*cmd)->prev->token, "<", 2))
 		redirecting_input((*cmd)->token, cmd);
 	else if (!ft_strncmp((*cmd)->prev->token, ">", 2))
 		redirecting_output((*cmd)->token, cmd);

@@ -1,4 +1,4 @@
-/* ************************************************************************** */
+/* ************************************************************************** */  
 /*                                                                            */
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
@@ -113,6 +113,7 @@ void	execute(char *exe, char ***args);
 void	redirections(t_cmd **cmd, char *exe, char ***args, t_var **var);
 t_fd	*redirect_handler(char request, t_fd *new_node);
 void	heredoc(char *delimiter, t_cmd **cmd);
+void	heredoc_parsing(char *delimiter, char **prompt);
 
 // Builtins ------------------------------------------------------------------->
 bool	is_builtin(char *exe);

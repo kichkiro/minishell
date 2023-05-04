@@ -6,12 +6,18 @@
 /*   By: kichkiro <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/29 18:37:16 by kichkiro          #+#    #+#             */
-/*   Updated: 2023/04/29 19:00:51 by kichkiro         ###   ########.fr       */
+/*   Updated: 2023/05/05 01:43:11 by kichkiro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
+/*!
+ * @brief 
+	Deletes the last node of the list.
+ * @param lst 
+	Linked list.
+ */
 void	t_fd_free_last(t_fd **lst)
 {
 	t_fd	*curr;

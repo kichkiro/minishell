@@ -6,7 +6,7 @@
 /*   By: kichkiro <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/16 23:03:22 by kichkiro          #+#    #+#             */
-/*   Updated: 2023/04/30 13:20:04 by kichkiro         ###   ########.fr       */
+/*   Updated: 2023/05/05 01:30:02 by kichkiro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -143,12 +143,6 @@ void	parsing_system(char *prompt, t_cmd **cmd, t_var *var)
 				token_append(&token, &type, cmd);
 			if (prompt[i] == '[')
 			{
-				if (ft_stridx(prompt, ']') < (ssize_t)i)
-				{
-					error_handler(PRINT, "detected unclosed brackets", 1, 0);
-					free(token);			
-					return ;
-				}
 				while (prompt[i] != ']' && prompt[i])
 					token = ft_char_append(token, prompt[i++], true);
 				token = ft_char_append(token, prompt[i], true);

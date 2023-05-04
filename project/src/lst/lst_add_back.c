@@ -6,7 +6,7 @@
 /*   By: kichkiro <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/05 11:11:34 by kichkiro          #+#    #+#             */
-/*   Updated: 2023/04/29 12:44:55 by kichkiro         ###   ########.fr       */
+/*   Updated: 2023/05/05 01:42:59 by kichkiro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,21 +89,3 @@ void	t_fd_add_back(t_fd **lst, t_fd *new_node)
 	else
 		*lst = new_node;
 }
-
-// void	t_fd_add_back(t_fd **head, t_fd *new_node)
-// {
-// 	t_fd	*current;
-
-// 	current = *head;
-// 	if (new_node == NULL)
-// 		return ;
-// 	if (current == NULL)
-// 	{
-// 		*head = new_node;
-// 		return ;
-// 	}
-// 	while (current->next != NULL)
-// 		current = current->next;
-// 	current->next = new_node;
-// 	new_node->prev = current;
-// }

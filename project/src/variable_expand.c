@@ -6,12 +6,22 @@
 /*   By: kichkiro <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/19 09:22:27 by kichkiro          #+#    #+#             */
-/*   Updated: 2023/04/26 15:48:52 by kichkiro         ###   ########.fr       */
+/*   Updated: 2023/05/05 01:35:41 by kichkiro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
+/*!
+ * @brief 
+	Get the name of a variable from a prompt string.
+ * @param prompt 
+	The prompt string to parse.
+ * @param i 
+	A pointer to the current index in the prompt string.
+ * @return 
+	A pointer to a newly allocated string containing the variable name.
+ */
 static char	*get_var_name(char *prompt, size_t *i)
 {
 	char	*var_name;
@@ -22,11 +32,6 @@ static char	*get_var_name(char *prompt, size_t *i)
 	{
 		(*i)++;
 		brackets = prompt[*i] + 2;
-		if (ft_stridx(prompt, brackets) < (ssize_t)(*i))
-		{
-			error_handler(PRINT, "detected unclosed brackets", 1, false);
-			return (NULL);
-		}
 		while (prompt[++(*i)] != brackets && prompt[*i])
 			var_name = ft_char_append(var_name, prompt[(*i)], true);
 	}
@@ -41,21 +46,28 @@ static char	*get_var_name(char *prompt, size_t *i)
 	return (var_name);
 }
 
+/*!
+ * @brief 
+	Expand a variable in a prompt string.
+ * @param prompt 
+ 	The prompt string to parse.
+ * @param i 
+ 	A pointer to the current index in the prompt string.
+ * @param var 
+	A pointer to the head of a linked list of variables.
+ * @return 
+	A pointer to a newly allocated string containing the value of the expanded 
+	variable, or NULL if no matching variable is found.
+ */
 char	*variable_expand(char *prompt, size_t *i, t_var *var)
 {
 	char	*var_name;	
 
 	var_name = get_var_name(prompt, i);
-
-	// controlla se e' $?
 	if (var_name[1] == '?')
 		return (ft_itoa(error_handler(GET, NULL, 0, false)));
-
-	// cerca se e' una variabile di ambiente
 	else if (getenv(var_name))
 		return (ft_strdup(getenv(var_name)));
-
-	// se non e' una varibile d'ambiente allora cerca nelle locali
 	else if (var)
 	{
 		t_var_set_to_head(&var);
@@ -67,7 +79,5 @@ char	*variable_expand(char *prompt, size_t *i, t_var *var)
 			var = var->next;
 		}
 	}
-
-	// se non ci sono varibili simili, ritorna NULL
 	return (NULL);
 }

@@ -6,26 +6,23 @@
 /*   By: kichkiro <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/05 11:01:31 by kichkiro          #+#    #+#             */
-/*   Updated: 2023/04/28 22:21:38 by kichkiro         ###   ########.fr       */
+/*   Updated: 2023/05/05 01:51:27 by kichkiro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-//----------------------------------------------------------------------------->
-//	AGGIORNARE DOCUMENTAZIONE
-//------------------------------------------------------------------------------
-
 /*!
  * @brief 
-	Allocates (with malloc(3)) and returns a new node;
-	The member variable [data] is initialized with the value of the parameter
-	[data];
-	The variable [next] and [prev] are initialized to NULL.
- * @param data 
-	The data to create the node with.
+	Create a new t_var node.
+ * @param name 
+	A pointer to a string containing the name of the variable.
+ * @param value 
+	A pointer to a string containing the value of the variable.
+ * @param type 
+	A char that indicates the type of the variable (ENV, EXPORT, SHELL).
  * @return 
-	The new node.
+	A pointer to the newly created t_var node, or NULL if memory allocation fails.
  */
 t_var	*t_var_new(char	*name, char *value, char type)
 {
@@ -44,14 +41,15 @@ t_var	*t_var_new(char	*name, char *value, char type)
 
 /*!
  * @brief 
-	Allocates (with malloc(3)) and returns a new node;
-	The member variable [data] is initialized with the value of the parameter
-	[data];
-	The variable [next] and [prev] are initialized to NULL.
- * @param data 
-	The data to create the node with.
- * @return 
-	The new node.
+	Create a new t_cmd node.
+ * @param token 
+	A pointer to a string containing the token.
+ * @param type 
+	A char that indicates the type of the token (NONE, STANDARD, REDIRECT, PIPE, 
+	BOOLEAN, WILDCARD).
+ * @return
+	A pointer to the newly created t_cmd node, or NULL if memory allocation 
+	fails.
  */
 t_cmd	*t_cmd_new(char	*token, char type)
 {
@@ -69,14 +67,16 @@ t_cmd	*t_cmd_new(char	*token, char type)
 
 /*!
  * @brief 
-	Allocates (with malloc(3)) and returns a new node;
-	The member variable [data] is initialized with the value of the parameter
-	[data];
-	The variable [next] and [prev] are initialized to NULL.
- * @param data 
-	The data to create the node with.
+	Create a new t_fd node.
+ * @param redirect 
+	Type of redirection (STDIN_FILENO or STDOUT_FILENO).
+ * @param prev_fd 
+	Actual file descriptor.
+ * @param new_fd 
+	New file descriptor.
  * @return 
-	The new node.
+	A pointer to the newly created t_fd node, or NULL if memory allocation 
+	fails.
  */
 t_fd	*t_fd_new(int redirect, int prev_fd, int new_fd)
 {

@@ -14,9 +14,9 @@
 
 /*!
 * @brief
-*	Executes the builtin command cd.
+	Executes the builtin command cd.
 * @param args
-*	Folder to be changed.
+	Folder to be changed.
 */
 static void	ft_cd(char ***args)
 {
@@ -44,9 +44,9 @@ static void	ft_cd(char ***args)
 
 /*!
 * @brief
-*	Executes the builtin command echo with the option -n.
+	Executes the builtin command echo with the option -n.
 * @param args
-*	Arguments to be printed.
+	Arguments to be printed.
 */
 static void	ft_echo(char ***args)
 {
@@ -76,11 +76,11 @@ static void	ft_echo(char ***args)
 
 /*!
 * @brief
-*	Executes the builtin command.
+	Executes the builtin command.
 * @param args
-*	Arguments to be executed.
+	Arguments to be executed.
 * @param var
-*	Environment variables.
+	Environment variables.
 */
 void	execute_builtin(char ***args, t_var **var)
 {
@@ -104,11 +104,11 @@ void	execute_builtin(char ***args, t_var **var)
 
 /*!
 * @brief
-*	Checks if the command is a builtin.
+	Checks if the command is a builtin.
 * @param exe
-*	The command to check.
+	The command to check.
 * @return
-*	True if the command is a builtin, false otherwise.
+	True if the command is a builtin, false otherwise.
 */
 bool	is_builtin(char *exe)
 {

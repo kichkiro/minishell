@@ -14,12 +14,12 @@
 
 /*!
 * @brief
-*	Print all the enviroment variables.
+	Print all the enviroment variables.
 * @param args
-*	Arguments passed to the function.
-*	If an argument is passed, it will print an error message.
+	Command to execute.
+	If an argument is passed, it will print an error message.
 * @param var
-*	Enviroment variables.
+	Variables.
 */
 void	ft_env(char ***args, t_var **var)
 {
@@ -78,14 +78,14 @@ static int	set_export_var(char *arg, t_var **var)
 
 /*!
 * @brief
-*	Set one or more enviroment variables.
-*	If the variable already exists, it will be updated.
-*	If no arguments are passed, it will print all the exportable enviroment
-*	variables.
+	Set one or more enviroment variables.
+	If the variable already exists, it will be updated.
+	If no arguments are passed, it will print all the exportable enviroment
+	variables.
 * @param args
-*	Arguments passed to the function.
+	Command to execute.
 * @param var
-*	Enviroment variables.
+	Variables.
 */
 void	ft_export(char ***args, t_var **var)
 {
@@ -114,11 +114,11 @@ void	ft_export(char ***args, t_var **var)
 
 /*!
 * @brief
-*	Unset an enviroment variable.
-* @param	arg
-*	The name of the variable to unset.
-* @param	var
-*	The list of variables.
+	Unset an enviroment variable.
+* @param arg
+	The name of the variable to unset.
+* @param var
+	The list of variables.
 */
 static void	unset_var(char *arg, t_var **var)
 {
@@ -152,8 +152,12 @@ static void	unset_var(char *arg, t_var **var)
 
 /*!
 * @brief
-*	Unset an enviroment variable.
-*	If no arguments are given, prints a new line.
+	Unset an enviroment variable.
+	If no arguments are given, prints a new line.
+* @param args
+	Command to execute.
+* @param var
+	Variables.
 */
 void	ft_unset(char ***args, t_var **var)
 {

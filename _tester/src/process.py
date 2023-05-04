@@ -1,18 +1,19 @@
 #!/usr/bin/python3
 
 """
-
+This module contains the `Process` class, which provides methods to 
+execute a command in a subprocess and interact with its input and output 
+streams.
 """
 
 # Libraries ------------------------------------------------------------------>
 
-import os
 import signal
 import shutil
 import threading
 import subprocess
 
-from termcolor import colored
+from printer import Printer
 
 # Authorship ----------------------------------------------------------------->
 
@@ -26,8 +27,34 @@ __status__ = "Prototype"
 
 class Process():
     """
+    Attributes
+    --------------------------------------------------------------------
+    process : subprocess.Popen
+        The Popen object representing the process.
+
+    printer : Printer
+        The Printer object used for logging.
+
+    Methods
+    --------------------------------------------------------------------
+    get_bash_output():
+        Runs a Bash command and returns its output as a string.
+
+    get_minishell_output():
+        It gets minishell output via a synchronization with bash output 
+        to avoid including the prompt or other garbage, but 
+        nevertheless, it is possible that not all cases are handled.
+
+        It has been prefirmed to use write and read with write() and 
+        readlines() methods, as they allow more flexibility, than 
+        directly communicate(), although this requires more complex 
+        handling with threads since readlines() is subject to blocking.
+
+        If the get_exit_status argument is True, it performs a recursion 
+        to get the output of "echo $?" on the same minishell instance.
     """
-    def __init__(self, args: str) -> None:
+    def __init__(self, args:str, printer:Printer) -> None:
+        self.args = args
         self.process = subprocess.Popen(
             args,
             stdin=subprocess.PIPE,
@@ -36,24 +63,33 @@ class Process():
             text=True,
             universal_newlines=True,   
         )
-        # self.lock = threading.Lock()
+        self.printer = printer
+        self.exit_status_bash = 0
+        self.exit_status_minishell = 0
 
 
-    def get_bash_output(self, input: str) -> str:
+    def get_bash_output(self, input:str) -> str:
         
-        bash_output = subprocess.check_output(
-            input,
-            shell=True,
-            executable=shutil.which("bash"),
-            text=True,
-            universal_newlines=True
-        )
+        bash_output = ""
+        try:
+            bash_output = subprocess.check_output(
+                input,
+                shell=True,
+                executable=shutil.which("bash"),
+                text=True,
+                universal_newlines=True,
+                stderr=subprocess.STDOUT
+            )
+        except subprocess.CalledProcessError as e:
+            self.exit_status_bash = e.returncode
+
         return bash_output
-    
 
-    def get_minishell_output(self, bash_output: str, input: str, i: int) -> tuple:
 
-        def read_thread(self, tmp: list):
+    def get_minishell_output(self, bash_output:str, input:str, loop:int, \
+        get_exit_status:bool) -> str:
+       
+        def read_thread(self, tmp:list):
             line = ""
             try:
                 line = self.process.stdout.readline()
@@ -67,14 +103,23 @@ class Process():
 
         try:
             minishell_out = ""
-            sigsegv = False
             counter = 0
 
             self.process.stdin.write(input + '\n')
             self.process.stdin.flush()
+
             while input not in minishell_out:
-                minishell_out += self.process.stdout.readline()
+                tmp = []
+                t = threading.Thread(target=read_thread, args=(self, tmp,))
+                t.start()
+                t.join(timeout=1)
+                if t.is_alive():
+                    raise subprocess.TimeoutExpired(self.process, 1)
+                minishell_out += tmp[0]
+                counter += 1
+                
             minishell_out = ""
+            counter = 0
             while minishell_out.count('\n') <= bash_output.count('\n'):
                 if counter == bash_output.count('\n'):
                     break
@@ -86,21 +131,26 @@ class Process():
                     raise subprocess.TimeoutExpired(self.process, 1)
                 minishell_out += tmp[0]
                 counter += 1
+
+            if get_exit_status:
+                self.exit_status_minishell = int(self.get_minishell_output(
+                    '\n', 'echo $?', loop, get_exit_status=False))
+                if self.exit_status_minishell == None:
+                    return None
+
             self.process.communicate(timeout=1)
             if self.process.returncode == -11:
-                sigsegv = True
-                print(colored(
-                f"TEST {i + 1}: KO\n    Segmentation fault\n    "
-                f"ARGS: {input}\n", 
-                "red"
-            ))
+                self.printer.result(
+                    "KO", loop, input, exception="Segmentation fault")
+                return None
 
         except subprocess.TimeoutExpired:
             self.process.send_signal(signal.SIGINT)
-            print(colored(
-                f"TEST {i}: KO\n    Timeout\n    "
-                f"ARGS: {input}\n", 
-                "red"
-            ))
+            self.printer.result("KO", loop, input, exception="Timeout")
+            return None
+        except Exception as e:
+            if input != "echo $?":
+                self.printer.result("KO", loop, input, exception=e)
+            return None
 
-        return minishell_out, sigsegv
+        return minishell_out

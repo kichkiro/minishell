@@ -1,7 +1,8 @@
 #!/usr/bin/python3
 
 """
-
+This module defines a Lab class which is responsible for creating and 
+removing temporary directories used during testing.
 """
 
 # Libraries ------------------------------------------------------------------>
@@ -22,8 +23,28 @@ __status__ = "Prototype"
 
 class Lab:
     """
+     Attributes
+    --------------------------------------------------------------------
+    test_name : str 
+        The name of the test.
+
+    path : str
+        Path of the test lab.
+
+    Methods
+    --------------------------------------------------------------------
+    remove():
+        Removes the temporary directory.
+
+    create_redirects_lab():
+        Creates 4 temporary files in the Lab's directory and returns 
+        their paths as a tuple.
+
+    remove_redirects_lab():
+        Removes the specified files from the Lab's directory.
+
     """
-    def __init__(self, test: str) -> None:
+    def __init__(self, test:str) -> None:
 
         self.test_name = test
         self.path = tempfile.mkdtemp()
@@ -47,8 +68,23 @@ class Lab:
         return tuple(paths)
 
 
-    def remove_redirects_lab(self, test_files) -> None:
+    def remove_redirects_lab(self, test_files:list) -> None:
 
         for file in test_files:
             if os.path.exists(file):
                 os.remove(file)
+
+
+    def create_exit_status_lab(self) -> str:
+
+        path = os.path.join(self.path, "not_executable_file")
+        with open(path, 'w') as file:
+            file.write("42")
+
+        return path
+    
+
+    def remove_exit_status_lab(self, path:str) -> None:
+
+        if os.path.exists(path):
+            os.remove(path)

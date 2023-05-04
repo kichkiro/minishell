@@ -12,6 +12,7 @@ import sys
 from termcolor import colored
 import utils
 from tester import Tester
+from printer import Printer
 
 # Authorship ----------------------------------------------------------------->
 
@@ -29,50 +30,49 @@ def main():
     argv = sys.argv
 
     if len(argv) != 2:
-        print(colored("\nWrong input arguments...\n", "red", attrs=["bold"]))
-        print(colored("[project_path]\n", "white"))
+        print(colored("\nWrong input arguments...\n", "red", attrs=["bold"]),
+            file=sys.stderr)
+        print(colored("[project_path]\n", "white"), file=sys.stderr)
         exit()
 
     project_path = os.path.abspath(argv[1])
     exe = "minishell"
 
-    utils.banner()
-
-    echo = Tester(project_path, exe, "echo")
-    redirect = Tester(project_path, exe, "redirects")
+    printer = Printer()
+    parsing = Tester(project_path, exe, "parsing", printer)
+    commands = Tester(project_path, exe, "commands", printer)
+    redirect = Tester(project_path, exe, "redirects", printer)
+    exit_status = Tester(project_path, exe, "exit_status", printer)
 
     # PRE-TEST --------------------------------------------------------------->
 
-    print(colored(
-        "PRE-TEST ---------------------------------------------------------->"
-        "\n", 
-        "white", 
-        attrs=["bold"]
-    ))
-
+    printer.section("PRE-TEST")
     utils.makefile("", True, project_path)
+    utils.norminette(project_path)
 
     # ECHO TEST -------------------------------------------------------------->
 
-    print(colored(
-        "Echo - TEST ------------------------------------------------------->"
-        "\n",
-        "white", 
-        attrs=["bold"]
-    ))
+    printer.section("Parsing")
+    parsing.run()
 
-    echo.run()
+    # COMMANDS TEST ---------------------------------------------------------->
+
+    printer.section("Commands")
+    commands.run()
 
     # REDIRECTS TEST --------------------------------------------------------->
 
-    print(colored(
-        "Redirects - TEST -------------------------------------------------->"
-        "\n",
-        "white", 
-        attrs=["bold"]
-    ))
-
+    printer.section("Redirects")
     redirect.run()
+
+    # Exit Status ------------------------------------------------------------>
+
+    printer.section("Exit Status")
+    exit_status.run()
+
+    # SUMMARY ---------------------------------------------------------------->
+
+    printer.summary()
 
 if __name__ == "__main__":
     main()

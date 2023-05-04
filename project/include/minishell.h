@@ -1,12 +1,12 @@
-/* ************************************************************************** */
+/* ************************************************************************** */  
 /*                                                                            */
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kichkiro <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: anvannin <anvannin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/05 17:51:51 by kichkiro          #+#    #+#             */
-/*   Updated: 2023/04/30 12:56:07 by kichkiro         ###   ########.fr       */
+/*   Updated: 2023/05/01 18:17:27 by anvannin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,7 +92,7 @@ void	t_fd_set_to_head(t_fd **lst);
 void	t_fd_set_to_last(t_fd **lst);
 
 // Init ----------------------------------------------------------------------->
-void	init_all(char **envp, t_var **var);
+void	init_all(t_var **var);
 
 // Prompt --------------------------------------------------------------------->
 char	*ft_whoami(void);
@@ -133,5 +133,8 @@ void	print_history(void);
 bool	invalid_prompt(char *prompt);
 void	parsing_system(char *prompt, t_cmd **cmd, t_var *var);
 char	*variable_expand(char *prompt, size_t *i, t_var *var);
+
+// Pipes ---------------------------------------------------------------------->
+void	ft_pipe(t_cmd **cmd, char *exe, char ***args);
 
 #endif

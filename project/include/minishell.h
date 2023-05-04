@@ -135,6 +135,6 @@ void	parsing_system(char *prompt, t_cmd **cmd, t_var *var);
 char	*variable_expand(char *prompt, size_t *i, t_var *var);
 
 // Pipes ---------------------------------------------------------------------->
-void	ft_pipe(t_cmd **cmd, char *exe, char ***args);
+void	ft_pipe(t_cmd **cmd, char *exe, char ***args, t_var **var);
 
 #endif

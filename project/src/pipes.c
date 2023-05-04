@@ -12,6 +12,17 @@
 
 #include "minishell.h"
 
+static char	*get_exe_path(char *exe)
+{
+	char	**ex;
+	char	*exe_path;
+
+	ex = ft_split(exe, '/');
+	exe_path = ft_strjoin("/", ft_strjoin(ex[0], ft_strjoin(ex[1], "/")));
+	free(ex);
+	return (exe_path);
+}
+
 /*!
 * @brief
 *	Execute a pipe.
@@ -22,66 +33,31 @@
 * @param args
 *	The command to pipe from, with possible arguments.
 */
-void	ft_pipe(t_cmd **cmd, char *exe, char ***args)
+void	ft_pipe(t_cmd **cmd, char *exe, char ***args, t_var **var)
 {
-	int		fd[2];
-	int		pid1;
-	int		pid2;
+	int	fd[2];
+	int	pid;
 
-	// printf("exe: %s\t%s\n", ft_split(exe, '/')[2], args[0][1]);
-	// while ((*cmd))
-	// {
-	// 	printf("cmd: %s\n", (*cmd)->token);
-	// 	(*cmd) = (*cmd)->next;
-	// }
-
-	if (pipe(fd) == -1)
+	pipe(fd);
+	pid = fork();
+	if (pid == 0)
 	{
-		printf("pipe error\n");
-		return ;
-	}
-
-	pid1 = fork();
-	if (pid1 == -1)
-	{
-		printf("fork error\n");
-		return ;
-	}
-
-	if (!pid1)
-	{
-		if (!is_builtin(ft_split(exe, '/')[2]))
+		close(fd[0]);
+		dup2(fd[1], STDOUT_FILENO);
+		close(fd[1]);
+		if (!is_builtin(args[0][0]))
+			execve(exe, args[0], NULL);
+		else
 		{
-			dup2(fd[1], STDOUT_FILENO);
-			close(fd[0]);
-			close(fd[1]);
-			execve(exe, &args[0][1], NULL);
+			execute_builtin(args, var);
+			exit(0);
 		}
 	}
-
-	pid2 = fork();
-	if (pid2 == -1)
+	else
 	{
-		printf("fork error\n");
-		return ;
+		waitpid(pid, NULL, 1);
+		close(fd[1]);
+		dup2(fd[0], STDIN_FILENO);
+		close(fd[0]);
 	}
-
-	if (!pid2)
-	{
-		(*cmd) = (*cmd)->next;
-
-		if (!is_builtin((*cmd)->token))
-		{
-			dup2(fd[0], STDIN_FILENO);
-			close(fd[0]);
-			close(fd[1]);
-			execve(ft_strjoin("/usr/bin/", (*cmd)->token),
-				&(*cmd)->next->token, NULL);
-		}
-	}
-
-	close(fd[0]);
-	close(fd[1]);
-	waitpid(pid1, NULL, 0);
-	waitpid(pid2, NULL, 0);
 }

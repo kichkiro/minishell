@@ -20,38 +20,16 @@ __status__ = "Prototype"
 
 # Functions ------------------------------------------------------------------>
 
-def banner():
-    """
-    Print a formatted banner with ASCII art.
-    
-    Returns:
-        None
-    """
-    print(colored(        
-        "    __  ___ _         _        __           __ __ \n"
-        "   /  |/  /(_)____   (_)_____ / /_   ___   / // / \n"
-        "  / /|_/ // // __ \ / // ___// __ \ / _ \ / // /  \n"
-        " / /  / // // / / // /(__  )/ / / //  __// // /   \n" 
-        "/_/  /_//_//_/ /_//_//____//_/ /_/ \___//_//_/    \n" 
-        "  ______             __                           \n" 
-        " /_  __/___   _____ / /_ ___   _____              \n" 
-        "  / /  / _ \ / ___// __// _ \ / ___/              \n" 
-        " / /  /  __/(__  )/ /_ /  __// /                  \n" 
-        "/_/   \___//____/ \__/ \___//_/                 \n\n",
-        "red",
-    ))
-
-
-def makefile(rules: str, must_print: bool, project_path: str):
+def makefile(rules:str, must_print:bool, project_path:str):
     """
     Run the make command with specified rules on a given project path.
     
-    Args:
+    Params:
         rules (str): The makefile rules to run.
         must_print (bool): Whether to print output or not.
         project_path (str): The path to the project directory.
 
-        Returns:
+    Returns:
         None
     """
     if rules != "":
@@ -72,3 +50,24 @@ def makefile(rules: str, must_print: bool, project_path: str):
     elif process.returncode:
         print(colored(f"Make: KO!\n\n    {stderr.decode('utf-8')}", "red"))
         exit(1)
+
+
+def norminette(project_path: str):
+    """
+    Run the norminette command on a given project path.
+
+    Args:
+        project_path (str): The path to the project directory.
+    Returns:
+        None
+    """
+    process = subprocess.Popen(
+        ["norminette", project_path],
+        stdout=subprocess.PIPE, 
+        stderr=subprocess.PIPE
+    )
+    process.communicate()
+    if not process.returncode:
+        print(colored("Norminette: OK", "green"))
+    else:
+        print(colored("Norminette: Error!", "red"))

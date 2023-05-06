@@ -1,12 +1,12 @@
-/* ************************************************************************** */  
+/* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: anvannin <anvannin@student.42.fr>          +#+  +:+       +#+        */
+/*   By: kichkiro <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/04/05 17:51:51 by kichkiro          #+#    #+#             */
-/*   Updated: 2023/05/01 18:17:27 by anvannin         ###   ########.fr       */
+/*   Created: 2023/05/06 17:18:07 by kichkiro          #+#    #+#             */
+/*   Updated: 2023/05/06 17:18:08 by kichkiro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,28 +25,33 @@
 # include <fcntl.h>
 
 // Handlers REQUESTS ---------------------------------------------------------->
-# define RESTORE	0
-# define GET		1
-# define SET		2
+# define RESTORE		0
+# define GET			1
+# define SET			2
 
-# define PRINT		3
-# define PRINT_FREE 4
+# define PRINT			3
+# define PRINT_FREE 	4
 
-# define SET_LAST	5
-# define GET_LAST	8
+# define SET_LAST		5
+# define GET_LAST		8
 
 // Token TYPES ---------------------------------------------------------------->
-# define NONE		0
-# define STANDARD	1
-# define REDIRECT	2
-# define PIPE		3
-# define BOOLEAN    4
-# define WILDCARD	5
+# define NONE			0
+# define STANDARD		1
+# define REDIRECT		2
+# define PIPE			3
+# define BOOLEAN    	4
+# define WILDCARD		5
+
+// Booleans TYPES ------------------------------------------------------------->
+# define AND			1
+# define OR				2
+# define PARENTHESES	3
 
 // Variables TYPES ------------------------------------------------------------>
-# define ENV		0
-# define EXPORT		1
-# define SHELL		2
+# define ENV			0
+# define EXPORT			1
+# define SHELL			2
 
 // Linked Lists --------------------------------------------------------------->
 typedef struct s_var
@@ -120,7 +125,7 @@ bool	is_builtin(char *exe);
 void	execute_builtin(char ***args, t_var **var);
 
 // Variables ------------------------------------------------------------------>
-bool	variable_assignment(t_var **var, char *prompt);
+bool	shell_var_assig(t_var **var, char *prompt);
 void	ft_env(char ***args, t_var **var);
 void	ft_export(char ***args, t_var **var);
 void	ft_unset(char ***args, t_var **var);
@@ -136,5 +141,8 @@ char	*variable_expand(char *prompt, size_t *i, t_var *var);
 
 // Pipes ---------------------------------------------------------------------->
 void	ft_pipe(t_cmd **cmd, char *exe, char ***args, t_var **var);
+
+// Booleans ------------------------------------------------------------------->
+void	booleans_handler(t_cmd **cmd, t_var **var);
 
 #endif

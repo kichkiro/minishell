@@ -6,7 +6,7 @@
 /*   By: kichkiro <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/16 23:03:22 by kichkiro          #+#    #+#             */
-/*   Updated: 2023/05/05 01:30:02 by kichkiro         ###   ########.fr       */
+/*   Updated: 2023/05/06 16:59:20 by kichkiro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,7 +76,8 @@ void	parsing_system(char *prompt, t_cmd **cmd, t_var *var)
 		else if (single_quotes || (double_quotes && prompt[i] != '$') || \
 			(!double_quotes && !single_quotes && prompt[i] != ' ' && prompt[i] \
 			!= '<' && prompt[i] != '>' && prompt[i] != '$' && prompt[i] != '|' \
-			&& prompt[i] != '*' && prompt[i] != '?' && prompt[i] != '['))
+			&& prompt[i] != '*' && prompt[i] != '&' && prompt[i] != '(' && \
+			prompt[i] != ')'))
 		{
 			token = ft_char_append(token, prompt[i], true);
 			type = STANDARD;
@@ -86,12 +87,7 @@ void	parsing_system(char *prompt, t_cmd **cmd, t_var *var)
 
 		else if (type == STANDARD && !single_quotes && !double_quotes \
 			&& prompt[i] == ' ' && token)
-		{
-			// debug --->
-			// printf("token: %s\n", token);
-
 			token_append(&token, &type, cmd);
-		}
 
 		// Espansore di variabili ---------------------------------------------> 
 
@@ -121,7 +117,8 @@ void	parsing_system(char *prompt, t_cmd **cmd, t_var *var)
 
 		// Gestore di pipeline ------------------------------------------------>
 
-		else if (!single_quotes && !double_quotes && prompt[i] == '|')
+		else if (!single_quotes && !double_quotes && prompt[i] == '|' && \
+			prompt[i + 1] != '|')
 		{
 			if (type == STANDARD)
 				token_append(&token, &type, cmd);
@@ -132,23 +129,26 @@ void	parsing_system(char *prompt, t_cmd **cmd, t_var *var)
 
 		// Gestore booleani --------------------------------------------------->
 		
-		// TODO
-
-		// Gestore di wildcards ----------------------------------------------->
-
-		else if (!single_quotes && !double_quotes && (prompt[i] == '*' \
-			|| prompt[i] == '?' || prompt[i] == '['))
+		else if (!single_quotes && !double_quotes && ((prompt[i] == '&' && \
+			prompt[i + 1] == '&') || (prompt[i] == '|' && prompt[i + 1] == '|') 
+			|| prompt[i] == '(' || prompt[i] == ')'))
 		{
 			if (type == STANDARD)
 				token_append(&token, &type, cmd);
-			if (prompt[i] == '[')
-			{
-				while (prompt[i] != ']' && prompt[i])
-					token = ft_char_append(token, prompt[i++], true);
-				token = ft_char_append(token, prompt[i], true);
-			}
-			else
-				token = ft_char_append(token, prompt[i], true);
+			token = ft_char_append(token, prompt[i], true);
+			if (prompt[i + 1] == '&' || prompt[i + 1] == '|')
+				token = ft_char_append(token, prompt[++i], true);
+			type = BOOLEAN;
+			token_append(&token, &type, cmd);
+		}
+
+		// Gestore di wildcards ----------------------------------------------->
+
+		else if (!single_quotes && !double_quotes && (prompt[i] == '*' ))
+		{
+			if (type == STANDARD)
+				token_append(&token, &type, cmd);
+			token = ft_char_append(token, prompt[i], true);
 			type = WILDCARD;
 			token_append(&token, &type, cmd);
 		}

@@ -6,11 +6,18 @@
 /*   By: kichkiro <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/06 11:56:59 by kichkiro          #+#    #+#             */
-/*   Updated: 2023/05/05 01:30:35 by kichkiro         ###   ########.fr       */
+/*   Updated: 2023/05/06 15:20:22 by kichkiro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+// static bool	syntax_error(char *prompt)
+// {
+	// Se il primo token e' di tipo PIPE ritorna syntax error.
+	// Se i primi token sono BOOLEAN e sono parentesi tonde, il token successivo
+		// deve essere STANDARD, REDIRECT o WILDCARD) 
+// }
 
 /*!
  * @brief 
@@ -144,6 +151,8 @@ bool	invalid_prompt(char *prompt)
 		error_handler(PRINT, "detected unclosed square brackets", 1, false);
 	else if (!closed_brackets(prompt, '{', '}'))
 		error_handler(PRINT, "detected unclosed braces", 1, false);
+	// else if (!syntax_error(prompt))
+	// 	error_handler(PRINT, "bash: syntax error near unexpected token", 1, false);
 	else
 		invalid = false;
 	return (invalid);

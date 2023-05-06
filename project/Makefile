@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: anvannin <anvannin@student.42.fr>          +#+  +:+       +#+         #
+#    By: kichkiro <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/04/05 17:59:55 by kichkiro          #+#    #+#              #
-#    Updated: 2023/05/02 18:10:55 by anvannin         ###   ########.fr        #
+#    Updated: 2023/05/06 12:46:58 by kichkiro         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -27,9 +27,10 @@ SRCS		:= \
 				history.c \
 				pipes.c \
 				invalid_prompt.c \
-				variable_assignment.c \
+				shell_var_assig.c \
 				variable_expand.c \
 				parsing_system.c \
+				booleans.c \
 				lst/lst_add_back.c \
 				lst/lst_free_last.c \
 				lst/lst_free.c \

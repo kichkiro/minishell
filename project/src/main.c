@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: anvannin <anvannin@student.42.fr>          +#+  +:+       +#+        */
+/*   By: kichkiro <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/27 19:07:59 by kichkiro          #+#    #+#             */
-/*   Updated: 2023/05/02 18:13:31 by anvannin         ###   ########.fr       */
+/*   Updated: 2023/05/06 16:59:18 by kichkiro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,10 +41,18 @@ int	main(void)
 		if (!prompt)
 			return (close_shell(prompt));
 		signals_controller(SET, false);
-		if (!invalid_prompt(prompt) && !variable_assignment(&var, prompt))
+		if (!invalid_prompt(prompt) && !shell_var_assig(&var, prompt))
 		{
 			parsing_system(prompt, &cmd, var);
 			execution_system(&cmd, &var);
+
+			// DEBUG ---------------------------------------------------------->
+			// while (cmd)
+			// {
+			// 	printf("token: %s\n", cmd->token);
+			// 	printf("type:  %d\n\n", cmd->type);
+			// 	cmd = cmd->next;
+			// }
 		}
 
 		// Se c'e un commento, salva in history e mostra nuovo prompt --------->

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execution_system.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: anvannin <anvannin@student.42.fr>          +#+  +:+       +#+        */
+/*   By: kichkiro <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/21 11:45:46 by kichkiro          #+#    #+#             */
-/*   Updated: 2023/05/04 19:37:49 by anvannin         ###   ########.fr       */
+/*   Updated: 2023/05/06 12:47:09 by kichkiro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,7 +96,7 @@ void	execution_system(t_cmd **cmd, t_var **var)
 
 	args = NULL;
 	exe = NULL;
-	while (*cmd)
+	while (*cmd && (*cmd)->type != BOOLEAN)
 	{
 		if ((*cmd)->type == STANDARD)
 		{
@@ -113,7 +113,8 @@ void	execution_system(t_cmd **cmd, t_var **var)
 			router(cmd, NULL, NULL, var);
 		if (error_handler(GET, NULL, 0, false) != EXIT_SUCCESS)
 			break ;
-		if (*cmd && (*cmd)->type)
+		if (*cmd && (*cmd)->type && (*cmd)->type != BOOLEAN)
 			*cmd = (*cmd)->next;
 	}
+	booleans_handler(cmd, var);
 }

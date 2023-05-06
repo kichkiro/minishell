@@ -6,7 +6,7 @@
 #    By: kichkiro <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/04/05 17:59:55 by kichkiro          #+#    #+#              #
-#    Updated: 2023/05/06 12:46:58 by kichkiro         ###   ########.fr        #
+#    Updated: 2023/05/06 23:59:24 by kichkiro         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -31,6 +31,7 @@ SRCS		:= \
 				variable_expand.c \
 				parsing_system.c \
 				booleans.c \
+				wildcards.c \
 				lst/lst_add_back.c \
 				lst/lst_free_last.c \
 				lst/lst_free.c \

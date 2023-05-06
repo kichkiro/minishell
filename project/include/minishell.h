@@ -6,7 +6,7 @@
 /*   By: kichkiro <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/06 17:18:07 by kichkiro          #+#    #+#             */
-/*   Updated: 2023/05/06 17:18:08 by kichkiro         ###   ########.fr       */
+/*   Updated: 2023/05/07 00:46:52 by kichkiro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,7 @@
 # include <sys/wait.h>
 # include <sys/types.h>
 # include <fcntl.h>
+# include <dirent.h>
 
 // Handlers REQUESTS ---------------------------------------------------------->
 # define RESTORE		0
@@ -135,9 +136,22 @@ void	ft_add_history(char *prompt);
 void	print_history(void);
 
 // Parsing -------------------------------------------------------------------->
+typedef struct s_parse
+{
+	size_t	i;
+	char	type;
+	char	*token;
+	char	*var_value;
+	bool	single_quotes;
+	bool	double_quotes;
+	bool	flow;
+}	t_parse;
+
 bool	invalid_prompt(char *prompt);
 void	parsing_system(char *prompt, t_cmd **cmd, t_var *var);
+void	token_append(char **token, char *type, t_cmd **cmd);
 char	*variable_expand(char *prompt, size_t *i, t_var *var);
+void	wildcards_handler(char *pattern, t_cmd **cmd, char *type);
 
 // Pipes ---------------------------------------------------------------------->
 void	ft_pipe(t_cmd **cmd, char *exe, char ***args, t_var **var);

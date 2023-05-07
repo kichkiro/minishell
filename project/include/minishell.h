@@ -6,7 +6,7 @@
 /*   By: kichkiro <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/06 17:18:07 by kichkiro          #+#    #+#             */
-/*   Updated: 2023/05/07 00:46:52 by kichkiro         ###   ########.fr       */
+/*   Updated: 2023/05/08 00:43:47 by kichkiro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,6 @@
 # define REDIRECT		2
 # define PIPE			3
 # define BOOLEAN    	4
-# define WILDCARD		5
 
 // Booleans TYPES ------------------------------------------------------------->
 # define AND			1
@@ -149,7 +148,13 @@ typedef struct s_parse
 
 bool	invalid_prompt(char *prompt);
 void	parsing_system(char *prompt, t_cmd **cmd, t_var *var);
-void	token_append(char **token, char *type, t_cmd **cmd);
+void	token_append(char **token, char *type, t_cmd **cmd, bool free_token);
+void	parsing_standard_token(t_cmd **cmd, char *prompt, t_parse **p, char wc);
+void	parsing_vars(t_cmd **cmd, char *prompt, t_parse **p, t_var *var);
+void	parsing_redirects(t_cmd **cmd, char *prompt, t_parse **p);
+void	parsing_pipes(t_cmd **cmd, char *prompt, t_parse **p);
+void	parsing_booleans(t_cmd **cmd, char *prompt, t_parse **p);
+void	parsing_wildcards(t_cmd **cmd, char *prompt, t_parse **p);
 char	*variable_expand(char *prompt, size_t *i, t_var *var);
 void	wildcards_handler(char *pattern, t_cmd **cmd, char *type);
 

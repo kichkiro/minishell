@@ -6,7 +6,7 @@
 /*   By: kichkiro <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/26 12:05:42 by kichkiro          #+#    #+#             */
-/*   Updated: 2023/04/30 13:11:48 by kichkiro         ###   ########.fr       */
+/*   Updated: 2023/05/07 21:23:33 by kichkiro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,6 @@ static void	get_doc(char *delimiter, char **doc)
 			ft_free((void **)doc);
 			break ;
 		}
-		// heredoc_parsing(delimiter, &prompt);
 		if (!ft_strncmp(prompt, delimiter, ft_strlen(delimiter)) && \
 			ft_strlen(prompt) == ft_strlen(delimiter))
 			break ;

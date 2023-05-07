@@ -6,7 +6,7 @@
 /*   By: kichkiro <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/21 11:45:46 by kichkiro          #+#    #+#             */
-/*   Updated: 2023/05/06 12:47:09 by kichkiro         ###   ########.fr       */
+/*   Updated: 2023/05/08 00:43:39 by kichkiro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,8 +76,6 @@ static void	router(t_cmd **cmd, char *exe, char ***args, t_var **var)
 		redirections(cmd, exe, args, var);
 	else if ((*cmd) && (*cmd)->type == PIPE)
 		ft_pipe(cmd, exe, args, var);
-	// else if ((*cmd)->type == BOOLEAN)
-	// 	boolean();
 	else if (is_builtin(exe))
 		execute_builtin(args, var);
 	else

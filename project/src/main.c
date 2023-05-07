@@ -6,7 +6,7 @@
 /*   By: kichkiro <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/27 19:07:59 by kichkiro          #+#    #+#             */
-/*   Updated: 2023/05/06 23:20:42 by kichkiro         ###   ########.fr       */
+/*   Updated: 2023/05/08 00:43:21 by kichkiro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,30 +45,11 @@ int	main(void)
 		{
 			parsing_system(prompt, &cmd, var);
 			execution_system(&cmd, &var);
-
-			// // DEBUG ---------------------------------------------------------->
-
-			// printf("DEBUG ------------------------------------------------>\n");
-			// while (cmd)
-			// {
-			// 	printf("token: %s\n", cmd->token);
-			// 	printf("type:  %d\n\n", cmd->type);
-			// 	cmd = cmd->next;
-			// }
 		}
-
-		// Se c'e un commento, salva in history e mostra nuovo prompt --------->
-
-			// TODO
-
-		// History ------------------------------------------------------------>
 		ft_add_history(prompt);
-
-		// Free --------------------------------------------------------------->
 		ft_free((void **)&prompt);
 		t_cmd_free(&cmd);
 	}
 	t_var_free(&var);
 	return (0);
 }
-

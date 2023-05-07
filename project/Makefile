@@ -6,7 +6,7 @@
 #    By: kichkiro <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/04/05 17:59:55 by kichkiro          #+#    #+#              #
-#    Updated: 2023/05/06 23:59:24 by kichkiro         ###   ########.fr        #
+#    Updated: 2023/05/08 00:37:40 by kichkiro         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -18,18 +18,19 @@ SRCS		:= \
 				init.c \
 				signal_handler.c \
 				errors_handler.c \
-				prompt.c \
+				parsing_system.c \
+				parsing_ext.c \
+				variable_expand.c \
 				execution_system.c \
 				redirections.c \
 				heredoc.c \
+				prompt.c \
 				builtins.c \
 				env.c \
 				history.c \
 				pipes.c \
 				invalid_prompt.c \
 				shell_var_assig.c \
-				variable_expand.c \
-				parsing_system.c \
 				booleans.c \
 				wildcards.c \
 				lst/lst_add_back.c \

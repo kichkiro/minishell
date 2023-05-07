@@ -6,7 +6,7 @@
 /*   By: kichkiro <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/06 21:37:43 by kichkiro          #+#    #+#             */
-/*   Updated: 2023/05/07 01:44:31 by kichkiro         ###   ########.fr       */
+/*   Updated: 2023/05/08 00:37:57 by kichkiro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,27 +14,30 @@
 
 static bool	matcher(char *s, char *pattern)
 {
-	while (*s && *pattern)
+	while (*s || *pattern)
 	{
 		if (*pattern == '*')
 		{
+			while (*pattern == '*')
+				pattern++;
+			if (!*pattern)
+				return (true);
 			while (*s)
 			{
-				if (matcher(s, pattern + 1))
+				if (matcher(s++, pattern))
 					return (true);
-				s++;
 			}
-			return (*pattern == '\0');
+			return (false);
 		}
-		else if (*pattern == '?' || *s == *pattern)
+		else if (*pattern == *s)
 		{
-			s++;
 			pattern++;
+			s++;
 		}
 		else
 			return (false);
 	}
-	return (*s == '\0' && *pattern == '\0');
+	return (true);
 }
 
 static void	get_all(char *token, t_cmd **cmd, char *type, DIR *dir)
@@ -46,7 +49,7 @@ static void	get_all(char *token, t_cmd **cmd, char *type, DIR *dir)
 	{
 		token = ft_strdup(entry->d_name);
 		if (ft_strncmp(token, ".", 1))
-			token_append(&token, type, cmd);
+			token_append(&token, type, cmd, true);
 		*type = STANDARD;
 		entry = readdir(dir);
 	}
@@ -54,26 +57,29 @@ static void	get_all(char *token, t_cmd **cmd, char *type, DIR *dir)
 
 static void	find_match(char *token, t_cmd **cmd, char *type, DIR *dir)
 {
-	struct dirent	*entry;
 	bool			find_match;
+	bool			found;
+	char			*tmp_token;
+	struct dirent	*entry;
 
 	find_match = false;
+	found = false;
+	tmp_token = NULL;
 	entry = readdir(dir);
 	while (entry)
 	{
 		find_match = matcher(entry->d_name, token);
 		if (find_match)
 		{
-			token = ft_strdup(entry->d_name);
-			token_append(&token, type, cmd);
+			found = true;
+			tmp_token = ft_strdup(entry->d_name);
+			token_append(&tmp_token, type, cmd, true);
+			*type = STANDARD;
 		}
 		entry = readdir(dir);
 	}
-	if (!find_match)
-	{
-		token = ft_strdup(token);
-		token_append(&token, type, cmd);
-	}
+	if (!found)
+		token_append(&token, type, cmd, false);
 }
 
 static void	find_files(char *path, char *token, t_cmd **cmd, char *type)
@@ -83,7 +89,7 @@ static void	find_files(char *path, char *token, t_cmd **cmd, char *type)
 	dir = opendir(path);
 	if (!dir)
 	{
-		// gestire errore
+		error_handler(PRINT, NULL, 1, true);
 		return ;
 	}
 	if (!ft_strncmp(token, "*", 2))
@@ -99,6 +105,6 @@ void	wildcards_handler(char *token, t_cmd **cmd, char *type)
 
 	if (getcwd(cwd, sizeof(cwd)))
 		find_files(cwd, token, cmd, type);
-	// else
-		// gestire errore
+	else
+		error_handler(PRINT, NULL, 1, true);
 }

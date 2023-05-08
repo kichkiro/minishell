@@ -6,7 +6,7 @@
 #    By: kichkiro <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/04/05 17:59:55 by kichkiro          #+#    #+#              #
-#    Updated: 2023/05/08 00:37:40 by kichkiro         ###   ########.fr        #
+#    Updated: 2023/05/08 14:00:31 by kichkiro         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -14,31 +14,36 @@
 
 NAME		:= minishell
 SRCS		:= \
-				main.c \
-				init.c \
-				signal_handler.c \
-				errors_handler.c \
-				parsing_system.c \
-				parsing_ext.c \
-				variable_expand.c \
-				execution_system.c \
-				redirections.c \
-				heredoc.c \
-				prompt.c \
-				builtins.c \
-				env.c \
-				history.c \
-				pipes.c \
-				invalid_prompt.c \
-				shell_var_assig.c \
-				booleans.c \
-				wildcards.c \
-				lst/lst_add_back.c \
-				lst/lst_free_last.c \
-				lst/lst_free.c \
-				lst/lst_new.c \
-				lst/lst_set_to_head.c \
-				lst/lst_set_to_last.c
+				main/main.c 				\
+				main/init.c 				\
+				main/signal_handler.c 		\
+				main/prompt.c 				\
+				main/history.c 				\
+				\
+				errors/errors_handler.c 	\
+				errors/invalid_prompt.c 	\
+				\
+				parser/parsing_system.c 	\
+				parser/parsing_ext.c 		\
+				parser/variable_expand.c 	\
+				parser/wildcards.c 			\
+				\
+				executor/execution_system.c \
+				executor/builtins.c 		\
+				executor/redirections.c 	\
+				executor/heredoc.c 			\
+				executor/booleans.c 		\
+				executor/pipes.c 			\
+				\
+				variables/env_variables.c 	\
+				variables/shell_variables.c \
+				\
+				_lst/lst_add_back.c 		\
+				_lst/lst_free_last.c 		\
+				_lst/lst_free.c 			\
+				_lst/lst_new.c 				\
+				_lst/lst_set_to_head.c 		\
+				_lst/lst_set_to_last.c
 SRC_DIR     := src
 SRCS		:= $(SRCS:%=$(SRC_DIR)/%)
 BUILD_DIR   := .build

@@ -12,56 +12,19 @@
 
 #include "minishell.h"
 
-/*!
-* @brief
-	Print all the enviroment variables.
-* @param args
-	Command to execute.
-	If an argument is passed, it will print an error message.
-* @param var
-	Variables.
-*/
-void	ft_env(char ***args, t_var **var)
-{
-	int		i;
-
-	i = -1;
-	if (args[0][1])
-	{
-		printf("env: you can't set an env variable, because the ");
-		printf("subject says so\n");
-	}
-	else
-	{
-		while ((*var)->next)
-		{
-			if ((*var)->type == ENV || (*var)->type == EXPORT)
-				printf("%s=%s\n", (*var)->name, (*var)->value);
-			(*var) = (*var)->next;
-		}
-		if ((*var)->type == ENV || (*var)->type == EXPORT)
-			printf("%s=%s\n", (*var)->name, (*var)->value);
-		t_var_set_to_head(var);
-	}
-}
-
 static int	set_export_var(char *arg, t_var **var)
 {
 	char	**split_arg;
 	bool	is_new;
 
 	split_arg = ft_split(arg, '=');
-	if (!split_arg[1])
-	{
-		printf("export: `%s': not a valid identifier\n", split_arg[0]);
-		return (0);
-	}
 	is_new = true;
 	while ((*var))
 	{
 		if (!ft_strncmp((*var)->name, split_arg[0], ft_strlen(split_arg[0])))
 		{
-			(*var)->value = split_arg[1];
+			if ((*var)->value)
+				(*var)->value = split_arg[1];
 			is_new = false;
 			break ;
 		}
@@ -69,7 +32,11 @@ static int	set_export_var(char *arg, t_var **var)
 	}
 	if (is_new)
 	{
-		t_var_add_back(var, t_var_new(split_arg[0], split_arg[1], EXPORT));
+
+		if (split_arg[1])
+			t_var_add_back(var, t_var_new(split_arg[0], split_arg[1], EXPORT));
+		else
+			t_var_add_back(var, t_var_new(split_arg[0], NULL, EXPORT));
 		t_var_set_to_head(var);
 	}
 	t_var_set_to_head(var);
@@ -102,13 +69,18 @@ void	ft_export(char ***args, t_var **var)
 	{
 		while ((*var)->next)
 		{
-			if ((*var)->type == EXPORT)
+			if ((*var)->type == EXPORT && (*var)->value)
 				printf("declare -x %s=\"%s\"\n", (*var)->name, (*var)->value);
+			else if ((*var)->type == EXPORT)
+				printf("declare -x %s\n", (*var)->name);
 			(*var) = (*var)->next;
 		}
-		if ((*var)->type == EXPORT)
+		if ((*var)->type == EXPORT && (*var)->value)
 			printf("declare -x %s=\"%s\"\n", (*var)->name, (*var)->value);
+		else if ((*var)->type == EXPORT)
+			printf("declare -x %s\n", (*var)->name);
 	}
+	error_handler(SET, NULL, EXIT_SUCCESS, false);
 	t_var_set_to_head(var);
 }
 

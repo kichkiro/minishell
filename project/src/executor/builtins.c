@@ -16,7 +16,7 @@
 * @brief
 	Executes the builtin command cd.
 * @param args
-	Folder to be changed.
+	Folder or path to be changed.
 */
 static void	ft_cd(char ***args)
 {
@@ -26,19 +26,22 @@ static void	ft_cd(char ***args)
 	i = 0;
 	if (args[0][1])
 		path = ft_split(args[0][1], '/');
-	if (!args[0][1] || args[0][1][0] == '~')
-		chdir(getenv("HOME"));
-	else if (!ft_strncmp(args[0][1], "..", 2))
-		while (path[i++])
-			chdir("..");
-	else if (args[0][1][0] == '-')
-		chdir(getenv("OLDPWD"));
-	else if (args[0][2])
-		printf("cd: too many arguments\n");
+	if (args[0][1] && args[0][2])
+		error_handler(PRINT, "cd: too many arguments", 1, false);
+	else if ((!args[0][1] || args[0][1][0] == '~') && !chdir(getenv("HOME")))
+		error_handler(SET, NULL, EXIT_SUCCESS, false);
+	else if (args[0][1][0] == '-' && !chdir(getenv("OLDPWD")))
+	{
+		printf("%s\n", getcwd(NULL, 0));
+		error_handler(SET, NULL, EXIT_SUCCESS, false);
+	}
 	else if (chdir(args[0][1]) == -1)
-		printf("cd: no such file or directory: %s\n", args[0][1]);
-	else
-		chdir(args[0][1]);
+		error_handler(PRINT, ft_strjoin("cd: ", args[0][1]), 1, true);
+	else if (!ft_strncmp(args[0][1], "..", 2))
+		while (path[i++] && !chdir("."))
+			error_handler(SET, NULL, EXIT_SUCCESS, false);
+	else if (!chdir(args[0][1]))
+		error_handler(SET, NULL, EXIT_SUCCESS, false);
 	free(path);
 }
 
@@ -76,6 +79,40 @@ static void	ft_echo(char ***args)
 
 /*!
 * @brief
+	Print all the enviroment variables.
+* @param args
+	Command to execute.
+	If an argument is passed, it will print an error message.
+* @param var
+	Variables.
+*/
+static void	ft_env(char ***args, t_var **var)
+{
+	int		i;
+
+	i = -1;
+	if (args[0][1])
+	{
+		printf("env: you can't set an env variable, because the ");
+		printf("subject says so\n");
+	}
+	else
+	{
+		while ((*var)->next)
+		{
+			if ((*var)->type == ENV || (*var)->type == EXPORT)
+				printf("%s=%s\n", (*var)->name, (*var)->value);
+			(*var) = (*var)->next;
+		}
+		if ((*var)->type == ENV || (*var)->type == EXPORT)
+			printf("%s=%s\n", (*var)->name, (*var)->value);
+		t_var_set_to_head(var);
+	}
+	error_handler(SET, NULL, EXIT_SUCCESS, false);
+}
+
+/*!
+* @brief
 	Executes the builtin command.
 * @param args
 	Arguments to be executed.
@@ -89,7 +126,10 @@ void	execute_builtin(char ***args, t_var **var)
 	else if (!ft_strncmp(*args[0], "echo", 4))
 		ft_echo(args);
 	else if (!ft_strncmp(*args[0], "pwd", 3))
+	{
 		printf("%s\n", getcwd(NULL, 0));
+		error_handler(SET, NULL, EXIT_SUCCESS, false);
+	}
 	else if (!ft_strncmp(*args[0], "exit", 4))
 		exit(close_shell(*args[0]));
 	else if (!ft_strncmp(*args[0], "history", 7))

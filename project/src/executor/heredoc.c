@@ -6,7 +6,7 @@
 /*   By: kichkiro <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/26 12:05:42 by kichkiro          #+#    #+#             */
-/*   Updated: 2023/05/08 23:23:58 by kichkiro         ###   ########.fr       */
+/*   Updated: 2023/05/09 19:56:33 by kichkiro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,7 +92,7 @@ void	heredoc(char *delimiter, t_cmd **cmd)
 
 	fd = fd_handler(GET, NULL);
 	doc = NULL;
-	reset_terminal(&fd);
+	reset_terminal(&fd, true, true);
 	get_doc(delimiter, &doc);
 	reset_prev(&fd);
 	redirection_pipe(doc, cmd);

@@ -71,9 +71,12 @@ void	ft_pipe(char *exe, char ***args, t_var **var, bool output_redirect)
 {
 	int		pipe_fd[2];
 	pid_t	pid;
+	t_fd	*fd;
 
 	if (pipe(pipe_fd) == -1)
 		error_handler(PRINT, NULL, 1, true);
+	fd = fd_handler(GET, 0);
+	reset_terminal(&fd, false, true);
 	save_prev_fd(pipe_fd);
 	pid = fork();
 	if (pid == 0)

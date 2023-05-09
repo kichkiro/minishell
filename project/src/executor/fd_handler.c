@@ -6,7 +6,7 @@
 /*   By: kichkiro <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/08 16:08:19 by kichkiro          #+#    #+#             */
-/*   Updated: 2023/05/09 15:31:32 by kichkiro         ###   ########.fr       */
+/*   Updated: 2023/05/09 20:14:17 by kichkiro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,27 +51,32 @@ t_fd	*fd_handler(char request, t_fd *new_node)
 	else if (request == RESTORE)
 	{
 		t_fd_set_to_last(&fd);
-		if (close(fd->new_fd) == -1)
-			error_handler(PRINT, NULL, 1, true);
-		if (dup2(fd->prev_fd, fd->redirect) == -1)
-			error_handler(PRINT, NULL, 1, true);
-		t_fd_free_last(&fd);
+		while (fd)
+		{
+			if (close(fd->new_fd) == -1)
+				error_handler(PRINT, NULL, 1, true);
+			if (dup2(fd->prev_fd, fd->redirect) == -1)
+				error_handler(PRINT, NULL, 1, true);
+			t_fd_free_last(&fd);
+		}
 	}
 	return (NULL);
 }
 
+// AGGIORNARE DOC ------------------------------------------------------------->
 /*!
  * @brief 
 	Reset the terminal fd's.
  * @param fd 
 	Linked list containing data from previous redirects.
  */
-void	reset_terminal(t_fd **fd)
+void	reset_terminal(t_fd **fd, bool reset_stdin, bool reset_stdout)
 {
 	t_fd_set_to_head(fd);
 	while (*fd)
 	{
-		if (isatty((*fd)->prev_fd))
+		if (isatty((*fd)->prev_fd) && ((*fd)->redirect == STDIN_FILENO && \
+			reset_stdin) || ((*fd)->redirect == STDOUT_FILENO && reset_stdout))
 		{
 			if (dup2((*fd)->prev_fd, (*fd)->redirect) == -1)
 				error_handler(PRINT, NULL, 1, true);

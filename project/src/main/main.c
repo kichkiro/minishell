@@ -6,7 +6,7 @@
 /*   By: kichkiro <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/27 19:07:59 by kichkiro          #+#    #+#             */
-/*   Updated: 2023/05/09 13:06:23 by kichkiro         ###   ########.fr       */
+/*   Updated: 2023/05/09 19:59:02 by kichkiro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,8 +40,8 @@ int	main(void)
 		signal(SIGINT, signal_handler);
 
 		fd = fd_handler(GET, NULL);
-		reset_terminal(&fd);
-		
+		reset_terminal(&fd, true, true);
+
 		prompt = readline(ft_whoami());
 		if (!prompt)
 			return (close_shell(prompt));

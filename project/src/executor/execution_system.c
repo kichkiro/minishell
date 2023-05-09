@@ -6,7 +6,7 @@
 /*   By: kichkiro <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/21 11:45:46 by kichkiro          #+#    #+#             */
-/*   Updated: 2023/05/09 15:32:35 by kichkiro         ###   ########.fr       */
+/*   Updated: 2023/05/09 20:13:47 by kichkiro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,10 +77,10 @@ static void	router(t_cmd **cmd, char *exe, char ***args, t_var **var)
 	if ((*cmd) && (*cmd)->type == REDIRECT)
 	{
 		redirections(cmd, exe, args, var);
-		if (*cmd)
-			*cmd = (*cmd)->prev;
+		if (*cmd && (*cmd)->next)
+			*cmd = (*cmd)->next;
 	}
-	else if ((*cmd) && (*cmd)->type == PIPE)
+	if ((*cmd) && (*cmd)->type == PIPE)
 	{
 		ft_pipe(exe, args, var, false);
 	}
@@ -122,6 +122,6 @@ void	execution_system(t_cmd **cmd, t_var **var)
 		if (*cmd && (*cmd)->type && (*cmd)->type != BOOLEAN)
 			*cmd = (*cmd)->next;
 	}
-	// fd_handler(RESTORE, NULL);
+	fd_handler(RESTORE, NULL);
 	booleans_handler(cmd, var);
 }

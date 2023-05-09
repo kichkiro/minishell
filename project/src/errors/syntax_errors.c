@@ -6,7 +6,7 @@
 /*   By: kichkiro <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/08 18:07:08 by kichkiro          #+#    #+#             */
-/*   Updated: 2023/05/09 15:38:29 by kichkiro         ###   ########.fr       */
+/*   Updated: 2023/05/09 19:24:21 by kichkiro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 // static bool	syntax_error(char *prompt)
 // {
-	// Se il primo token e' di tipo PIPE ritorna syntax error.
+	// Se il primo token e' di tipo PIPE o BOOLEAN ritorna syntax error.
 	// Se i primi token sono BOOLEAN e sono parentesi tonde, il token successivo
 		// deve essere STANDARD, o REDIRECT) 
 // }

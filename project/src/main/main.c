@@ -6,7 +6,7 @@
 /*   By: kichkiro <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/27 19:07:59 by kichkiro          #+#    #+#             */
-/*   Updated: 2023/05/08 00:43:21 by kichkiro         ###   ########.fr       */
+/*   Updated: 2023/05/09 13:06:23 by kichkiro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,7 @@ int	main(void)
 	char	*prompt;
 	t_var	*var;
 	t_cmd	*cmd;
+	t_fd	*fd;
 
 	var = NULL;
 	cmd = NULL;
@@ -37,11 +38,15 @@ int	main(void)
 		signal(SIGQUIT, SIG_IGN);
 		signal(SIGTSTP, SIG_IGN);
 		signal(SIGINT, signal_handler);
+
+		fd = fd_handler(GET, NULL);
+		reset_terminal(&fd);
+		
 		prompt = readline(ft_whoami());
 		if (!prompt)
 			return (close_shell(prompt));
 		signals_controller(SET, false);
-		if (!invalid_prompt(prompt) && !shell_var_assig(&var, prompt))
+		if (!invalid_prompt(prompt) && !shell_variables(&var, prompt))
 		{
 			parsing_system(prompt, &cmd, var);
 			execution_system(&cmd, &var);

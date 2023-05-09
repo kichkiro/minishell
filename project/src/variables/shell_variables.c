@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   shell_var_assig.c                                  :+:      :+:    :+:   */
+/*   shell_variables.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: kichkiro <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/06 14:07:27 by kichkiro          #+#    #+#             */
-/*   Updated: 2023/05/06 17:19:32 by kichkiro         ###   ########.fr       */
+/*   Updated: 2023/05/08 16:51:02 by kichkiro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,7 +91,7 @@ static char	*tmp_get_var_value(char *prompt, size_t var_name_len)
 	var_name_len));
 }
 
-bool	shell_var_assig(t_var **var, char *prompt)
+bool	shell_variables(t_var **var, char *prompt)
 {
 	char	*var_name;
 	char	*var_value;

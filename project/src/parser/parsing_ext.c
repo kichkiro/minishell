@@ -6,7 +6,7 @@
 /*   By: kichkiro <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/08 00:34:21 by kichkiro          #+#    #+#             */
-/*   Updated: 2023/05/08 00:42:15 by kichkiro         ###   ########.fr       */
+/*   Updated: 2023/05/08 15:12:06 by kichkiro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 void	parsing_vars(t_cmd **cmd, char *prompt, t_parse **p, t_var *var)
 {
-	if (!(*p)->single_quotes && prompt[(*p)->i] == '$' || \
+	if ((!(*p)->single_quotes && prompt[(*p)->i] == '$') || \
 		(!(*p)->single_quotes && prompt[(*p)->i] == '$' && (*cmd) && \
 		(*cmd)->prev->type))
 	{

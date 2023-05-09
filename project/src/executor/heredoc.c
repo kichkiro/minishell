@@ -6,34 +6,11 @@
 /*   By: kichkiro <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/26 12:05:42 by kichkiro          #+#    #+#             */
-/*   Updated: 2023/05/07 21:23:33 by kichkiro         ###   ########.fr       */
+/*   Updated: 2023/05/08 23:23:58 by kichkiro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-/*!
- * @brief 
-	Reset the terminal fd's.
- * @param fd 
-	Linked list containing data from previous redirects.
- */
-static void	reset_terminal(t_fd **fd)
-{
-	t_fd_set_to_head(fd);
-	while (*fd)
-	{
-		if (isatty((*fd)->prev_fd))
-		{
-			if (dup2((*fd)->prev_fd, (*fd)->redirect) == -1)
-				error_handler(PRINT, NULL, 1, true);
-		}
-		if ((*fd)->next)
-			*fd = (*fd)->next;
-		else
-			break ;
-	}
-}
 
 /*!
  * @brief 
@@ -72,41 +49,6 @@ static void	get_doc(char *delimiter, char **doc)
 
 /*!
  * @brief 
-	Reset previous fd's.
- * @param fd 
-	Linked list containing data from previous redirects.
- */
-static void	reset_prev(t_fd **fd)
-{
-	bool	input;
-	bool	output;
-
-	input = false;
-	output = false;
-	t_fd_set_to_last(fd);
-	while ((*fd))
-	{
-		if (!input && (*fd)->redirect == STDIN_FILENO)
-		{
-			if (dup2((*fd)->new_fd, STDIN_FILENO) == -1)
-				error_handler(PRINT, NULL, 1, true);
-			input = true;
-		}
-		else if (!output && (*fd)->redirect == STDOUT_FILENO)
-		{
-			if (dup2((*fd)->new_fd, STDOUT_FILENO) == -1)
-				error_handler(PRINT, NULL, 1, true);
-			output = true;
-		}
-		if ((*fd)->prev)
-			*fd = (*fd)->prev;
-		else
-			break ;
-	}
-}
-
-/*!
- * @brief 
 	Creates a file to which the document is written and redirects the input to 
 	the same file.
  * @param doc 
@@ -130,7 +72,7 @@ static void	redirection_pipe(char *doc, t_cmd **cmd)
 	if (dup2(new_fd, STDIN_FILENO) == -1)
 		error_handler(PRINT, NULL, 1, true);
 	close(pipe_fd[1]);
-	redirect_handler(SET, t_fd_new(STDIN_FILENO, prev_fd, new_fd));
+	fd_handler(SET, t_fd_new(STDIN_FILENO, prev_fd, new_fd, false));
 	if ((*cmd) && (*cmd)->next && (*cmd)->next->type == REDIRECT)
 		*cmd = (*cmd)->next;
 }
@@ -148,7 +90,7 @@ void	heredoc(char *delimiter, t_cmd **cmd)
 	t_fd	*fd;
 	char	*doc;
 
-	fd = redirect_handler(GET, NULL);
+	fd = fd_handler(GET, NULL);
 	doc = NULL;
 	reset_terminal(&fd);
 	get_doc(delimiter, &doc);

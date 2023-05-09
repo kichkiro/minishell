@@ -6,7 +6,7 @@
 /*   By: kichkiro <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/21 11:45:46 by kichkiro          #+#    #+#             */
-/*   Updated: 2023/05/08 00:43:39 by kichkiro         ###   ########.fr       */
+/*   Updated: 2023/05/09 15:32:35 by kichkiro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,10 +72,18 @@ static bool	find_exe(char **exe)
 
 static void	router(t_cmd **cmd, char *exe, char ***args, t_var **var)
 {
+	// t_fd	*fd;
+
 	if ((*cmd) && (*cmd)->type == REDIRECT)
+	{
 		redirections(cmd, exe, args, var);
+		if (*cmd)
+			*cmd = (*cmd)->prev;
+	}
 	else if ((*cmd) && (*cmd)->type == PIPE)
-		ft_pipe(cmd, exe, args, var);
+	{
+		ft_pipe(exe, args, var, false);
+	}
 	else if (is_builtin(exe))
 		execute_builtin(args, var);
 	else
@@ -104,15 +112,16 @@ void	execution_system(t_cmd **cmd, t_var **var)
 				*cmd = (*cmd)->next;
 			}
 			exe = args[0];
-			if (is_builtin(exe) || args && !access(exe, F_OK) || find_exe(&exe))
+			if (is_builtin(exe) || (args && !access(exe, F_OK)) || find_exe(&exe))
 				router(cmd, exe, &args, var);
 		}
 		else
 			router(cmd, NULL, NULL, var);
-		if (error_handler(GET, NULL, 0, false) != EXIT_SUCCESS)
+		if (error_handler(GET, 0, 0, 0) != EXIT_SUCCESS)
 			break ;
 		if (*cmd && (*cmd)->type && (*cmd)->type != BOOLEAN)
 			*cmd = (*cmd)->next;
 	}
+	// fd_handler(RESTORE, NULL);
 	booleans_handler(cmd, var);
 }

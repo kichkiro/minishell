@@ -15,3 +15,36 @@ Documentation:
 Tester:
 [V] Commands
 [V] Exit status 
+
+
+
+BUG --->
+
+cat < file1 | cat > file2 < file 1 | wc -l
+minishell: file: No such file or directory
+
+# settare l'exit_status dopo questo errore altrimenti non funziona.
+
+--->
+
+
+
+# cat < file1 | cat > file2
+cat < file1 | echo 1 > file2 | wc -l (non funziona)
+
+cat < file1 | cat > file2 | wc -l (funziona)
+
+# Debug:
+# Salva fd input del terminale.
+# Aggiunge new_fd e prev_fd a fd_handler().
+# Sostituisce fd input con fd file1.
+# Pipe salva fd precedente, quindi fd input di file1.
+# Crea un processo figlio e sostituisce fd output con fd_pipe[1].
+# Esegue il comando, quindi scrive l'output di "cat < file1" in pipe.
+# Termina il processo figlio.
+# Sostituisce fd input con fd_pipe[0], quindi sostituisce l'input di file1.
+# ---> Quindi ora abbiamo due ridirezioni di input, una da file1 e una da pipe.
+# ///// Ora si chiude l'ultimo fd. questo e' un problema in quanto si va a chiudere pipe. invece ora proviamo achiudere tutti gli fd alla fine 
+
+
+cat > file2 < file1 | wc -l (non funziona)

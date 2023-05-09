@@ -6,7 +6,7 @@
 /*   By: kichkiro <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/05 16:33:32 by kichkiro          #+#    #+#             */
-/*   Updated: 2023/05/06 21:40:47 by kichkiro         ###   ########.fr       */
+/*   Updated: 2023/05/08 15:13:51 by kichkiro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,10 +101,8 @@ static void	router(t_cmd **cmd, t_var **var)
 	operator, then routes the expression to the appropriate handling function.
  * @param cmd 
 	A pointer to a pointer of struct t_cmd
- * @param var 
-	A pointer to a pointer of struct t_var
  */
-static void	or_operator(t_cmd **cmd, t_var **var)
+static void	or_operator(t_cmd **cmd)
 {
 	int	parentheses;
 
@@ -158,7 +156,7 @@ void	booleans_handler(t_cmd **cmd, t_var **var)
 			router(cmd, var);
 		else if (!ft_strncmp((*cmd)->token, "||", 2))
 		{
-			or_operator(cmd, var);
+			or_operator(cmd);
 			if (*cmd)
 				router(cmd, var);
 		}

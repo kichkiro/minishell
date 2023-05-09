@@ -6,7 +6,7 @@
 /*   By: kichkiro <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/05 11:01:31 by kichkiro          #+#    #+#             */
-/*   Updated: 2023/05/05 01:51:27 by kichkiro         ###   ########.fr       */
+/*   Updated: 2023/05/08 23:22:54 by kichkiro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,7 +78,7 @@ t_cmd	*t_cmd_new(char	*token, char type)
 	A pointer to the newly created t_fd node, or NULL if memory allocation 
 	fails.
  */
-t_fd	*t_fd_new(int redirect, int prev_fd, int new_fd)
+t_fd	*t_fd_new(int redirect, int prev_fd, int new_fd, bool is_pipe)
 {
 	t_fd	*node;
 
@@ -88,6 +88,7 @@ t_fd	*t_fd_new(int redirect, int prev_fd, int new_fd)
 	node->redirect = redirect;
 	node->prev_fd = prev_fd;
 	node->new_fd = new_fd;
+	node->pipe = is_pipe;
 	node->next = 0;
 	node->prev = 0;
 	return (node);

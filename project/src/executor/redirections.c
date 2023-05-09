@@ -6,45 +6,11 @@
 /*   By: kichkiro <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/23 17:35:15 by kichkiro          #+#    #+#             */
-/*   Updated: 2023/04/29 22:38:58 by kichkiro         ###   ########.fr       */
+/*   Updated: 2023/05/09 15:29:34 by kichkiro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-/*!
- * @brief 
-	Contains fd, a linked list that keeps track of all redirects performed so 
-	far.
-	Based on the request, GET, SET, RESTORE executes the corresponding action.
- * @param request 
-	Request to perform:
-		- GET: return fd list.
-		- SET: append new node at the end of the list.
-		- RESTORE: close actual fd, restore prev fd and delete last node.
- * @param new_node 
-	Possible new node to be added to the end of the list.
- * @return 
-	List if request is GET, NULL otherwise.
- */
-t_fd	*redirect_handler(char request, t_fd *new_node)
-{
-	static t_fd	*fd;
-
-	if (request == GET)
-		return (fd);
-	else if (request == SET)
-		t_fd_add_back(&fd, new_node);
-	else if (request == RESTORE)
-	{
-		t_fd_set_to_last(&fd);
-		close(fd->new_fd);
-		if (dup2(fd->prev_fd, fd->redirect) == -1)
-			error_handler(PRINT, NULL, 1, true);
-		t_fd_free_last(&fd);
-	}
-	return (NULL);
-}
 
 /*!
  * @brief 
@@ -67,7 +33,7 @@ static void	redirecting_input(char	*file, t_cmd **cmd)
 	new_fd = open(file, O_RDONLY);
 	if (new_fd == -1)
 		error_handler(PRINT, file, 1, true);
-	redirect_handler(SET, t_fd_new(STDIN_FILENO, prev_fd, new_fd));
+	fd_handler(SET, t_fd_new(STDIN_FILENO, prev_fd, new_fd, false));
 	if (new_fd != -1 && dup2(new_fd, STDIN_FILENO) == -1)
 		error_handler(PRINT, file, 1, true);
 	if ((*cmd) && (*cmd)->next && (*cmd)->next->type == REDIRECT)
@@ -96,7 +62,7 @@ static void	redirecting_output(char	*file, t_cmd **cmd)
 	new_fd = open(file, O_WRONLY | O_CREAT | O_TRUNC, 0644);
 	if (new_fd == -1)
 		error_handler(PRINT, file, 1, true);
-	redirect_handler(SET, t_fd_new(STDOUT_FILENO, prev_fd, new_fd));
+	fd_handler(SET, t_fd_new(STDOUT_FILENO, prev_fd, new_fd, false));
 	if (dup2(new_fd, STDOUT_FILENO) == -1)
 		error_handler(PRINT, file, 1, true);
 	if ((*cmd) && (*cmd)->next && (*cmd)->next->type == REDIRECT)
@@ -125,7 +91,7 @@ static void	appending_redirected_output(char *file, t_cmd **cmd)
 	new_fd = open(file, O_WRONLY | O_CREAT | O_APPEND, 0644);
 	if (new_fd == -1)
 		error_handler(PRINT, file, 1, true);
-	redirect_handler(SET, t_fd_new(STDOUT_FILENO, prev_fd, new_fd));
+	fd_handler(SET, t_fd_new(STDOUT_FILENO, prev_fd, new_fd, false));
 	if (dup2(new_fd, STDOUT_FILENO) == -1)
 		error_handler(PRINT, file, 1, true);
 	if ((*cmd) && (*cmd)->next && (*cmd)->next->type == REDIRECT)
@@ -161,12 +127,21 @@ void	redirections(t_cmd **cmd, char *exe, char ***args, t_var **var)
 		redirections(cmd, exe, args, var);
 	else
 	{
-		if (is_builtin(exe) && !error_handler(GET, NULL, 0, false))
+		// if ((*cmd) && (*cmd)->next && (*cmd)->next->type == PIPE && \
+		// 	!error_handler(GET, 0, 0, 0))
+		// {
+		// 	if (no_output_redirect(fd_handler(GET, NULL)))
+		// 		ft_pipe(exe, args, var, false);
+		// 	else
+		// 		ft_pipe(exe, args, var, true);
+		// }
+		if (is_builtin(exe) && !error_handler(GET, 0, 0, 0))
 			execute_builtin(args, var);
-		else if (exe && args && !error_handler(GET, NULL, 0, false))
+		else if (exe && args && !error_handler(GET, 0, 0, 0))
 			execute(exe, args);
 		if (*cmd)
-		*cmd = (*cmd)->next;
+			*cmd = (*cmd)->next;
 	}
-	redirect_handler(RESTORE, NULL);
+	// if (!no_output_redirect(fd_handler(GET, NULL)))
+	fd_handler(RESTORE, NULL);
 }

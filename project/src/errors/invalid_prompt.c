@@ -6,18 +6,11 @@
 /*   By: kichkiro <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/06 11:56:59 by kichkiro          #+#    #+#             */
-/*   Updated: 2023/05/06 15:20:22 by kichkiro         ###   ########.fr       */
+/*   Updated: 2023/05/09 15:38:01 by kichkiro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-// static bool	syntax_error(char *prompt)
-// {
-	// Se il primo token e' di tipo PIPE ritorna syntax error.
-	// Se i primi token sono BOOLEAN e sono parentesi tonde, il token successivo
-		// deve essere STANDARD, REDIRECT o WILDCARD) 
-// }
 
 /*!
  * @brief 

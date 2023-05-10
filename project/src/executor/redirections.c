@@ -6,7 +6,7 @@
 /*   By: kichkiro <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/23 17:35:15 by kichkiro          #+#    #+#             */
-/*   Updated: 2023/05/09 19:42:33 by kichkiro         ###   ########.fr       */
+/*   Updated: 2023/05/10 12:20:36 by kichkiro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -125,23 +125,4 @@ void	redirections(t_cmd **cmd, char *exe, char ***args, t_var **var)
 		appending_redirected_output((*cmd)->token, cmd);
 	if ((*cmd) && (*cmd)->type == REDIRECT)
 		redirections(cmd, exe, args, var);
-	// else
-	// {
-	// 	// if ((*cmd) && (*cmd)->next && (*cmd)->next->type == PIPE && \
-	// 	// 	!error_handler(GET, 0, 0, 0))
-	// 	// {
-	// 	// 	if (no_output_redirect(fd_handler(GET, NULL)))
-	// 	// 		ft_pipe(exe, args, var, false);
-	// 	// 	else
-	// 	// 		ft_pipe(exe, args, var, true);
-	// 	// }
-	// 	// if (is_builtin(exe) && !error_handler(GET, 0, 0, 0))
-	// 	// 	execute_builtin(args, var);
-	// 	// else if (exe && args && !error_handler(GET, 0, 0, 0))
-	// 	// 	execute(exe, args);
-	// 	if (*cmd)
-	// 		*cmd = (*cmd)->next;
-	// }
-	// if (!no_output_redirect(fd_handler(GET, NULL)))
-	// fd_handler(RESTORE, NULL);
 }

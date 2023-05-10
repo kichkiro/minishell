@@ -24,17 +24,26 @@ static void	save_prev_fd(int *pipe_fd)
 	fd_handler(SET, t_fd_new(STDIN_FILENO, prev_fd, new_fd, true));
 }
 
+// se l'fd di output non e' quello del terminale, non scrivere nulla in pipe ma esegui solo i comandi.
 static void	write_in_pipe(int *pipe_fd, char *exe, char ***args, t_var **var)
 {
+	bool	terminal_stdout;
+	int		actual_fd;
+
+	actual_fd = dup(STDOUT_FILENO);
+	if (!actual_fd)
+		error_handler(PRINT, NULL, 1, true);
+	terminal_stdout = isatty(STDOUT_FILENO);
+
 	if (close(pipe_fd[0]) == -1)
 		error_handler(PRINT, NULL, 1, true);
-	if (dup2(pipe_fd[1], STDOUT_FILENO) == -1)
+	if (terminal_stdout && dup2(pipe_fd[1], STDOUT_FILENO) == -1)
 		error_handler(PRINT, NULL, 1, true);
 	if (close(pipe_fd[1]) == -1)
 		error_handler(PRINT, NULL, 1, true);
 	if (!is_builtin(args[0][0]))
 		execute(exe, args);
-	else
+	else if (exe)
 		execute_builtin(args, var);
 }
 
@@ -76,7 +85,6 @@ void	ft_pipe(char *exe, char ***args, t_var **var, bool output_redirect)
 	if (pipe(pipe_fd) == -1)
 		error_handler(PRINT, NULL, 1, true);
 	fd = fd_handler(GET, 0);
-	reset_terminal(&fd, false, true);
 	save_prev_fd(pipe_fd);
 	pid = fork();
 	if (pid == 0)
@@ -85,5 +93,8 @@ void	ft_pipe(char *exe, char ***args, t_var **var, bool output_redirect)
 		exit(0);
 	}
 	else
+	{
 		read_from_pipe(pid, pipe_fd);
+		reset_terminal(&fd, false, true);
+	}
 }

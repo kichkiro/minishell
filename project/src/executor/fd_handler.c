@@ -6,24 +6,11 @@
 /*   By: kichkiro <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/08 16:08:19 by kichkiro          #+#    #+#             */
-/*   Updated: 2023/05/09 20:14:17 by kichkiro         ###   ########.fr       */
+/*   Updated: 2023/05/10 12:23:16 by kichkiro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-// Ritorna vero se non c'e' neppur un redirect di tipo output, altrimenti falso:
-bool	no_output_redirect(t_fd *fd)
-{
-	t_fd_set_to_head(&fd);
-	while (fd)
-	{
-		if (fd->redirect == STDOUT_FILENO)
-			return (false);
-		fd = fd->next;
-	}
-	return (true);
-}
 
 /*!
  * @brief 

@@ -6,7 +6,7 @@
 /*   By: kichkiro <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/21 11:45:46 by kichkiro          #+#    #+#             */
-/*   Updated: 2023/05/09 20:13:47 by kichkiro         ###   ########.fr       */
+/*   Updated: 2023/05/10 12:20:27 by kichkiro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,8 +72,6 @@ static bool	find_exe(char **exe)
 
 static void	router(t_cmd **cmd, char *exe, char ***args, t_var **var)
 {
-	// t_fd	*fd;
-
 	if ((*cmd) && (*cmd)->type == REDIRECT)
 	{
 		redirections(cmd, exe, args, var);
@@ -86,7 +84,7 @@ static void	router(t_cmd **cmd, char *exe, char ***args, t_var **var)
 	}
 	else if (is_builtin(exe))
 		execute_builtin(args, var);
-	else
+	else if (exe)
 		execute(exe, args);
 	// ft_strmatrixfree(args[0]);
 	if (args)

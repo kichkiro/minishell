@@ -6,7 +6,7 @@
 /*   By: kichkiro <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/06 17:18:07 by kichkiro          #+#    #+#             */
-/*   Updated: 2023/05/09 19:55:48 by kichkiro         ###   ########.fr       */
+/*   Updated: 2023/05/10 12:23:26 by kichkiro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -159,7 +159,6 @@ bool	is_builtin(char *exe);
 t_fd	*fd_handler(char request, t_fd *new_node);
 void	reset_terminal(t_fd **fd, bool reset_stdin, bool reset_stdout);
 void	reset_prev(t_fd **fd);
-bool	no_output_redirect(t_fd *fd);
 void	redirections(t_cmd **cmd, char *exe, char ***args, t_var **var);
 void	heredoc(char *delimiter, t_cmd **cmd);
 void	ft_pipe(char *exe, char ***args, t_var **var, bool output_redirect);

@@ -6,7 +6,7 @@
 /*   By: kichkiro <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/21 11:45:46 by kichkiro          #+#    #+#             */
-/*   Updated: 2023/05/10 12:20:27 by kichkiro         ###   ########.fr       */
+/*   Updated: 2023/05/10 16:43:37 by kichkiro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,7 +86,7 @@ static void	router(t_cmd **cmd, char *exe, char ***args, t_var **var)
 		execute_builtin(args, var);
 	else if (exe)
 		execute(exe, args);
-	// ft_strmatrixfree(args[0]);
+	ft_strmatrixfree(args[0]);
 	if (args)
 		args[0] = NULL;
 	if ((*cmd) && (*cmd)->type == REDIRECT)

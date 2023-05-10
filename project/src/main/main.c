@@ -6,7 +6,7 @@
 /*   By: kichkiro <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/27 19:07:59 by kichkiro          #+#    #+#             */
-/*   Updated: 2023/05/09 19:59:02 by kichkiro         ###   ########.fr       */
+/*   Updated: 2023/05/10 16:41:43 by kichkiro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,6 +53,7 @@ int	main(void)
 		}
 		ft_add_history(prompt);
 		ft_free((void **)&prompt);
+		// t_cmd_set_to_head(&cmd);
 		t_cmd_free(&cmd);
 	}
 	t_var_free(&var);

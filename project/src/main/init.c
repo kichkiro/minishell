@@ -51,6 +51,7 @@ static void	init_history(void)
 
 	hist = ft_strjoin(getenv("HOME"), "/.minishell_history");
 	fd = open(hist, O_RDWR | O_APPEND | O_CREAT, 0644);
+	ft_free((void **)&hist);
 	hist = ft_get_next_line(fd);
 	while (hist)
 	{
@@ -58,9 +59,11 @@ static void	init_history(void)
 		if (hist[0] || hist[0] != '\n')
 		{
 			add_history(hist);
+			ft_free((void **)&hist);
 			hist = ft_get_next_line(fd);
 		}
 	}
+	ft_free((void **)&hist);
 	close(fd);
 }
 

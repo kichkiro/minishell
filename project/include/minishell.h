@@ -6,7 +6,7 @@
 /*   By: kichkiro <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/06 17:18:07 by kichkiro          #+#    #+#             */
-/*   Updated: 2023/05/10 12:23:26 by kichkiro         ###   ########.fr       */
+/*   Updated: 2023/05/10 21:49:41 by kichkiro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -122,7 +122,6 @@ bool	invalid_prompt(char *prompt);
 // Variables ------------------------------------------------------------------>
 
 bool	shell_variables(t_var **var, char *prompt);
-void	ft_env(char ***args, t_var **var);
 void	ft_export(char ***args, t_var **var);
 void	ft_unset(char ***args, t_var **var);
 

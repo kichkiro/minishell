@@ -82,6 +82,13 @@ void	ft_pipe(char *exe, char ***args, t_var **var, bool output_redirect)
 	pid_t	pid;
 	t_fd	*fd;
 
+	if (!exe)
+	{
+		error_handler(PRINT, "syntax error near unexpected token `|'",
+			2, false);
+		return ;
+	}
+
 	if (pipe(pipe_fd) == -1)
 		error_handler(PRINT, NULL, 1, true);
 	fd = fd_handler(GET, 0);

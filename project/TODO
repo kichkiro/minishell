@@ -1,4 +1,7 @@
-TODO List
+# TODO List
+
+## Anvannin
+-------------------------------------------------------------------------------
 
 Builtins:
 
@@ -42,49 +45,55 @@ Builtins:
 - [ ] no arguments and no variables
 
 
-Functions:
-[V] invalid_prompt
-[ ] variable_assignment
+## Kichkiro
+-------------------------------------------------------------------------------
 
-Documentation:
-[V] invalid_prompt
-[ ] variable_assignment
-[V] variable_expand
-[V] lst functions
+[ ] Functions
+- [V] invalid_prompt
+- [ ] syntax_error
 
-Tester:
-[V] Commands
-[V] Exit status
+[ ] Documentation
+- [V] invalid_prompt
+- [V] shell_variables
+- [V] variable_expand
+- [V] lst functions
+- [ ] parsing_system
+- [ ] parsing_ext
+- [ ] wildcards
+- [ ] execution_system
+- [ ] init
+- [ ] prompt 
+- [ ] env_variables
+- [ ] errors_handler
+- [ ] syntax_error
 
+[ ] Norminette
+- [ ] main
+- [ ] env_variables
+- [ ] execution_system
 
+[ ] Valgrind
+- [ ] leaks
 
-BUG --->
+[ ] bug
+- [V] echo 21 | (echo 42 || ciao)
+- [V] echo 42 > file1 | cat << eof
+- [V] ls -al | grep * // sistemare i caratteri strani
+	��P]: lib: Is a directory
+	��P]: include: Is a directory
+	��P]: src: Is a directory
+- [ ] ls ** | grep c
+	Segmentation fault
+- [V] ls -al | (grep * || echo ciao) // deve stampare "ciao" in quanto grep * fallisce
+	ڴoa: lib: Is a directory
+	ڴoa: include: Is a directory
+	ڴoa: src: Is a directory
+- [ ] ┌─[shkirov@minishell] ~/github/minishell/project // dopo invalid input non stampa piu nulla
+	└─[$] [
+	minishell: detected unclosed square brackets
 
-cat < file1 | cat > file2 < file 1 | wc -l
-minishell: file: No such file or directory
+	┌─[shkirov@minishell] ~/github/minishell/project
+	└─[$] ls / | wc -l
 
-# settare l'exit_status dopo questo errore altrimenti non funziona.
-
---->
-
-
-
-# cat < file1 | cat > file2
-cat < file1 | echo 1 > file2 | wc -l (non funziona)
-
-cat < file1 | cat > file2 | wc -l (funziona)
-
-# Debug:
-# Salva fd input del terminale.
-# Aggiunge new_fd e prev_fd a fd_handler().
-# Sostituisce fd input con fd file1.
-# Pipe salva fd precedente, quindi fd input di file1.
-# Crea un processo figlio e sostituisce fd output con fd_pipe[1].
-# Esegue il comando, quindi scrive l'output di "cat < file1" in pipe.
-# Termina il processo figlio.
-# Sostituisce fd input con fd_pipe[0], quindi sostituisce l'input di file1.
-# ---> Quindi ora abbiamo due ridirezioni di input, una da file1 e una da pipe.
-# ///// Ora si chiude l'ultimo fd. questo e' un problema in quanto si va a chiudere pipe. invece ora proviamo achiudere tutti gli fd alla fine
-
-
-cat > file2 < file1 | wc -l (non funziona)
+- [ ] ls *1 | grep file
+	Segmentation fault

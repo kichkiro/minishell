@@ -6,7 +6,7 @@
 #    By: kichkiro <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/04/05 17:59:55 by kichkiro          #+#    #+#              #
-#    Updated: 2023/05/09 03:06:13 by kichkiro         ###   ########.fr        #
+#    Updated: 2023/05/11 16:42:41 by kichkiro         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -40,7 +40,6 @@ SRCS		:= \
 				variables/shell_variables.c \
 				\
 				_lst/lst_add_back.c 		\
-				_lst/lst_free_head.c 		\
 				_lst/lst_free_last.c 		\
 				_lst/lst_free.c 			\
 				_lst/lst_new.c 				\
@@ -55,7 +54,7 @@ LIB         := ft
 LIB_TARGET  := ./lib/libft/libft.a
 INCS        := ./include ./lib/libft/include
 CC          := clang
-CFLAGS      := -g #-Wall -Wextra -Werror
+CFLAGS      := -g -Wall -Wextra -Werror
 READLINE	:= -lreadline
 CPPFLAGS    := $(addprefix -I,$(INCS)) -MMD -MP
 LDFLAGS     := $(addprefix -L,$(dir $(LIB_TARGET)))
@@ -98,6 +97,8 @@ fclean: clean
 re:
 	$(MAKE) fclean
 	$(MAKE) all
+
+bonus: all
 
 # Style ----------------------------------------------------------------------->
 

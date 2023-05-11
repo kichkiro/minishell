@@ -52,7 +52,7 @@ static int	set_export_var(char *arg, t_var **var)
 * @param args
 	Command to execute.
 * @param var
-	Variables.
+	The list of variables.
 */
 void	ft_export(char ***args, t_var **var)
 {
@@ -129,7 +129,7 @@ static void	unset_var(char *arg, t_var **var)
 * @param args
 	Command to execute.
 * @param var
-	Variables.
+	The list of variables.
 */
 void	ft_unset(char ***args, t_var **var)
 {

@@ -6,7 +6,7 @@
 /*   By: kichkiro <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/26 00:47:39 by kichkiro          #+#    #+#             */
-/*   Updated: 2023/05/10 16:40:05 by kichkiro         ###   ########.fr       */
+/*   Updated: 2023/05/11 00:38:40 by kichkiro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,6 @@ void	*t_cmd_free(t_cmd **lst)
 		t_cmd_set_to_head(lst);
 		while ((*lst)->next)
 		{
-			// printf("free!\n");
 			*lst = (*lst)->next;
 			tmp = (*lst)->prev;
 			free(tmp);

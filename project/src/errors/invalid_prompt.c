@@ -6,7 +6,7 @@
 /*   By: kichkiro <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/06 11:56:59 by kichkiro          #+#    #+#             */
-/*   Updated: 2023/05/09 15:38:01 by kichkiro         ###   ########.fr       */
+/*   Updated: 2023/05/11 00:46:40 by kichkiro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -144,8 +144,6 @@ bool	invalid_prompt(char *prompt)
 		error_handler(PRINT, "detected unclosed square brackets", 1, false);
 	else if (!closed_brackets(prompt, '{', '}'))
 		error_handler(PRINT, "detected unclosed braces", 1, false);
-	// else if (!syntax_error(prompt))
-	// 	error_handler(PRINT, "bash: syntax error near unexpected token", 1, false);
 	else
 		invalid = false;
 	return (invalid);

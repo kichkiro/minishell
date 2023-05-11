@@ -6,7 +6,7 @@
 /*   By: kichkiro <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/21 19:51:19 by kichkiro          #+#    #+#             */
-/*   Updated: 2023/04/26 20:12:01 by kichkiro         ###   ########.fr       */
+/*   Updated: 2023/05/11 16:48:01 by kichkiro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,20 +14,24 @@
 
 /*!
  * @brief 
-    Free a string matrix.
- * @param matrix 
-    The string matrix.
+ * Free a string matrix.
+ *
+ * @param matrix
+ * The string matrix.
  */
-void	ft_strmatrixfree(char **matrix)
+void	ft_strmatrixfree(char ***matrix)
 {
-	int	i;
+	char	**ptr;
 
-	i = 0;
-	if (matrix)
+	if (matrix == NULL || *matrix == NULL)
+		return ;
+	ptr = *matrix;
+	while (*ptr != NULL)
 	{
-		while (matrix[i])
-			free(matrix[i++]);
-		free(matrix);
-		matrix = NULL;
+		free(*ptr);
+		ptr++;
 	}
+	free(*matrix);
+	*matrix = NULL;
 }
+

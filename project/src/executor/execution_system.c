@@ -6,7 +6,7 @@
 /*   By: kichkiro <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/21 11:45:46 by kichkiro          #+#    #+#             */
-/*   Updated: 2023/05/10 16:43:37 by kichkiro         ###   ########.fr       */
+/*   Updated: 2023/05/11 16:48:57 by kichkiro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ void	execute(char *exe, char ***args)
 	{
 		pid = fork();
 		if (pid == -1)
-			error_handler(PRINT, NULL, 1, true);
+			error_handler(PRINT, exe, 1, true);
 		else if (!pid)
 		{
 			if (execve(exe, *args, NULL) == -1)
@@ -33,9 +33,9 @@ void	execute(char *exe, char ***args)
 		else
 			waitpid(pid, &exit_code, 0);
 		if (exit_code == EXIT_SUCCESS && pid != -1)
-			error_handler(SET, NULL, EXIT_SUCCESS, false);
-		else if (exit_code == EXIT_FAILURE && pid != -1)
-			error_handler(PRINT, NULL, EXIT_FAILURE, true);
+			error_handler(SET, NULL, WEXITSTATUS(exit_code), false);
+		else
+			error_handler(SET, NULL, WEXITSTATUS(exit_code), true);
 	}
 	else
 		error_handler(PRINT, exe, 126, true);
@@ -64,33 +64,36 @@ static bool	find_exe(char **exe)
 		}
 		ft_free((void **)&tmp);
 	}
-	ft_strmatrixfree(path);
+	ft_strmatrixfree(&path);
 	if (!found)
 		error_handler(PRINT_FREE, ft_strjoin(*exe, ": command not found"), 127, 0);
 	return (found);
 }
 
-static void	router(t_cmd **cmd, char *exe, char ***args, t_var **var)
+static bool	exec_router(t_cmd **cmd, char *exe, char ***args, t_var **var)
 {
+	t_fd	*fd;
+
 	if ((*cmd) && (*cmd)->type == REDIRECT)
 	{
-		redirections(cmd, exe, args, var);
+		if (redirections(cmd, exe, args, var))
+			return (false);
 		if (*cmd && (*cmd)->next)
 			*cmd = (*cmd)->next;
 	}
 	if ((*cmd) && (*cmd)->type == PIPE)
-	{
-		ft_pipe(exe, args, var, false);
-	}
+		pipes(exe, args, var);
 	else if (is_builtin(exe))
 		execute_builtin(args, var);
 	else if (exe)
 		execute(exe, args);
-	ft_strmatrixfree(args[0]);
-	if (args)
-		args[0] = NULL;
-	if ((*cmd) && (*cmd)->type == REDIRECT)
-		router(cmd, exe, args, var);
+	ft_strmatrixfree(args);
+	ft_free((void **)&exe);
+	// if (args)
+	// 	args[0] = NULL;
+	fd = fd_handler(GET, 0);
+	reset_terminal(&fd, false, true);
+	return (true);
 }
 
 void	execution_system(t_cmd **cmd, t_var **var)
@@ -109,17 +112,21 @@ void	execution_system(t_cmd **cmd, t_var **var)
 				args = ft_strmatrixjoin(args, ft_strdup((*cmd)->token), 1, 1);
 				*cmd = (*cmd)->next;
 			}
-			exe = args[0];
+			exe = ft_strdup(args[0]);
 			if (is_builtin(exe) || (args && !access(exe, F_OK)) || find_exe(&exe))
-				router(cmd, exe, &args, var);
+			{
+				if (!exec_router(cmd, exe, &args, var))
+					return ;
+			}
 		}
-		else
-			router(cmd, NULL, NULL, var);
+		else if (!exec_router(cmd, NULL, NULL, var))
+			return ;
+		if (signals_controller(GET, 0) == true)
+			return ;
 		if (error_handler(GET, 0, 0, 0) != EXIT_SUCCESS)
 			break ;
 		if (*cmd && (*cmd)->type && (*cmd)->type != BOOLEAN)
 			*cmd = (*cmd)->next;
 	}
-	fd_handler(RESTORE, NULL);
-	booleans_handler(cmd, var);
+	booleans(cmd, var);
 }

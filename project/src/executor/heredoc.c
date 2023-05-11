@@ -6,7 +6,7 @@
 /*   By: kichkiro <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/26 12:05:42 by kichkiro          #+#    #+#             */
-/*   Updated: 2023/05/09 19:56:33 by kichkiro         ###   ########.fr       */
+/*   Updated: 2023/05/11 14:41:10 by kichkiro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,8 +19,11 @@
 	Heredoc delimiter.
  * @param doc 
 	Heredoc document.
+ * @param sig
+	It is used to keep track of whether a SIGINT is received during the 
+	acquisition of the heredoc.
  */
-static void	get_doc(char *delimiter, char **doc)
+static void	get_doc(char *delimiter, char **doc, bool *sig)
 {
 	char	*prompt;
 
@@ -33,6 +36,7 @@ static void	get_doc(char *delimiter, char **doc)
 		{
 			signals_controller(SET, false);
 			ft_free((void **)doc);
+			*sig = true;
 			break ;
 		}
 		if (!ft_strncmp(prompt, delimiter, ft_strlen(delimiter)) && \
@@ -49,8 +53,8 @@ static void	get_doc(char *delimiter, char **doc)
 
 /*!
  * @brief 
-	Creates a file to which the document is written and redirects the input to 
-	the same file.
+	It uses pipe as a temporary file, writes the document to it on the write 
+	side and redirects the input to the read side.
  * @param doc 
 	Heredoc document.
  * @param cmd 
@@ -68,10 +72,12 @@ static void	redirection_pipe(char *doc, t_cmd **cmd)
 	if (pipe(pipe_fd) == -1)
 		error_handler(PRINT, NULL, 1, true);
 	new_fd = pipe_fd[0];
-	write(pipe_fd[1], doc, ft_strlen(doc));
+	if (write(pipe_fd[1], doc, ft_strlen(doc)) == -1)
+		error_handler(PRINT, NULL, 1, true);
 	if (dup2(new_fd, STDIN_FILENO) == -1)
 		error_handler(PRINT, NULL, 1, true);
-	close(pipe_fd[1]);
+	if (close(pipe_fd[1]) == -1)
+		error_handler(PRINT, NULL, 1, true);
 	fd_handler(SET, t_fd_new(STDIN_FILENO, prev_fd, new_fd, false));
 	if ((*cmd) && (*cmd)->next && (*cmd)->next->type == REDIRECT)
 		*cmd = (*cmd)->next;
@@ -80,20 +86,31 @@ static void	redirection_pipe(char *doc, t_cmd **cmd)
 /*!
  * @brief 
 	Main function of the heredoc.
+	Check whether the output fd is from the terminal or not.
+	Temporarily resets the terminal fd.
+	Acquires the document with readline().
+	Resets the previous input and output fd's.
+	Writes the document to pipe and refries the input to it.
  * @param delimiter 
 	Heredoc delimiter.
  * @param cmd 
 	Linked list containing command line.
+ * @param sig
+	It is used to keep track of whether a SIGINT is received during the 
+	acquisition of the heredoc.
  */
-void	heredoc(char *delimiter, t_cmd **cmd)
+void	heredoc(char *delimiter, t_cmd **cmd, bool *sig)
 {
 	t_fd	*fd;
 	char	*doc;
+	bool	terminal_out;
 
 	fd = fd_handler(GET, NULL);
 	doc = NULL;
-	reset_terminal(&fd, true, true);
-	get_doc(delimiter, &doc);
-	reset_prev(&fd);
+	terminal_out = isatty(STDOUT_FILENO);
+	reset_terminal(&fd, true, !terminal_out);
+	get_doc(delimiter, &doc, sig);
+	reset_prev(&fd, true, !terminal_out);
+	reset_terminal(&fd, false, terminal_out);
 	redirection_pipe(doc, cmd);
 }

@@ -6,7 +6,7 @@
 /*   By: kichkiro <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/08 16:08:19 by kichkiro          #+#    #+#             */
-/*   Updated: 2023/05/10 12:23:16 by kichkiro         ###   ########.fr       */
+/*   Updated: 2023/05/11 14:43:30 by kichkiro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@
 	Request to perform:
 		- GET: return fd list.
 		- SET: append new node at the end of the list.
-		- RESTORE: close actual fd, restore prev fd and delete last node.
+		- RESTORE: for each fd in t_fd, close new_fd and reset prev_fd.
  * @param new_node 
 	Possible new node to be added to the end of the list.
  * @return 
@@ -50,19 +50,22 @@ t_fd	*fd_handler(char request, t_fd *new_node)
 	return (NULL);
 }
 
-// AGGIORNARE DOC ------------------------------------------------------------->
 /*!
  * @brief 
 	Reset the terminal fd's.
  * @param fd 
 	Linked list containing data from previous redirects.
+ * @param reset_stdin
+	Reset stdin if true.
+ * @param reset_stdout
+	Reset stdout if true.
  */
 void	reset_terminal(t_fd **fd, bool reset_stdin, bool reset_stdout)
 {
 	t_fd_set_to_head(fd);
 	while (*fd)
 	{
-		if (isatty((*fd)->prev_fd) && ((*fd)->redirect == STDIN_FILENO && \
+		if ((isatty((*fd)->prev_fd) && (*fd)->redirect == STDIN_FILENO && \
 			reset_stdin) || ((*fd)->redirect == STDOUT_FILENO && reset_stdout))
 		{
 			if (dup2((*fd)->prev_fd, (*fd)->redirect) == -1)
@@ -80,28 +83,27 @@ void	reset_terminal(t_fd **fd, bool reset_stdin, bool reset_stdout)
 	Reset previous fd's.
  * @param fd 
 	Linked list containing data from previous redirects.
+ * @param reset_input
+	Reset input if true.
+ * @param reset_output
+	Reset output if true.
  */
-void	reset_prev(t_fd **fd)
+void	reset_prev(t_fd **fd, bool reset_input, bool reset_output)
 {
-	bool	input;
-	bool	output;
-
-	input = false;
-	output = false;
 	t_fd_set_to_last(fd);
 	while ((*fd))
 	{
-		if (!input && (*fd)->redirect == STDIN_FILENO)
+		if (!reset_input && (*fd)->redirect == STDIN_FILENO)
 		{
 			if (dup2((*fd)->new_fd, STDIN_FILENO) == -1)
 				error_handler(PRINT, NULL, 1, true);
-			input = true;
+			reset_input = true;
 		}
-		else if (!output && (*fd)->redirect == STDOUT_FILENO)
+		else if (!reset_output && (*fd)->redirect == STDOUT_FILENO)
 		{
 			if (dup2((*fd)->new_fd, STDOUT_FILENO) == -1)
 				error_handler(PRINT, NULL, 1, true);
-			output = true;
+			reset_output = true;
 		}
 		if ((*fd)->prev)
 			*fd = (*fd)->prev;
@@ -109,3 +111,4 @@ void	reset_prev(t_fd **fd)
 			break ;
 	}
 }
+

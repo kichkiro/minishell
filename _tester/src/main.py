@@ -42,9 +42,12 @@ def main():
     parsing = Tester(project_path, exe, "parsing", printer)
     commands = Tester(project_path, exe, "commands", printer)
     redirect = Tester(project_path, exe, "redirects", printer)
+    pipes = Tester(project_path, exe, "pipes", printer)
     exit_status = Tester(project_path, exe, "exit_status", printer)
+    mix_mandatory = Tester(project_path, exe, "mix_mandatory", printer)
     booleans = Tester(project_path, exe, "booleans", printer)
     wildcards = Tester(project_path, exe, "wildcards", printer)
+    mix_bonus = Tester(project_path, exe, "mix_bonus", printer)
 
     # PRE-TEST --------------------------------------------------------------->
 
@@ -67,10 +70,20 @@ def main():
     printer.section("Redirects")
     redirect.run()
 
+    # PIPES ------------------------------------------------------------------>
+
+    printer.section("Pipes")
+    pipes.run()
+
     # EXIT STATUS ------------------------------------------------------------>
 
     printer.section("Exit Status")
     exit_status.run()
+
+    # MIX MANDATORY ---------------------------------------------------------->
+
+    printer.section("Mix Mandatory")
+    mix_mandatory.run()
 
     # BOOLEANS --------------------------------------------------------------->
 
@@ -81,6 +94,11 @@ def main():
 
     printer.section("Wildcards")
     wildcards.run()
+
+    # MIX BONUS -------------------------------------------------------------->
+
+    printer.section("Mix Bonus")
+    mix_bonus.run()
 
     # SUMMARY ---------------------------------------------------------------->
 

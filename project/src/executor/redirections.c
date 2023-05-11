@@ -6,7 +6,7 @@
 /*   By: kichkiro <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/23 17:35:15 by kichkiro          #+#    #+#             */
-/*   Updated: 2023/05/10 12:20:36 by kichkiro         ###   ########.fr       */
+/*   Updated: 2023/05/10 22:12:42 by kichkiro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -112,11 +112,18 @@ static void	appending_redirected_output(char *file, t_cmd **cmd)
  * @param var 
 	Linked list containing variables.
  */
-void	redirections(t_cmd **cmd, char *exe, char ***args, t_var **var)
+bool	redirections(t_cmd **cmd, char *exe, char ***args, t_var **var)
 {
+	bool	sig;
+
+	sig = false;
 	*cmd = (*cmd)->next;
 	if (!ft_strncmp((*cmd)->prev->token, "<<", 2))
-		heredoc((*cmd)->token, cmd);
+	{
+		heredoc((*cmd)->token, cmd, &sig);
+		if (sig)
+			return (sig);
+	}
 	else if (!ft_strncmp((*cmd)->prev->token, "<", 2))
 		redirecting_input((*cmd)->token, cmd);
 	else if (!ft_strncmp((*cmd)->prev->token, ">", 2))
@@ -125,4 +132,5 @@ void	redirections(t_cmd **cmd, char *exe, char ***args, t_var **var)
 		appending_redirected_output((*cmd)->token, cmd);
 	if ((*cmd) && (*cmd)->type == REDIRECT)
 		redirections(cmd, exe, args, var);
+	return (sig);
 }

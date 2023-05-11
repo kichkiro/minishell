@@ -6,7 +6,7 @@
 /*   By: kichkiro <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/06 17:18:07 by kichkiro          #+#    #+#             */
-/*   Updated: 2023/05/10 21:49:41 by kichkiro         ###   ########.fr       */
+/*   Updated: 2023/05/11 14:30:55 by kichkiro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,7 +98,6 @@ typedef struct s_fd
 }	t_fd;
 
 void	t_fd_add_back(t_fd **lst, t_fd *new_node);
-void	t_fd_free_head(t_fd **fd);
 void	t_fd_free_last(t_fd **lst);
 t_fd	*t_fd_new(int redirect, int prev_fd, int new_fd, bool is_pipe);
 void	t_fd_set_to_head(t_fd **lst);
@@ -109,8 +108,8 @@ void	t_fd_set_to_last(t_fd **lst);
 void	init_all(t_var **var);
 char	*ft_whoami(void);
 void	signal_handler(int sig);
-int		close_shell(char *prompt);
 bool	signals_controller(char request, char value);
+int		close_shell(char *prompt);
 void	ft_add_history(char *prompt);
 void	print_history(void);
 
@@ -157,10 +156,10 @@ void	execute_builtin(char ***args, t_var **var);
 bool	is_builtin(char *exe);
 t_fd	*fd_handler(char request, t_fd *new_node);
 void	reset_terminal(t_fd **fd, bool reset_stdin, bool reset_stdout);
-void	reset_prev(t_fd **fd);
-void	redirections(t_cmd **cmd, char *exe, char ***args, t_var **var);
-void	heredoc(char *delimiter, t_cmd **cmd);
-void	ft_pipe(char *exe, char ***args, t_var **var, bool output_redirect);
-void	booleans_handler(t_cmd **cmd, t_var **var);
+void	reset_prev(t_fd **fd, bool reset_input, bool reset_output);
+bool	redirections(t_cmd **cmd, char *exe, char ***args, t_var **var);
+void	heredoc(char *delimiter, t_cmd **cmd, bool *sig);
+void	pipes(char *exe, char ***args, t_var **var);
+void	booleans(t_cmd **cmd, t_var **var);
 
 #endif

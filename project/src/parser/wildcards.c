@@ -6,7 +6,7 @@
 /*   By: kichkiro <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/06 21:37:43 by kichkiro          #+#    #+#             */
-/*   Updated: 2023/05/10 16:13:16 by kichkiro         ###   ########.fr       */
+/*   Updated: 2023/05/11 15:30:22 by kichkiro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,10 +47,10 @@ static void	get_all(char *token, t_cmd **cmd, char *type, DIR *dir)
 	entry = readdir(dir);
 	while (entry)
 	{
+		*type = STANDARD;
 		token = ft_strdup(entry->d_name);
 		if (ft_strncmp(token, ".", 1))
 			token_append(&token, type, cmd, true);
-		*type = STANDARD;
 		entry = readdir(dir);
 	}
 }

@@ -6,7 +6,7 @@
 /*   By: kichkiro <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/06 14:07:27 by kichkiro          #+#    #+#             */
-/*   Updated: 2023/05/08 16:51:02 by kichkiro         ###   ########.fr       */
+/*   Updated: 2023/05/11 00:17:37 by kichkiro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,7 @@ static char	*is_assignment(char *prompt)
 	return (ft_substr(prompt, 0, var_name_len));
 }
 
-// da finire
+// To be finished...
 // static char	*get_var_value(char *prompt, size_t var_name_len)
 // {
 // 	char	*var_value;
@@ -85,12 +85,26 @@ static char	*is_assignment(char *prompt)
 // 	return (var_value);
 // }
 
+// Temporary function that takes care of taking the value of the variable.
 static char	*tmp_get_var_value(char *prompt, size_t var_name_len)
 {
 	return (ft_substr(prompt, var_name_len + 1, ft_strlen(prompt) - \
 	var_name_len));
 }
 
+/*!
+ * @brief 
+	Function that handles the assignment of shell variables.
+	It checks whether the prompt contains a valid and, if so, takes the variable 
+	name and its value and adds them to the list of variables.
+ * @param var 
+	List of variables.
+ * @param prompt 
+	Prompt string.
+ * @return 
+	True if the prompt string contains a valid assignment statement, false
+	otherwise.
+ */
 bool	shell_variables(t_var **var, char *prompt)
 {
 	char	*var_name;

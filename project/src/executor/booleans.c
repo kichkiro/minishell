@@ -6,7 +6,7 @@
 /*   By: kichkiro <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/05 16:33:32 by kichkiro          #+#    #+#             */
-/*   Updated: 2023/05/08 15:13:51 by kichkiro         ###   ########.fr       */
+/*   Updated: 2023/05/11 12:53:10 by kichkiro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,7 @@ static void	closed_parerthesis(t_cmd **cmd, t_var **var)
  * @param var 
  	A pointer to a pointer of struct t_var
  */
-static void	router(t_cmd **cmd, t_var **var)
+static void	bool_router(t_cmd **cmd, t_var **var)
 {
 	*cmd = (*cmd)->next;
 	if (*cmd && (*cmd)->token[0] == '(')
@@ -73,20 +73,20 @@ static void	router(t_cmd **cmd, t_var **var)
 		while ((*cmd) && (*cmd)->token[0] == '(')
 			*cmd = (*cmd)->next;
 		execution_system(cmd, var);
-		booleans_handler(cmd, var);
+		booleans(cmd, var);
 		if ((*cmd) && (*cmd)->token[0] == '|' && !error_handler(GET, 0, 0, 0))
 		{
 			while ((*cmd) && (*cmd)->token[0] != ')')
 				*cmd = (*cmd)->next;
 			while ((*cmd) && (*cmd)->token[0] == ')')
 				*cmd = (*cmd)->next;
-			booleans_handler(cmd, var);
+			booleans(cmd, var);
 		}
 		else if (*cmd && (*cmd)->token[0] == ')')
 		{
 			while ((*cmd) && (*cmd)->token[0] == ')')
 				*cmd = (*cmd)->next;
-			booleans_handler(cmd, var);
+			booleans(cmd, var);
 		}
 	}
 	else if (*cmd)
@@ -142,26 +142,26 @@ static void	or_operator(t_cmd **cmd)
  * @param var 
  	A pointer to a pointer of struct t_var
  */
-void	booleans_handler(t_cmd **cmd, t_var **var)
+void	booleans(t_cmd **cmd, t_var **var)
 {
 	if (!(*cmd) || (*cmd)->type != BOOLEAN)
 		return ;
-	else if ((*cmd)->token[0] == '(' && !(*cmd)->prev)
+	else if ((*cmd)->token[0] == '(')
 		open_parenthesis(cmd, var);
 	else if ((*cmd)->token[0] == ')')
 		closed_parerthesis(cmd, var);
 	if (*cmd && error_handler(GET, 0, 0, 0) == EXIT_SUCCESS)
 	{
 		if (!ft_strncmp((*cmd)->token, "&&", 2))
-			router(cmd, var);
+			bool_router(cmd, var);
 		else if (!ft_strncmp((*cmd)->token, "||", 2))
 		{
 			or_operator(cmd);
 			if (*cmd)
-				router(cmd, var);
+				bool_router(cmd, var);
 		}
 	}
 	else if (*cmd && error_handler(GET, 0, 0, 0) != EXIT_SUCCESS && \
 		!ft_strncmp((*cmd)->token, "||", 2))
-		router(cmd, var);
+		bool_router(cmd, var);
 }

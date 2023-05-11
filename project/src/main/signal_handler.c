@@ -13,11 +13,11 @@
 #include "minishell.h"
 
 /*!
-* @brief 
-	Returns a string containing the username and the prompt.
-* @return 
-	The prompt string.
-*/
+ * @brief 
+	Handles the SIGINT signal.
+ * @param sig 
+	Signal to handle.
+ */
 void	signal_handler(int sig)
 {
 	if (sig == SIGINT)
@@ -29,6 +29,18 @@ void	signal_handler(int sig)
 	}
 }
 
+/*!
+ * @brief 
+	Controls if a SIGINT signal has been received.
+ * @param request 
+	Request to perform:
+		- GET: returns the value of the sigint_received.
+		- SET: sets the value of the sigint_received.
+ * @param value 
+	Value to set the sigint_received to.
+ * @return 
+	True if a SIGINT signal has been received, false otherwise.
+ */
 bool	signals_controller(char request, char value)
 {
 	static bool	sigint_received;

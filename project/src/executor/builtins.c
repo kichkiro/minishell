@@ -84,13 +84,10 @@ static void	ft_echo(char ***args)
 	Command to execute.
 	If an argument is passed, it will print an error message.
 * @param var
-	Variables.
+	List of variables.
 */
 static void	ft_env(char ***args, t_var **var)
 {
-	int		i;
-
-	i = -1;
 	if (args[0][1])
 	{
 		printf("env: you can't set an env variable, because the ");
@@ -117,7 +114,7 @@ static void	ft_env(char ***args, t_var **var)
 * @param args
 	Arguments to be executed.
 * @param var
-	Environment variables.
+	List of variables.
 */
 void	execute_builtin(char ***args, t_var **var)
 {

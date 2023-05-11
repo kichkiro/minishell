@@ -13,19 +13,11 @@
 #include "minishell.h"
 
 /*!
-<<<<<<< HEAD
  * @brief 
 	Handles the SIGINT signal.
  * @param sig 
 	Signal to handle.
  */
-=======
-* @brief
-	Returns a string containing the username and the prompt.
-* @return
-	The prompt string.
-*/
->>>>>>> origin/anvannin
 void	signal_handler(int sig)
 {
 	if (sig == SIGINT)

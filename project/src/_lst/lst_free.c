@@ -3,19 +3,19 @@
 /*                                                        :::      ::::::::   */
 /*   lst_free.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kichkiro <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: anvannin <anvannin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/26 00:47:39 by kichkiro          #+#    #+#             */
-/*   Updated: 2023/05/10 16:40:05 by kichkiro         ###   ########.fr       */
+/*   Updated: 2023/05/11 19:55:00 by anvannin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
 /*!
- * @brief 
+ * @brief
 	Delete and frees the lst.
- * @param lst 
+ * @param lst
 	Linked list.
  */
 void	*t_var_free(t_var **lst)
@@ -40,9 +40,9 @@ void	*t_var_free(t_var **lst)
 }
 
 /*!
- * @brief 
+ * @brief
 	Delete and frees the lst.
- * @param lst 
+ * @param lst
 	Linked list.
  */
 void	*t_cmd_free(t_cmd **lst)
@@ -63,6 +63,28 @@ void	*t_cmd_free(t_cmd **lst)
 		}
 		free(*lst);
 		*lst = NULL;
+	}
+	return (NULL);
+}
+
+
+void	*t_fd_free(t_fd **fd)
+{
+	t_fd	*tmp;
+
+	tmp = 0;
+	if (*fd)
+	{
+		t_fd_set_to_head(fd);
+		while ((*fd)->next)
+		{
+			*fd = (*fd)->next;
+			tmp = (*fd)->prev;
+			free(tmp);
+			(*fd)->prev = NULL;
+		}
+		free(*fd);
+		*fd = NULL;
 	}
 	return (NULL);
 }

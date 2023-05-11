@@ -12,34 +12,44 @@
 
 #include "minishell.h"
 
-static int	set_export_var(char *arg, t_var **var)
+static int	is_in_exp(t_var **var, char **split_arg)
 {
-	char	**split_arg;
-	bool	is_new;
-
-	split_arg = ft_split(arg, '=');
-	is_new = true;
-	while ((*var))
+	while ((*var)->next)
 	{
 		if (!ft_strncmp((*var)->name, split_arg[0], ft_strlen(split_arg[0])))
 		{
-			if ((*var)->value)
+			if (split_arg[1])
 				(*var)->value = split_arg[1];
-			is_new = false;
-			break ;
+			free(split_arg);
+			t_var_set_to_head(var);
+			return (1);
 		}
 		(*var) = (*var)->next;
 	}
-	if (is_new)
+	if (!ft_strncmp((*var)->name, split_arg[0], ft_strlen(split_arg[0])))
 	{
-
 		if (split_arg[1])
-			t_var_add_back(var, t_var_new(split_arg[0], split_arg[1], EXPORT));
-		else
-			t_var_add_back(var, t_var_new(split_arg[0], NULL, EXPORT));
+			(*var)->value = split_arg[1];
+		free(split_arg);
 		t_var_set_to_head(var);
+		return (1);
 	}
-	t_var_set_to_head(var);
+	return (0);
+}
+
+static int	set_export_var(char *arg, t_var **var)
+{
+	char	**split_arg;
+
+	split_arg = ft_split(arg, '=');
+
+	if (is_in_exp(var, split_arg))
+		return (1);
+	if (split_arg[1])
+		t_var_add_back(var, t_var_new(split_arg[0], split_arg[1], EXPORT));
+	else
+		t_var_add_back(var, t_var_new(split_arg[0], NULL, EXPORT));
+	free(split_arg);
 	return (1);
 }
 
@@ -60,13 +70,12 @@ void	ft_export(char ***args, t_var **var)
 
 	i = 0;
 	if (args[0][1])
-	{
-		while (args[0][++i])
-			if (!set_export_var(args[0][i], var))
-				break ;
-	}
+		while (args[0][++i] && set_export_var(args[0][i], var))
+			error_handler(SET, NULL, EXIT_SUCCESS, false);
 	else
 	{
+		if (!(*var))
+			return ;
 		while ((*var)->next)
 		{
 			if ((*var)->type == EXPORT && (*var)->value)
@@ -137,8 +146,14 @@ void	ft_unset(char ***args, t_var **var)
 
 	i = 0;
 	if (args[0][1])
+	{
 		while (args[0][++i])
+		{
+			if (!(*var))
+				return ;
 			unset_var(args[0][i], var);
+		}
+	}
 	else
 		printf("\n");
 }

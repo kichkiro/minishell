@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kichkiro <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: anvannin <anvannin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/27 19:07:59 by kichkiro          #+#    #+#             */
-/*   Updated: 2023/05/10 16:41:43 by kichkiro         ###   ########.fr       */
+/*   Updated: 2023/05/11 19:53:08 by anvannin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,8 +43,8 @@ int	main(void)
 		reset_terminal(&fd, true, true);
 
 		prompt = readline(ft_whoami());
-		if (!prompt)
-			return (close_shell(prompt));
+		if (!prompt && close_shell(prompt))
+			break ;
 		signals_controller(SET, false);
 		if (!invalid_prompt(prompt) && !shell_variables(&var, prompt))
 		{
@@ -56,6 +56,5 @@ int	main(void)
 		// t_cmd_set_to_head(&cmd);
 		t_cmd_free(&cmd);
 	}
-	t_var_free(&var);
-	return (0);
+	return (bombaliberatutti(&var, &cmd, &fd, prompt));
 }

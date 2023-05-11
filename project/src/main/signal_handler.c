@@ -13,9 +13,9 @@
 #include "minishell.h"
 
 /*!
-* @brief 
+* @brief
 	Returns a string containing the username and the prompt.
-* @return 
+* @return
 	The prompt string.
 */
 void	signal_handler(int sig)
@@ -41,7 +41,7 @@ bool	signals_controller(char request, char value)
 }
 
 /*!
-* @brief 
+* @brief
 	Prints a signout message as the shell closes and returns NULL.
 * @return
 	NULL.
@@ -49,7 +49,7 @@ bool	signals_controller(char request, char value)
 int	close_shell(char *prompt)
 {
 	if (!prompt)
-		printf("\n");
-	printf(YELLOW_B"Goodbye %s. Till next time...\n"RESET, getenv("USER"));
-	return (0);
+		return (printf("\n"));
+	return (printf(YELLOW_B"Goodbye %s. Till next time...\n"RESET,
+			getenv("USER")));
 }

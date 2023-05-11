@@ -5,8 +5,8 @@
 
 Builtins:
 
-[ ] cd
-- [ ] access
+[x] cd
+- [x] access
 - [x] all options
 - [x] exit status
 - [x] all options with exit status
@@ -21,28 +21,22 @@ Builtins:
 [x] env
 - [x] exit status
 
-<!--
-	Found bug where after setting a variable,
-	all previous variables are lost
-
-	Segmentation fault when no variables and no arguments
--->
-[ ] export
+[x] export
 - [x] no arguments
 - [x] export var=value
 - [x] export var
 - [x] no arguments and var=NULL
-- [ ] export var=value var2=value2
+- [x] export var=value var2=value2
 - [x] exit status
-- [ ] no arguments and no variables
+- [x] no arguments and no variables
 
 [x] exit / Ctrl + D
 
-[ ] unset
+[x] unset
 - [x] no arguments
-- [ ] exit status
-- [ ] no variables
-- [ ] no arguments and no variables
+- [x] exit status
+- [x] no variables
+- [x] no arguments and no variables
 
 
 ## Kichkiro

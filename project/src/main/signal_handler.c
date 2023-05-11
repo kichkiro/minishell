@@ -13,11 +13,19 @@
 #include "minishell.h"
 
 /*!
+<<<<<<< HEAD
  * @brief 
 	Handles the SIGINT signal.
  * @param sig 
 	Signal to handle.
  */
+=======
+* @brief
+	Returns a string containing the username and the prompt.
+* @return
+	The prompt string.
+*/
+>>>>>>> origin/anvannin
 void	signal_handler(int sig)
 {
 	if (sig == SIGINT)
@@ -53,7 +61,7 @@ bool	signals_controller(char request, char value)
 }
 
 /*!
-* @brief 
+* @brief
 	Prints a signout message as the shell closes and returns NULL.
 * @return
 	NULL.
@@ -61,7 +69,7 @@ bool	signals_controller(char request, char value)
 int	close_shell(char *prompt)
 {
 	if (!prompt)
-		printf("\n");
-	printf(YELLOW_B"Goodbye %s. Till next time...\n"RESET, getenv("USER"));
-	return (0);
+		return (printf("\n"));
+	return (printf(YELLOW_B"Goodbye %s. Till next time...\n"RESET,
+			getenv("USER")));
 }

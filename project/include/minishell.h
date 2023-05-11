@@ -6,7 +6,7 @@
 /*   By: kichkiro <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/06 17:18:07 by kichkiro          #+#    #+#             */
-/*   Updated: 2023/05/11 14:30:55 by kichkiro         ###   ########.fr       */
+/*   Updated: 2023/05/11 23:57:32 by kichkiro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,6 +102,7 @@ void	t_fd_free_last(t_fd **lst);
 t_fd	*t_fd_new(int redirect, int prev_fd, int new_fd, bool is_pipe);
 void	t_fd_set_to_head(t_fd **lst);
 void	t_fd_set_to_last(t_fd **lst);
+void	*t_fd_free(t_fd **fd);
 
 // Main ----------------------------------------------------------------------->
 
@@ -112,6 +113,7 @@ bool	signals_controller(char request, char value);
 int		close_shell(char *prompt);
 void	ft_add_history(char *prompt);
 void	print_history(void);
+int		bombaliberatutti(t_var **var, t_cmd **cmd, t_fd **fd, char *prompt);
 
 // Errors  -------------------------------------------------------------------->
 

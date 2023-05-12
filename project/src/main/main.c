@@ -6,7 +6,7 @@
 /*   By: kichkiro <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/27 19:07:59 by kichkiro          #+#    #+#             */
-/*   Updated: 2023/05/12 01:05:00 by kichkiro         ###   ########.fr       */
+/*   Updated: 2023/05/12 16:42:43 by kichkiro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 
 int	main(void)
 {
+	char	*whoami;
 	char	*prompt;
 	t_var	*var;
 	t_cmd	*cmd;
@@ -21,12 +22,13 @@ int	main(void)
 	var = NULL;
 	cmd = NULL;
 	init_all(&var);
+	whoami = ft_whoami();
 	while (true)
 	{
 		signal(SIGQUIT, SIG_IGN);
 		signal(SIGTSTP, SIG_IGN);
 		signal(SIGINT, signal_handler);
-		prompt = readline(ft_whoami());
+		prompt = readline(whoami);
 		if (!prompt && close_shell(prompt))
 			break ;
 		signals_controller(SET, false);
@@ -41,5 +43,6 @@ int	main(void)
 		// t_cmd_set_to_head(&cmd);
 		t_cmd_free(&cmd);
 	}
+	free(whoami);
 	return (bombaliberatutti(&var, &cmd, NULL, prompt));
 }

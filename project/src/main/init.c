@@ -18,6 +18,7 @@ static void	init_env(t_var **var)
 	char	**str;
 
 	i = -1;
+	str = NULL;
 	while (__environ[++i])
 	{
 		str = ft_split(__environ[i], '=');
@@ -25,6 +26,7 @@ static void	init_env(t_var **var)
 			t_var_add_back(var, t_var_new(str[0], str[1], ENV));
 		else
 			t_var_add_back(var, t_var_new(str[0], str[1], EXPORT));
+		ft_strmatrixfree(&str);
 	}
 	t_var_set_to_head(var);
 }

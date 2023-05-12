@@ -123,7 +123,13 @@ class Tester:
             bash_out:
             self.printer.result("OK", loop, test, bash_out, minishell_out)
         else:
-            self.printer.result("KO", loop, test, bash_out, minishell_out)
+            self.printer.result("KO", loop, test, bash_out, minishellout = process.get_bash_output(test)
+        minishell_out = process.get_minishell_output(bash_out, test, loop, 0)
+        lab.remove_wildcards_lab(files, dirs)
+        if minishell_out == None:
+            return
+        bash_output = sorted(bash_out.split())
+        minishell_output = sorted(minishell_out.split())
 
 
     def __exec2(self, process:Popen, test:str, loop:int, lab:Lab) -> None:

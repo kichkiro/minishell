@@ -17,16 +17,20 @@ static int	usr_dir_level(void)
 	int		i;
 	int		j;
 	char	**path;
+	char	*cwd;
 
 	i = 0;
 	j = 2;
-	path = ft_split(getcwd(NULL, 0), '/');
+	cwd = getcwd(NULL, 0);
+	path = ft_split(cwd, '/');
 	while (path[i])
 	{
 		if (!ft_strncmp(path[i], getenv("USER"), ft_strlen(path[i])))
 			j = i;
 		i++;
 	}
+	ft_free((void **)&cwd);
+	ft_strmatrixfree(&path);
 	return (j);
 }
 
@@ -49,9 +53,9 @@ static char	*build_path(char **path, int i)
 	while (path[++i])
 	{
 		if (!path[i + 1])
-			str = ft_strjoin(str, path[i]);
+			str = ft_strappend(str, path[i], true, false);
 		else
-			str = ft_strjoin(str, ft_strjoin(path[i], "/"));
+			str = ft_strappend(str, ft_char_append(path[i], '/', false), 0, 1);
 	}
 	return (str);
 }
@@ -65,13 +69,19 @@ static char	*build_path(char **path, int i)
 static char	*curent_dir(void)
 {
 	char	**path;
+	char	*cwd;
+	char	*ret;
 	int		i;
 
+	cwd = getcwd(NULL, 0);
 	i = 0;
-	path = ft_split(getcwd(NULL, 0), '/');
+	path = ft_split(cwd, '/');
 	while (path[i])
 		i++;
-	return (build_path(path, i));
+	ft_free((void **)&cwd);
+	ret = build_path(path, i);
+	ft_strmatrixfree(&path);
+	return (ret);
 }
 
 /*!
@@ -88,7 +98,7 @@ char	*ft_whoami(void)
 	prompt = ft_strappend(prompt, getenv("USER"), true, false);
 	prompt = ft_strappend(prompt, "@minishell] "RESET, true, false);
 	prompt = ft_strappend(prompt, RED_B, true, false);
-	prompt = ft_strappend(prompt, curent_dir(), true, false);
+	prompt = ft_strappend(prompt, curent_dir(), true, true);
 	prompt = ft_strappend(prompt, RESET"\n", true, false);
 	prompt = ft_strappend(prompt, BLUE"└─"RESET, true, false);
 	prompt = ft_strappend(prompt, RED_B"[$] "RESET, true, false);

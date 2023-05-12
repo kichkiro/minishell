@@ -76,18 +76,18 @@ Builtins:
 	��P]: lib: Is a directory
 	��P]: include: Is a directory
 	��P]: src: Is a directory
-- [ ] ls ** | grep c
+- [V] ls ** | grep c
 	Segmentation fault
 - [V] ls -al | (grep * || echo ciao) // deve stampare "ciao" in quanto grep * fallisce
 	ڴoa: lib: Is a directory
 	ڴoa: include: Is a directory
 	ڴoa: src: Is a directory
-- [ ] ┌─[shkirov@minishell] ~/github/minishell/project // dopo invalid input non stampa piu nulla
-	└─[$] [
+- [V] ┌─[shkirov@minishell] ~/github/minishell/project // dopo invalid input non stampa piu nulla
+	  └─[$] '['
 	minishell: detected unclosed square brackets
 
 	┌─[shkirov@minishell] ~/github/minishell/project
 	└─[$] ls / | wc -l
 
-- [ ] ls *1 | grep file
+- [V] ls *1 | grep file
 	Segmentation fault

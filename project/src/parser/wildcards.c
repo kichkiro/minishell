@@ -6,7 +6,7 @@
 /*   By: kichkiro <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/06 21:37:43 by kichkiro          #+#    #+#             */
-/*   Updated: 2023/05/11 15:30:22 by kichkiro         ###   ########.fr       */
+/*   Updated: 2023/05/12 12:17:21 by kichkiro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,8 +73,11 @@ static void	find_match(char *token, t_cmd **cmd, char *type, DIR *dir)
 		{
 			found = true;
 			tmp_token = ft_strdup(entry->d_name);
-			token_append(&tmp_token, type, cmd, true);
-			*type = STANDARD;
+			if (ft_strncmp(tmp_token, ".", 1))
+			{
+				*type = STANDARD;
+				token_append(&tmp_token, type, cmd, true);
+			}
 		}
 		entry = readdir(dir);
 	}

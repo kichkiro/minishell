@@ -6,7 +6,7 @@
 /*   By: kichkiro <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/27 19:07:59 by kichkiro          #+#    #+#             */
-/*   Updated: 2023/05/11 23:58:05 by kichkiro         ###   ########.fr       */
+/*   Updated: 2023/05/12 01:05:00 by kichkiro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,5 +41,5 @@ int	main(void)
 		// t_cmd_set_to_head(&cmd);
 		t_cmd_free(&cmd);
 	}
-	return (bombaliberatutti(&var, &cmd, &fd, prompt));
+	return (bombaliberatutti(&var, &cmd, NULL, prompt));
 }

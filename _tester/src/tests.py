@@ -281,7 +281,7 @@ mix_bonus = [
     "ls *** | grep 1",
     "ls *1 | grep file",
     "(echo f*l*********1 && ls not_dir) | cat > file1 && echo 21 || echo 42",
-    "(((echo ***1 || ls not_dir) && cat < file1 | cat > file2 || ls ***",
+    "(((echo ***1 || ls not_dir) && cat) < file1 | cat > file2 || ls ***)",
     "echo *1 | cat > file1 && grep * | cat > file2 | cat < file2",
     
 ]

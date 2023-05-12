@@ -6,7 +6,7 @@
 #    By: kichkiro <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/04/05 17:59:55 by kichkiro          #+#    #+#              #
-#    Updated: 2023/05/12 00:00:20 by kichkiro         ###   ########.fr        #
+#    Updated: 2023/05/12 12:01:48 by kichkiro         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -19,7 +19,7 @@ SRCS		:= \
 				main/signal_handler.c 		\
 				main/prompt.c 				\
 				main/history.c 				\
-				main/bombaliberatutti.c				\
+				main/bombaliberatutti.c		\
 				\
 				errors/errors_handler.c 	\
 				errors/invalid_prompt.c 	\
@@ -55,7 +55,7 @@ LIB         := ft
 LIB_TARGET  := ./lib/libft/libft.a
 INCS        := ./include ./lib/libft/include
 CC          := clang
-CFLAGS      := -g -Wall -Wextra -Werror
+CFLAGS      := -g #-Wall -Wextra -Werror
 READLINE	:= -lreadline
 CPPFLAGS    := $(addprefix -I,$(INCS)) -MMD -MP
 LDFLAGS     := $(addprefix -L,$(dir $(LIB_TARGET)))

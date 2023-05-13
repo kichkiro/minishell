@@ -6,7 +6,7 @@
 /*   By: kichkiro <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/26 12:05:42 by kichkiro          #+#    #+#             */
-/*   Updated: 2023/05/11 14:41:10 by kichkiro         ###   ########.fr       */
+/*   Updated: 2023/05/13 15:13:52 by kichkiro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,11 +42,11 @@ static void	get_doc(char *delimiter, char **doc, bool *sig)
 		if (!ft_strncmp(prompt, delimiter, ft_strlen(delimiter)) && \
 			ft_strlen(prompt) == ft_strlen(delimiter))
 			break ;
-		*doc = ft_strappend(*doc, prompt, true, false);
+		*doc = ft_strappend(*doc, prompt, true, true);
 		*doc = ft_strappend(*doc, "\n", true, false);
-		free(prompt);
+		// free(prompt);
 	}
-	free(prompt);
+	ft_free((void **)&prompt);
 	if (!*doc)
 		*doc = ft_strappend(*doc, "", true, false);
 }
@@ -113,4 +113,5 @@ void	heredoc(char *delimiter, t_cmd **cmd, bool *sig)
 	reset_prev(&fd, true, !terminal_out);
 	reset_terminal(&fd, false, terminal_out);
 	redirection_pipe(doc, cmd);
+	ft_free((void **)&doc);
 }

@@ -6,7 +6,7 @@
 /*   By: kichkiro <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/19 09:22:27 by kichkiro          #+#    #+#             */
-/*   Updated: 2023/05/05 01:35:41 by kichkiro         ###   ########.fr       */
+/*   Updated: 2023/05/13 18:18:46 by kichkiro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ static char	*get_var_name(char *prompt, size_t *i)
 			var_name = ft_char_append(var_name, prompt[(*i)], true);
 	}
 	else if (prompt[(*i) + 1] == '?' && ++(*i))
-		var_name = ft_strappend(var_name, "$?", false, false);
+		var_name = ft_strappend(var_name, "$?", true, false);
 	else
 	{
 		while (ft_isalnum(prompt[++(*i)]))
@@ -61,13 +61,15 @@ static char	*get_var_name(char *prompt, size_t *i)
  */
 char	*variable_expand(char *prompt, size_t *i, t_var *var)
 {
-	char	*var_name;	
+	char	*var_name;
+	char	*ret;
 
 	var_name = get_var_name(prompt, i);
+	ret = NULL;
 	if (var_name[1] == '?')
-		return (ft_itoa(error_handler(GET, NULL, 0, false)));
+		ret = ft_itoa(error_handler(GET, NULL, 0, false));
 	else if (getenv(var_name))
-		return (ft_strdup(getenv(var_name)));
+		ret = ft_strdup(getenv(var_name));
 	else if (var)
 	{
 		t_var_set_to_head(&var);
@@ -75,9 +77,10 @@ char	*variable_expand(char *prompt, size_t *i, t_var *var)
 		{
 			if (!ft_strncmp(var_name, var->name, ft_strlen(var_name)) && \
 				var->type == SHELL)
-				return (ft_strdup(var->value));
+				ret = ft_strdup(var->value);
 			var = var->next;
 		}
 	}
-	return (NULL);
+	ft_free((void **)&var_name);
+	return (ret);
 }

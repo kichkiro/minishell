@@ -6,7 +6,7 @@
 /*   By: kichkiro <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/21 11:45:46 by kichkiro          #+#    #+#             */
-/*   Updated: 2023/05/11 16:48:57 by kichkiro         ###   ########.fr       */
+/*   Updated: 2023/05/13 15:20:53 by kichkiro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,6 +58,7 @@ static bool	find_exe(char **exe)
 		if (access(tmp, F_OK) == 0)
 		{
 			found = true;
+			ft_free((void **)exe);
 			*exe = ft_strdup(tmp);
 			ft_free((void **)&tmp);
 			break ;

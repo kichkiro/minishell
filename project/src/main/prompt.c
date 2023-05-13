@@ -42,12 +42,12 @@ static char	*build_path(char **path, int i)
 	j = usr_dir_level();
 	if (i > j)
 	{
-		str = "~/";
+		str = ft_strdup("~/");
 		i = j;
 	}
 	else
 	{
-		str = "/";
+		str = ft_strdup("/");
 		i = -1;
 	}
 	while (path[++i])
@@ -55,7 +55,7 @@ static char	*build_path(char **path, int i)
 		if (!path[i + 1])
 			str = ft_strappend(str, path[i], true, false);
 		else
-			str = ft_strappend(str, ft_char_append(path[i], '/', false), 0, 1);
+			str = ft_strappend(str, ft_char_append(path[i], '/', false), 1, 1);
 	}
 	return (str);
 }

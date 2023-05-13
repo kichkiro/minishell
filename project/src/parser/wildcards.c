@@ -6,7 +6,7 @@
 /*   By: kichkiro <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/06 21:37:43 by kichkiro          #+#    #+#             */
-/*   Updated: 2023/05/12 12:17:21 by kichkiro         ###   ########.fr       */
+/*   Updated: 2023/05/13 18:47:58 by kichkiro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,19 +40,23 @@ static bool	matcher(char *s, char *pattern)
 	return (true);
 }
 
-static void	get_all(char *token, t_cmd **cmd, char *type, DIR *dir)
+static void	get_all(t_cmd **cmd, char *type, DIR *dir)
 {
 	struct dirent	*entry;
+	char			*tmp;
 
 	entry = readdir(dir);
+	tmp = NULL;
 	while (entry)
 	{
 		*type = STANDARD;
-		token = ft_strdup(entry->d_name);
-		if (ft_strncmp(token, ".", 1))
-			token_append(&token, type, cmd, true);
+		tmp = ft_strdup(entry->d_name);
+		if (ft_strncmp(tmp, ".", 1))
+			token_append(&tmp, type, cmd, true);
+		ft_free((void **)&tmp);
 		entry = readdir(dir);
 	}
+	ft_free((void **)&tmp);
 }
 
 static void	find_match(char *token, t_cmd **cmd, char *type, DIR *dir)
@@ -96,7 +100,7 @@ static void	find_files(char *path, char *token, t_cmd **cmd, char *type)
 		return ;
 	}
 	if (!ft_strncmp(token, "*", 2))
-		get_all(token, cmd, type, dir);
+		get_all(cmd, type, dir);
 	else
 		find_match(token, cmd, type, dir);
 	closedir(dir);

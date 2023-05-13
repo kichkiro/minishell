@@ -6,7 +6,7 @@
 #    By: kichkiro <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/10/05 10:44:14 by kichkiro          #+#    #+#              #
-#    Updated: 2023/05/12 17:38:07 by kichkiro         ###   ########.fr        #
+#    Updated: 2023/05/13 14:59:54 by kichkiro         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -91,7 +91,7 @@ SRCS        := $(SRCS:%=$(SRC_DIR)/%)
 OBJS        := $(SRCS:$(SRC_DIR)/%.c=$(BUILD_DIR)/%.o)
 DEPS        := $(OBJS:.o=.d)
 CC          := clang
-CFLAGS      := -g -Wall -Wextra -Werror
+CFLAGS      := -Wall -Wextra -Werror
 CPPFLAGS    := -MMD -MP -I include
 AR          := ar
 ARFLAGS     := -r -c -s

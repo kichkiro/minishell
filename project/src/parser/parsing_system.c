@@ -6,7 +6,7 @@
 /*   By: kichkiro <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/16 23:03:22 by kichkiro          #+#    #+#             */
-/*   Updated: 2023/05/08 00:41:42 by kichkiro         ###   ########.fr       */
+/*   Updated: 2023/05/13 18:58:25 by kichkiro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,6 +56,7 @@ void	parsing_standard_token(t_cmd **cmd, char *prompt, t_parse **p, char wc)
 
 static void	init_parsing(t_parse **p)
 {
+	*p = (t_parse *)ft_calloc(1, sizeof(t_parse));
 	(*p)->i = -1;
 	(*p)->type = NONE;
 	(*p)->token = (char *)ft_calloc(1, sizeof(char));
@@ -69,7 +70,6 @@ void	parsing_system(char *prompt, t_cmd **cmd, t_var *var)
 {
 	t_parse	*p;
 
-	p = (t_parse *)ft_calloc(1, sizeof(t_parse));
 	init_parsing(&p);
 	while (prompt[++p->i])
 	{
@@ -90,5 +90,7 @@ void	parsing_system(char *prompt, t_cmd **cmd, t_var *var)
 	}
 	if (p->token && p->type != NONE)
 		token_append(&p->token, &p->type, cmd, true);
+	else
+		ft_free((void **)&p->token);
 	free(p);
 }

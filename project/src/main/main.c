@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kichkiro <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: anvannin <anvannin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/27 19:07:59 by kichkiro          #+#    #+#             */
-/*   Updated: 2023/05/13 18:36:37 by kichkiro         ###   ########.fr       */
+/*   Updated: 2023/05/15 18:49:35 by anvannin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,8 @@ int	main(void)
 		{
 			parsing_system(prompt, &cmd, var);
 			head_cmd = cmd;
-			execution_system(&cmd, &var);
+			if (!syntax_error(&cmd))
+				execution_system(&cmd, &var);
 			fd_handler(RESTORE, NULL);
 			t_cmd_free(&head_cmd);
 			cmd = NULL;

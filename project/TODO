@@ -56,7 +56,7 @@ Builtins:
 - [ ] wildcards
 - [ ] execution_system
 - [ ] init
-- [ ] prompt 
+- [ ] prompt
 - [ ] env_variables
 - [ ] errors_handler
 - [ ] syntax_error
@@ -91,3 +91,36 @@ Builtins:
 
 - [V] ls *1 | grep file
 	Segmentation fault
+
+- [ ] echo a | echo b
+	expected: b
+	got:
+
+- [ ] &
+	expected: bash: syntax error near unexpected token `&'
+	got: Segmentation fault
+
+- [x] ()
+	expected: bash: syntax error near unexpected token `)'
+	got:
+
+- [x] (())
+	expected: echo $? -> 1
+	got: echo $? -> 2
+
+- [ ] (|)
+	expected: bash: syntax error near unexpected token `|'
+	got: Segmentation fault
+
+- [ ] ((()))
+	bash: (): syntax error: operand expected (error token is ")")
+	got:
+	note: for each open parenthesis after the second, add a closing parenthesis between quotes -> error token is "))"
+
+- [ ] []
+	expected: []: command not found
+	got:
+
+- [ ] {}
+	expected: {}: command not found
+	got:

@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: kichkiro <marvin@42.fr>                    +#+  +:+       +#+         #
+#    By: anvannin <anvannin@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/04/05 17:59:55 by kichkiro          #+#    #+#              #
-#    Updated: 2023/05/13 14:59:47 by kichkiro         ###   ########.fr        #
+#    Updated: 2023/05/15 18:46:06 by anvannin         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -23,6 +23,7 @@ SRCS		:= \
 				\
 				errors/errors_handler.c 	\
 				errors/invalid_prompt.c 	\
+				errors/syntax_errors.c 		\
 				\
 				parser/parsing_system.c 	\
 				parser/parsing_ext.c 		\
@@ -55,7 +56,7 @@ LIB         := ft
 LIB_TARGET  := ./lib/libft/libft.a
 INCS        := ./include ./lib/libft/include
 CC          := clang
-CFLAGS      := #-Wall -Wextra -Werror
+CFLAGS      := -g #-Wall -Wextra -Werror
 READLINE	:= -lreadline
 CPPFLAGS    := $(addprefix -I,$(INCS)) -MMD -MP
 LDFLAGS     := $(addprefix -L,$(dir $(LIB_TARGET)))

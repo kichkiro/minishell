@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kichkiro <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: anvannin <anvannin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/06 17:18:07 by kichkiro          #+#    #+#             */
-/*   Updated: 2023/05/11 23:57:32 by kichkiro         ###   ########.fr       */
+/*   Updated: 2023/05/15 18:45:31 by anvannin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -119,6 +119,7 @@ int		bombaliberatutti(t_var **var, t_cmd **cmd, t_fd **fd, char *prompt);
 
 int		error_handler(char request, char *msg, int code, bool print_perror);
 bool	invalid_prompt(char *prompt);
+int	syntax_error(t_cmd **cmd);
 
 // Variables ------------------------------------------------------------------>
 

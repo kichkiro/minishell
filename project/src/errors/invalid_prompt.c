@@ -6,7 +6,7 @@
 /*   By: kichkiro <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/06 11:56:59 by kichkiro          #+#    #+#             */
-/*   Updated: 2023/05/11 00:46:40 by kichkiro         ###   ########.fr       */
+/*   Updated: 2023/05/16 14:13:14 by kichkiro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -144,6 +144,8 @@ bool	invalid_prompt(char *prompt)
 		error_handler(PRINT, "detected unclosed square brackets", 1, false);
 	else if (!closed_brackets(prompt, '{', '}'))
 		error_handler(PRINT, "detected unclosed braces", 1, false);
+	else if (prompt[0] == '&' && prompt[1] != '&')
+		error_handler(PRINT, "syntax error near unexpected token `&'", 2, 0);
 	else
 		invalid = false;
 	return (invalid);

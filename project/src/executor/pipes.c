@@ -63,6 +63,8 @@ static void	write_in_pipe(int *pipe_fd, char *exe, char ***args, t_var **var)
 		execute(exe, args);
 	else if (exe)
 		execute_builtin(args, var);
+	if (terminal_stdout && dup2(actual_fd, STDOUT_FILENO) == -1)
+		error_handler(PRINT, NULL, 1, true);
 }
 
 /*!

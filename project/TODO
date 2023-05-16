@@ -92,11 +92,11 @@ Builtins:
 - [V] ls *1 | grep file
 	Segmentation fault
 
-- [ ] echo a | echo b
+- [V] echo a | echo b
 	expected: b
 	got:
 
-- [ ] &
+- [V] &
 	expected: bash: syntax error near unexpected token `&'
 	got: Segmentation fault
 
@@ -108,6 +108,18 @@ Builtins:
 	expected: echo $? -> 1
 	got: echo $? -> 2
 
+- [V] []
+	expected: []: command not found
+	got:
+
+- [V] {}
+	expected: {}: command not found
+	got:
+
+- [V] echo $
+	expected: $
+	got:
+
 - [ ] (|)
 	expected: bash: syntax error near unexpected token `|'
 	got: Segmentation fault
@@ -117,10 +129,6 @@ Builtins:
 	got:
 	note: for each open parenthesis after the second, add a closing parenthesis between quotes -> error token is "))"
 
-- [ ] []
-	expected: []: command not found
-	got:
-
-- [ ] {}
-	expected: {}: command not found
-	got:
+- [ ] (empty prompt)
+	expected: 
+	got: Segmentation fault

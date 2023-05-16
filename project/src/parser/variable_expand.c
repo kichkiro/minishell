@@ -6,7 +6,7 @@
 /*   By: kichkiro <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/19 09:22:27 by kichkiro          #+#    #+#             */
-/*   Updated: 2023/05/13 18:18:46 by kichkiro         ###   ########.fr       */
+/*   Updated: 2023/05/16 14:24:04 by kichkiro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,9 @@ char	*variable_expand(char *prompt, size_t *i, t_var *var)
 
 	var_name = get_var_name(prompt, i);
 	ret = NULL;
-	if (var_name[1] == '?')
+	if (var_name[0] == 0)
+		ret = ft_strdup("$");
+	else if (var_name[1] == '?')
 		ret = ft_itoa(error_handler(GET, NULL, 0, false));
 	else if (getenv(var_name))
 		ret = ft_strdup(getenv(var_name));

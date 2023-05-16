@@ -6,7 +6,7 @@
 /*   By: kichkiro <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/26 00:47:39 by kichkiro          #+#    #+#             */
-/*   Updated: 2023/05/13 18:34:12 by kichkiro         ###   ########.fr       */
+/*   Updated: 2023/05/17 00:29:19 by kichkiro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,7 +67,12 @@ void	*t_cmd_free(t_cmd **lst)
 	return (NULL);
 }
 
-
+/*!
+ * @brief
+	Delete and frees the lst.
+ * @param lst
+	Linked list.
+ */
 void	*t_fd_free(t_fd **fd)
 {
 	t_fd	*tmp;

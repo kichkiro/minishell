@@ -12,6 +12,13 @@
 
 #include "minishell.h"
 
+/*!
+ * @brief 
+	This function determines the user's directory level by comparing the current 
+	working directory path with the user's name.
+ * @return 
+	 The user's directory level.
+ */
 static int	usr_dir_level(void)
 {
 	int		i;
@@ -34,6 +41,17 @@ static int	usr_dir_level(void)
 	return (j);
 }
 
+/*!
+ * @brief 
+	This function builds a path string by concatenating directory names from the
+	path array.
+ * @param path 
+	The array containing directory names.
+ * @param i 
+	The index indicating the starting position in the path array.
+ * @return 
+	The built path string.
+ */
 static char	*build_path(char **path, int i)
 {
 	char	*str;

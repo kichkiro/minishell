@@ -43,60 +43,63 @@ Builtins:
 -------------------------------------------------------------------------------
 
 [ ] Functions
-- [V] invalid_prompt
+- [x] invalid_prompt
 - [ ] syntax_error
 
 [ ] Documentation
-- [V] invalid_prompt
-- [V] shell_variables
-- [V] variable_expand
-- [V] lst functions
-- [ ] parsing_system
-- [ ] parsing_ext
-- [ ] wildcards
-- [ ] execution_system
-- [ ] init
-- [ ] prompt
-- [ ] env_variables
-- [ ] errors_handler
+- [x] invalid_prompt
+- [x] shell_variables
+- [x] variable_expand
+- [x] lst functions
+- [x] parsing_system
+- [x] parsing_ext
+- [x] wildcards
+- [x] execution_system
+- [x] init
+- [x] prompt
+- [x] env_variables
+- [x] errors_handler
 - [ ] syntax_error
 
 [ ] Norminette
 - [ ] main
 - [ ] env_variables
-- [ ] execution_system
+- [x] execution_system
 
 [ ] Valgrind
 - [ ] leaks
 
-[ ] bug
-- [V] echo 21 | (echo 42 || ciao)
-- [V] echo 42 > file1 | cat << eof
-- [V] ls -al | grep * // sistemare i caratteri strani
+
+## Bugs 
+-------------------------------------------------------------------------------
+
+- [x] echo 21 | (echo 42 || ciao)
+- [x] echo 42 > file1 | cat << eof
+- [x] ls -al | grep * // sistemare i caratteri strani
 	��P]: lib: Is a directory
 	��P]: include: Is a directory
 	��P]: src: Is a directory
-- [V] ls ** | grep c
+- [x] ls ** | grep c
 	Segmentation fault
-- [V] ls -al | (grep * || echo ciao) // deve stampare "ciao" in quanto grep * fallisce
+- [x] ls -al | (grep * || echo ciao) // deve stampare "ciao" in quanto grep * fallisce
 	ڴoa: lib: Is a directory
 	ڴoa: include: Is a directory
 	ڴoa: src: Is a directory
-- [V] ┌─[shkirov@minishell] ~/github/minishell/project // dopo invalid input non stampa piu nulla
+- [x] ┌─[shkirov@minishell] ~/github/minishell/project // dopo invalid input non stampa piu nulla
 	  └─[$] '['
 	minishell: detected unclosed square brackets
 
 	┌─[shkirov@minishell] ~/github/minishell/project
 	└─[$] ls / | wc -l
 
-- [V] ls *1 | grep file
+- [x] ls *1 | grep file
 	Segmentation fault
 
-- [V] echo a | echo b
+- [x] echo a | echo b
 	expected: b
 	got:
 
-- [V] &
+- [x] &
 	expected: bash: syntax error near unexpected token `&'
 	got: Segmentation fault
 
@@ -108,15 +111,15 @@ Builtins:
 	expected: echo $? -> 1
 	got: echo $? -> 2
 
-- [V] []
+- [x] []
 	expected: []: command not found
 	got:
 
-- [V] {}
+- [x] {}
 	expected: {}: command not found
 	got:
 
-- [V] echo $
+- [x] echo $
 	expected: $
 	got:
 

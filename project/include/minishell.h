@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: anvannin <anvannin@student.42.fr>          +#+  +:+       +#+        */
+/*   By: kichkiro <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/06 17:18:07 by kichkiro          #+#    #+#             */
-/*   Updated: 2023/05/15 18:45:31 by anvannin         ###   ########.fr       */
+/*   Updated: 2023/05/17 00:51:14 by kichkiro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@
 # define SET			2
 
 # define PRINT			3
-# define PRINT_FREE 	4
+# define PRINT_F		4
 
 # define SET_LAST		5
 # define GET_LAST		8
@@ -119,7 +119,7 @@ int		bombaliberatutti(t_var **var, t_cmd **cmd, t_fd **fd, char *prompt);
 
 int		error_handler(char request, char *msg, int code, bool print_perror);
 bool	invalid_prompt(char *prompt);
-int	syntax_error(t_cmd **cmd);
+int		syntax_error(t_cmd **cmd);
 
 // Variables ------------------------------------------------------------------>
 
@@ -154,7 +154,7 @@ void	wildcards_handler(char *pattern, t_cmd **cmd, char *type);
 // Executor ------------------------------------------------------------------->
 
 void	execution_system(t_cmd **cmd, t_var **var);
-void	execute(char *exe, char ***args);
+void	execute_external(char *exe, char ***args);
 void	execute_builtin(char ***args, t_var **var);
 bool	is_builtin(char *exe);
 t_fd	*fd_handler(char request, t_fd *new_node);

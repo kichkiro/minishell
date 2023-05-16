@@ -12,6 +12,12 @@
 
 #include "minishell.h"
 
+/*!
+ * @brief 
+	Initializes the environment variables.
+ * @param var 
+	The list of variables.
+ */
 static void	init_env(t_var **var)
 {
 	int		i;
@@ -69,6 +75,12 @@ static void	init_history(void)
 	close(fd);
 }
 
+/*!
+ * @brief 
+	Initializes all the variables and the history file.
+ * @param var 
+	The list of variables.
+ */
 void	init_all(t_var **var)
 {
 	init_env(var);

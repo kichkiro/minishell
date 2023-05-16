@@ -12,6 +12,17 @@
 
 #include "minishell.h"
 
+/*!
+ * @brief 
+	This function checks if a variable is already present in the exported 
+	variable list and updates its value if found.
+ * @param var 
+	The list of variables.
+ * @param split_arg 
+	Array containing the variable name and value.
+ * @return 
+	1 if the variable is found and updated, 0 otherwise.
+ */
 static int	is_in_exp(t_var **var, char **split_arg)
 {
 	while ((*var)->next)
@@ -37,12 +48,22 @@ static int	is_in_exp(t_var **var, char **split_arg)
 	return (0);
 }
 
+/*!
+ * @brief 
+	This function sets an exported variable by parsing the argument and adding 
+	it to the variable list.
+ * @param arg 
+	The argument containing the variable assignment.
+ * @param var 
+	The list of variables.
+ * @return 
+	1 if the variable is successfully set, 0 otherwise.
+ */
 static int	set_export_var(char *arg, t_var **var)
 {
 	char	**split_arg;
 
 	split_arg = ft_split(arg, '=');
-
 	if (is_in_exp(var, split_arg))
 		return (1);
 	if (split_arg[1])

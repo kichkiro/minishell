@@ -6,7 +6,7 @@
 /*   By: kichkiro <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/08 16:08:19 by kichkiro          #+#    #+#             */
-/*   Updated: 2023/05/11 14:43:30 by kichkiro         ###   ########.fr       */
+/*   Updated: 2023/05/17 00:10:28 by kichkiro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,4 +111,3 @@ void	reset_prev(t_fd **fd, bool reset_input, bool reset_output)
 			break ;
 	}
 }
-

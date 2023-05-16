@@ -6,12 +6,24 @@
 /*   By: kichkiro <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/16 23:03:22 by kichkiro          #+#    #+#             */
-/*   Updated: 2023/05/13 18:58:25 by kichkiro         ###   ########.fr       */
+/*   Updated: 2023/05/17 01:06:12 by kichkiro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
+/*!
+ * @brief 
+	Appends a token to the command linked list.
+ * @param token 
+	The token to append.
+ * @param type 
+	The type of the token.
+ * @param cmd 
+	Linked list containing command line.
+ * @param free_token 
+	Indicates whether to free the token after appending.
+ */
 void	token_append(char **token, char *type, t_cmd **cmd, bool free_token)
 {
 	t_cmd_add_back(cmd, t_cmd_new(ft_strdup(*token), *type));
@@ -21,6 +33,15 @@ void	token_append(char **token, char *type, t_cmd **cmd, bool free_token)
 		ft_free((void **)token);
 }
 
+/*!
+ * @brief 
+	Detects quotes in the input prompt and updates the parsing structure 
+	accordingly.
+ * @param prompt 
+	The input prompt.
+ * @param p 
+	Pointer to the parsing structure.
+ */
 static void	quotes_detector(char *prompt, t_parse **p)
 {
 	if (prompt[(*p)->i] == '\'' && !(*p)->double_quotes)
@@ -35,6 +56,18 @@ static void	quotes_detector(char *prompt, t_parse **p)
 	}
 }
 
+/*!
+ * @brief 
+	Parses the input prompt for standard tokens.
+ * @param cmd 
+	Linked list containing command line.
+ * @param prompt 
+	The input prompt.
+ * @param p 
+	Pointer to the parsing structure.
+ * @param wc 
+	Wildcard character.
+ */
 void	parsing_standard_token(t_cmd **cmd, char *prompt, t_parse **p, char wc)
 {
 	if ((*p)->single_quotes || ((*p)->double_quotes && prompt[(*p)->i] != \
@@ -54,6 +87,12 @@ void	parsing_standard_token(t_cmd **cmd, char *prompt, t_parse **p, char wc)
 		token_append(&(*p)->token, &(*p)->type, cmd, true);
 }
 
+/*!
+ * @brief 
+	Initializes the parsing structure.
+ * @param p 
+	Pointer to the parsing structure.
+ */
 static void	init_parsing(t_parse **p)
 {
 	*p = (t_parse *)ft_calloc(1, sizeof(t_parse));
@@ -66,6 +105,17 @@ static void	init_parsing(t_parse **p)
 	(*p)->flow = true;
 }
 
+/*!
+ * @brief 
+	This function performs the parsing of the command line by iterating through
+	the prompt and identifying different tokens and their types.
+ * @param prompt 
+	The input prompt.
+ * @param cmd 
+	Linked list containing command line.
+ * @param var 
+	The list of variables.
+ */
 void	parsing_system(char *prompt, t_cmd **cmd, t_var *var)
 {
 	t_parse	*p;

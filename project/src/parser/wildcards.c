@@ -6,12 +6,24 @@
 /*   By: kichkiro <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/06 21:37:43 by kichkiro          #+#    #+#             */
-/*   Updated: 2023/05/13 18:47:58 by kichkiro         ###   ########.fr       */
+/*   Updated: 2023/05/17 00:08:23 by kichkiro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
+/*!
+ * @brief 
+	This function is used to match a string with a pattern that contains 
+	wildcards (*).
+	It returns true if the string matches the pattern, otherwise false.
+ * @param s 
+	The string to be matched.
+ * @param pattern 
+	The pattern containing wildcards.
+ * @return 
+	True if the string matches the pattern, false otherwise.
+ */
 static bool	matcher(char *s, char *pattern)
 {
 	while (*s || *pattern)
@@ -40,6 +52,17 @@ static bool	matcher(char *s, char *pattern)
 	return (true);
 }
 
+/*!
+ * @brief 
+	This function retrieves all files in the specified directory and appends 
+	tokens to the command list based on certain conditions.
+ * @param cmd 
+	Linked list containing command line.
+ * @param type 
+	Pointer to type of the token.
+ * @param dir 
+	Pointer to the directory structure.
+ */
 static void	get_all(t_cmd **cmd, char *type, DIR *dir)
 {
 	struct dirent	*entry;
@@ -59,6 +82,19 @@ static void	get_all(t_cmd **cmd, char *type, DIR *dir)
 	ft_free((void **)&tmp);
 }
 
+/*!
+ * @brief 
+	This function finds a match for the given token in the specified directory 
+	and appends the matched tokens to the command list.
+ * @param token 
+	The token to be matched.
+ * @param cmd 
+	Linked list containing command line.
+ * @param type 
+	Pointer to type of the token.
+ * @param dir 
+	Pointer to the directory structure.
+ */
 static void	find_match(char *token, t_cmd **cmd, char *type, DIR *dir)
 {
 	bool			find_match;
@@ -68,7 +104,6 @@ static void	find_match(char *token, t_cmd **cmd, char *type, DIR *dir)
 
 	find_match = false;
 	found = false;
-	tmp_token = NULL;
 	entry = readdir(dir);
 	while (entry)
 	{
@@ -89,6 +124,19 @@ static void	find_match(char *token, t_cmd **cmd, char *type, DIR *dir)
 		token_append(&token, type, cmd, false);
 }
 
+/*!
+ * @brief 
+	This function searches for files in the specified path based on the given 
+	token and appends the matched tokens to the command list.
+ * @param path 
+	The path to search for files.
+ * @param token 
+	The token to be matched.
+ * @param cmd 
+	Linked list containing command line.
+ * @param type 
+	Pointer to type of the token.
+ */
 static void	find_files(char *path, char *token, t_cmd **cmd, char *type)
 {
 	DIR	*dir;
@@ -106,6 +154,17 @@ static void	find_files(char *path, char *token, t_cmd **cmd, char *type)
 	closedir(dir);
 }
 
+/*!
+ * @brief 
+	This function handles wildcards in the token by finding matching files and 
+	appending them to the command list.
+ * @param token 
+	The token to be matched.
+ * @param cmd 
+	Linked list containing command line.
+ * @param type 
+	Pointer to type of the token.
+ */
 void	wildcards_handler(char *token, t_cmd **cmd, char *type)
 {
 	char	cwd[1024];

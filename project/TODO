@@ -70,7 +70,7 @@ Builtins:
 - [ ] leaks
 
 
-## Bugs 
+## Bugs
 -------------------------------------------------------------------------------
 
 - [x] echo 21 | (echo 42 || ciao)
@@ -123,15 +123,20 @@ Builtins:
 	expected: $
 	got:
 
-- [ ] (|)
+- [x] (|)
 	expected: bash: syntax error near unexpected token `|'
 	got: Segmentation fault
 
-- [ ] ((()))
+- [x] (&&)
+	expected: bash: syntax error near unexpected token `&&'
+	got: bash: syntax error near unexpected token `&'
+
+- [x] ((()))
 	bash: (): syntax error: operand expected (error token is ")")
 	got:
 	note: for each open parenthesis after the second, add a closing parenthesis between quotes -> error token is "))"
+	not really solved, handled like (())
 
 - [x] (empty prompt)
-	expected: 
+	expected:
 	got: Segmentation fault

@@ -6,7 +6,7 @@
 /*   By: anvannin <anvannin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/27 19:07:59 by kichkiro          #+#    #+#             */
-/*   Updated: 2023/05/17 18:39:49 by anvannin         ###   ########.fr       */
+/*   Updated: 2023/05/17 20:04:39 by anvannin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ static void	run(t_cmd **cmd, t_var **var, char *prompt, t_cmd **head_cmd)
 {
 	parsing_system(prompt, cmd, *var);
 	*head_cmd = *cmd;
-	if (*cmd && !syntax_error(cmd))
+	if (*cmd && !syntax_error(cmd, prompt))
 		execution_system(cmd, var);
 	fd_handler(RESTORE, NULL);
 	t_cmd_free(head_cmd);

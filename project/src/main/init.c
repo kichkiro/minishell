@@ -13,9 +13,9 @@
 #include "minishell.h"
 
 /*!
- * @brief 
+ * @brief
 	Initializes the environment variables.
- * @param var 
+ * @param var
 	The list of variables.
  */
 static void	init_env(t_var **var)
@@ -76,9 +76,9 @@ static void	init_history(void)
 }
 
 /*!
- * @brief 
+ * @brief
 	Initializes all the variables and the history file.
- * @param var 
+ * @param var
 	The list of variables.
  */
 void	init_all(t_var **var, t_cmd **cmd, t_cmd **head_cmd, char **whoami)
@@ -86,7 +86,7 @@ void	init_all(t_var **var, t_cmd **cmd, t_cmd **head_cmd, char **whoami)
 	*var = NULL;
 	*cmd = NULL;
 	*head_cmd = NULL;
-	*whoami = ft_whoami();
+	*whoami = NULL;
 	init_env(var);
 	init_history();
 }

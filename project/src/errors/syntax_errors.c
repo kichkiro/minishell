@@ -3,22 +3,22 @@
 /*                                                        :::      ::::::::   */
 /*   syntax_errors.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kichkiro <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: anvannin <anvannin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/08 18:07:08 by kichkiro          #+#    #+#             */
-/*   Updated: 2023/05/17 15:05:30 by kichkiro         ###   ########.fr       */
+/*   Updated: 2023/05/17 19:56:25 by anvannin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
 /*!
- * @brief 
-	
- * @param cmd 
-	
- * @return 
-	
+ * @brief
+
+ * @param cmd
+
+ * @return
+
  */
 static int	bool_pipe(t_cmd **cmd)
 {
@@ -32,43 +32,59 @@ static int	bool_pipe(t_cmd **cmd)
 	return (2);
 }
 
+
+static char	*and_token(char *prompt)
+{
+	int	i;
+
+	i = -1;
+	while (prompt[++i])
+	{
+		if (prompt[i] == '&' && prompt[i + 1] == '&')
+		{
+			return ("&&");
+		}
+	}
+	return ("&");
+}
+
 /*!
- * @brief 
-	
- * @param cmd 
-	
- * @return 
-	
+ * @brief
+
+ * @param cmd
+
+ * @return
+
  */
-static int	bool_pipe_parentheses(t_cmd **cmd)
+static int	bool_pipe_parentheses(t_cmd **cmd, char *prompt)
 {
 	char	*str;
 	char	**ph;
 
 	str = NULL;
 	ph = ft_split((*cmd)->token, '(');
-	if (!ph[1])
-	{
-		free(ph);
-		return (0);
-	}
-	str = ft_strappend("syntax error near unexpected token `", ph[1], 0, 0);
+	if ((*cmd)->next && (*cmd)->next->token[0] == '|')
+		str = ft_strappend("syntax error near unexpected token `", "||", 0, 0);
+	else if ((*cmd)->token[1] == '&')
+		str = ft_strappend("syntax error near unexpected token `'",
+				and_token(prompt), 0, 0);
+	else
+		str = ft_strappend("syntax error near unexpected token `", ph[0], 0, 0);
 	str = ft_strappend(str, "'", true, false);
 	error_handler(PRINT, str, 2, false);
-	free(ph);
 	free(str);
 	return (2);
 }
 
 /*!
- * @brief 
+ * @brief
 
- * @param cmd 
-	
- * @return 
-	
+ * @param cmd
+
+ * @return
+
  */
-int	syntax_error(t_cmd **cmd)
+int	syntax_error(t_cmd **cmd, char *prompt)
 {
 	if (!ft_strncmp((*cmd)->token, "|", 1)
 		|| !ft_strncmp((*cmd)->token, "||", 2)
@@ -79,13 +95,13 @@ int	syntax_error(t_cmd **cmd)
 		|| !ft_strncmp((*cmd)->token, "(||", 3)
 		|| !ft_strncmp((*cmd)->token, "(&", 2)
 		|| !ft_strncmp((*cmd)->token, "(&&", 3))
-		return (bool_pipe_parentheses(cmd));
+		return (bool_pipe_parentheses(cmd, prompt));
 	else if ((*cmd)->token[0] == '(' && (*cmd)->next
 		&& (*cmd)->next->token[0] == ')')
 		return (error_handler(PRINT,
 				"syntax error near unexpected token `)'", 2, false));
 	else if ((*cmd)->token[0] == '(' && (*cmd)->next && (*cmd)->next->next
-		&& (*cmd)->next->token[0] == '(' && (*cmd)->next->next->token[0] == ')')
+		&& (*cmd)->next->token[0] == '(')
 	{
 		printf("\n");
 		return (error_handler(SET, NULL, 1, false));

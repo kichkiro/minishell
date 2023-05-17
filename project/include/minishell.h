@@ -6,7 +6,7 @@
 /*   By: anvannin <anvannin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/06 17:18:07 by kichkiro          #+#    #+#             */
-/*   Updated: 2023/05/17 18:10:42 by anvannin         ###   ########.fr       */
+/*   Updated: 2023/05/17 20:04:39 by anvannin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -119,7 +119,7 @@ int		bombfreeall(t_var **var, t_cmd **cmd, char *prompt);
 
 int		error_handler(char request, char *msg, int code, bool print_perror);
 bool	invalid_prompt(char *prompt);
-int		syntax_error(t_cmd **cmd);
+int		syntax_error(t_cmd **cmd, char *prompt);
 
 // Variables ------------------------------------------------------------------>
 

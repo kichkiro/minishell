@@ -44,7 +44,7 @@
     │   └── libft
     │       └── libft.a
     └── src
-		├── _lst
+	├── _lst
         │   ├── lst_add_back.c
         │   ├── lst_free.c
         │   ├── lst_free_last.c

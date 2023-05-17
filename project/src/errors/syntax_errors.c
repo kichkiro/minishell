@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   syntax_errors.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: anvannin <anvannin@student.42.fr>          +#+  +:+       +#+        */
+/*   By: kichkiro <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/08 18:07:08 by kichkiro          #+#    #+#             */
-/*   Updated: 2023/05/17 20:25:03 by anvannin         ###   ########.fr       */
+/*   Updated: 2023/05/18 00:43:31 by kichkiro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,11 +14,11 @@
 
 /*!
  * @brief
-
+	Handles the syntax error for boolean pipes.
  * @param cmd
-
+	Linked list containing command line.
  * @return
-
+	2 indicating a syntax error.
  */
 static int	bool_pipe(t_cmd **cmd)
 {
@@ -32,7 +32,14 @@ static int	bool_pipe(t_cmd **cmd)
 	return (2);
 }
 
-
+/*!
+ * @brief 
+	Extracts the appropriate boolean token from the input prompt.
+ * @param prompt 
+	The input prompt.
+ * @return 
+	The boolean token ("&&" or "&").
+ */
 static char	*and_token(char *prompt)
 {
 	int	i;
@@ -50,11 +57,13 @@ static char	*and_token(char *prompt)
 
 /*!
  * @brief
-
+	Handles syntax error involving boolean operators and parentheses.
  * @param cmd
-
+	Linked list containing command line.
+ * @param prompt
+	The input prompt.
  * @return
-
+	2 indicating a syntax error.
  */
 static int	bool_pipe_parentheses(t_cmd **cmd, char *prompt)
 {
@@ -76,6 +85,14 @@ static int	bool_pipe_parentheses(t_cmd **cmd, char *prompt)
 	return (2);
 }
 
+/*!
+ * @brief 
+	Checks if there are only parentheses in the command line.
+ * @param cmd 
+	Linked list containing command line.
+ * @return 
+	0 if only parentheses are found, otherwise returns an error code.
+ */
 static int	parentheses_only(t_cmd **cmd)
 {
 	while ((*cmd)->next && (*cmd)->next->token[0] == '(')
@@ -91,11 +108,13 @@ static int	parentheses_only(t_cmd **cmd)
 
 /*!
  * @brief
-
+	Checks for syntax errors in the command line.
  * @param cmd
-
+	Linked list containing the command line.
+ * @param prompt
+	The input prompt.
  * @return
-
+	0 if no syntax errors are found, otherwise returns an error code.
  */
 int	syntax_error(t_cmd **cmd, char *prompt)
 {

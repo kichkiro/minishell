@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: kichkiro <marvin@42.fr>                    +#+  +:+       +#+         #
+#    By: anvannin <anvannin@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/04/05 17:59:55 by kichkiro          #+#    #+#              #
-#    Updated: 2023/05/17 16:25:55 by kichkiro         ###   ########.fr        #
+#    Updated: 2023/05/17 18:28:57 by anvannin         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -19,7 +19,7 @@ SRCS		:= \
 				main/signal_handler.c 		\
 				main/prompt.c 				\
 				main/history.c 				\
-				main/bombaliberatutti.c		\
+				main/bombfreeall.c		\
 				\
 				errors/errors_handler.c 	\
 				errors/invalid_prompt.c 	\
@@ -40,6 +40,7 @@ SRCS		:= \
 				\
 				variables/env_variables.c 	\
 				variables/shell_variables.c \
+				variables/export_variables.c \
 				\
 				_lst/lst_add_back.c 		\
 				_lst/lst_free_last.c 		\

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kichkiro <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: anvannin <anvannin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/27 19:07:59 by kichkiro          #+#    #+#             */
-/*   Updated: 2023/05/17 17:24:05 by kichkiro         ###   ########.fr       */
+/*   Updated: 2023/05/17 18:39:49 by anvannin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,16 @@ static void	run(t_cmd **cmd, t_var **var, char *prompt, t_cmd **head_cmd)
 	*cmd = NULL;
 }
 
+static char	*prompt_and_command(char *whoami)
+{
+	char	*prompt;
+
+	whoami = ft_whoami();
+	prompt = readline(whoami);
+	ft_free((void **)&whoami);
+	return (prompt);
+}
+
 int	main(void)
 {
 	t_var	*var;
@@ -37,7 +47,7 @@ int	main(void)
 		signal(SIGQUIT, SIG_IGN);
 		signal(SIGTSTP, SIG_IGN);
 		signal(SIGINT, signal_handler);
-		prompt = readline(whoami);
+		prompt = prompt_and_command(whoami);
 		if (!prompt && close_shell(prompt))
 			break ;
 		signals_controller(SET, false);
@@ -46,6 +56,5 @@ int	main(void)
 		ft_add_history(prompt);
 		ft_free((void **)&prompt);
 	}
-	ft_free((void **)&whoami);
-	return (bombaliberatutti(&var, &head_cmd, prompt));
+	return (bombfreeall(&var, &head_cmd, prompt));
 }

@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   bombaliberatutti.c                                 :+:      :+:    :+:   */
+/*   bombfreeall.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: kichkiro <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -12,7 +12,7 @@
 
 #include "minishell.h"
 
-int	bombaliberatutti(t_var **var, t_cmd **cmd, char *prompt)
+int	bombfreeall(t_var **var, t_cmd **cmd, char *prompt)
 {
 	t_var_free(var);
 	t_cmd_free(cmd);

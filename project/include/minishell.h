@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kichkiro <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: anvannin <anvannin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/06 17:18:07 by kichkiro          #+#    #+#             */
-/*   Updated: 2023/05/17 17:18:17 by kichkiro         ###   ########.fr       */
+/*   Updated: 2023/05/17 18:10:42 by anvannin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -113,7 +113,7 @@ bool	signals_controller(char request, char value);
 int		close_shell(char *prompt);
 void	ft_add_history(char *prompt);
 void	print_history(void);
-int		bombaliberatutti(t_var **var, t_cmd **cmd, char *prompt);
+int		bombfreeall(t_var **var, t_cmd **cmd, char *prompt);
 
 // Errors  -------------------------------------------------------------------->
 

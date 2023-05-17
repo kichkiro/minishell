@@ -13,9 +13,9 @@
 #include "minishell.h"
 
 /*!
- * @brief 
+ * @brief
 	Handles the SIGINT signal.
- * @param sig 
+ * @param sig
 	Signal to handle.
  */
 void	signal_handler(int sig)
@@ -30,15 +30,15 @@ void	signal_handler(int sig)
 }
 
 /*!
- * @brief 
+ * @brief
 	Controls if a SIGINT signal has been received.
- * @param request 
+ * @param request
 	Request to perform:
 		- GET: returns the value of the sigint_received.
 		- SET: sets the value of the sigint_received.
- * @param value 
+ * @param value
 	Value to set the sigint_received to.
- * @return 
+ * @return
 	True if a SIGINT signal has been received, false otherwise.
  */
 bool	signals_controller(char request, char value)

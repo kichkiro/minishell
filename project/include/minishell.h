@@ -6,7 +6,7 @@
 /*   By: kichkiro <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/06 17:18:07 by kichkiro          #+#    #+#             */
-/*   Updated: 2023/05/17 00:51:14 by kichkiro         ###   ########.fr       */
+/*   Updated: 2023/05/17 12:27:06 by kichkiro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 
 // Libraries ------------------------------------------------------------------>
 
-# include "../lib/libft/include/libft.h"
+# include "../lib/libft.h"
 # include <stdio.h>
 # include <readline/readline.h>
 # include <readline/history.h>

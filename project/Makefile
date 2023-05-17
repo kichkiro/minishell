@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: anvannin <anvannin@student.42.fr>          +#+  +:+       +#+         #
+#    By: kichkiro <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/04/05 17:59:55 by kichkiro          #+#    #+#              #
-#    Updated: 2023/05/15 18:46:06 by anvannin         ###   ########.fr        #
+#    Updated: 2023/05/17 12:27:32 by kichkiro         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -48,19 +48,18 @@ SRCS		:= \
 				_lst/lst_set_to_head.c 		\
 				_lst/lst_set_to_last.c
 SRC_DIR     := src
-SRCS		:= $(SRCS:%=$(SRC_DIR)/%)
+SRCS        := $(SRCS:%=$(SRC_DIR)/%)
 BUILD_DIR   := .build
-OBJS		:= $(SRCS:$(SRC_DIR)/%.c=$(BUILD_DIR)/%.o)
-DEPS 		:= $(OBJS:.o=.d)
-LIB         := ft
-LIB_TARGET  := ./lib/libft/libft.a
-INCS        := ./include ./lib/libft/include
+OBJS        := $(SRCS:$(SRC_DIR)/%.c=$(BUILD_DIR)/%.o)
+DEPS        := $(OBJS:.o=.d)
+LIB_TARGET  := ./lib/libft.a
+INCS        := ./include ./lib
 CC          := clang
 CFLAGS      := -g #-Wall -Wextra -Werror
-READLINE	:= -lreadline
+READLINE    := -lreadline
 CPPFLAGS    := $(addprefix -I,$(INCS)) -MMD -MP
-LDFLAGS     := $(addprefix -L,$(dir $(LIB_TARGET)))
-LDLIBS      := $(addprefix -l,$(LIB))
+LDFLAGS     :=
+LDLIBS      := -L./lib -lft
 RM          := rm -rf
 MAKEFLAGS   := --no-print-directory
 DIR_DUP     = mkdir -p $(@D)
@@ -72,12 +71,9 @@ DIR_DUP     = mkdir -p $(@D)
 
 all: banner $(NAME)
 
-$(NAME): $(OBJS) $(LIB_TARGET)
-	$(CC) $(LDFLAGS) $(OBJS) $(LDLIBS) -o $(NAME) -lreadline
+$(NAME): $(OBJS)
+	$(CC) $(LDFLAGS) $(OBJS) $(LIB_TARGET) $(LDLIBS) $(READLINE) -o $(NAME)
 	${info ${BOLD}Creating  -> ${RED}$(NAME)${NO_COLOR}}
-
-$(LIB_TARGET):
-	$(MAKE) -C $(@D)
 
 $(BUILD_DIR)/%.o: $(SRC_DIR)/%.c
 	$(DIR_DUP)
@@ -87,13 +83,11 @@ $(BUILD_DIR)/%.o: $(SRC_DIR)/%.c
 -include $(DEPS)
 
 clean:
-	for f in $(dir $(LIB_TARGET)); do $(MAKE) -C $$f clean; done
 	$(RM) $(BUILD_DIR)
 	${info }
-	${info ${BOLD}${YELLOW}Cleaning in progress...${NO_COLOR}	🧹 🧹 🧹}
+	${info ${BOLD}${YELLOW}Cleaning in progress...${NO_COLOR}    🧹 🧹 🧹}
 
 fclean: clean
-	for f in $(dir $(LIB_TARGET)); do $(MAKE) -C $$f fclean; done
 	$(RM) $(NAME) $(NAME_CLIENT)
 
 re:

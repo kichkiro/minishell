@@ -6,7 +6,7 @@
 /*   By: anvannin <anvannin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/08 18:07:08 by kichkiro          #+#    #+#             */
-/*   Updated: 2023/05/17 19:56:25 by anvannin         ###   ########.fr       */
+/*   Updated: 2023/05/17 20:25:03 by anvannin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,6 +76,19 @@ static int	bool_pipe_parentheses(t_cmd **cmd, char *prompt)
 	return (2);
 }
 
+static int	parentheses_only(t_cmd **cmd)
+{
+	while ((*cmd)->next && (*cmd)->next->token[0] == '(')
+		(*cmd) = (*cmd)->next;
+	if ((*cmd)->next && (*cmd)->next->token[0] == ')')
+	{
+		printf("\n");
+		return (error_handler(SET, NULL, 1, false));
+	}
+	t_cmd_set_to_head(cmd);
+	return (0);
+}
+
 /*!
  * @brief
 
@@ -102,10 +115,7 @@ int	syntax_error(t_cmd **cmd, char *prompt)
 				"syntax error near unexpected token `)'", 2, false));
 	else if ((*cmd)->token[0] == '(' && (*cmd)->next && (*cmd)->next->next
 		&& (*cmd)->next->token[0] == '(')
-	{
-		printf("\n");
-		return (error_handler(SET, NULL, 1, false));
-	}
+		return (parentheses_only(cmd));
 	t_cmd_set_to_head(cmd);
 	return (0);
 }

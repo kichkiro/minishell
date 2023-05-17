@@ -6,7 +6,7 @@
 /*   By: kichkiro <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/06 17:18:07 by kichkiro          #+#    #+#             */
-/*   Updated: 2023/05/17 12:27:06 by kichkiro         ###   ########.fr       */
+/*   Updated: 2023/05/17 17:18:17 by kichkiro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,14 +106,14 @@ void	*t_fd_free(t_fd **fd);
 
 // Main ----------------------------------------------------------------------->
 
-void	init_all(t_var **var);
+void	init_all(t_var **var, t_cmd **cmd, t_cmd **head_cmd, char **whoami);
 char	*ft_whoami(void);
 void	signal_handler(int sig);
 bool	signals_controller(char request, char value);
 int		close_shell(char *prompt);
 void	ft_add_history(char *prompt);
 void	print_history(void);
-int		bombaliberatutti(t_var **var, t_cmd **cmd, t_fd **fd, char *prompt);
+int		bombaliberatutti(t_var **var, t_cmd **cmd, char *prompt);
 
 // Errors  -------------------------------------------------------------------->
 

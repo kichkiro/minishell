@@ -24,6 +24,7 @@ static void	ft_cd(char ***args)
 	int		i;
 
 	i = 0;
+	path = NULL;
 	if (args[0][1])
 		path = ft_split(args[0][1], '/');
 	if (args[0][1] && args[0][2])
@@ -42,7 +43,7 @@ static void	ft_cd(char ***args)
 			error_handler(SET, NULL, EXIT_SUCCESS, false);
 	else if (!chdir(args[0][1]))
 		error_handler(SET, NULL, EXIT_SUCCESS, false);
-	free(path);
+	ft_free((void **)&path);
 }
 
 /*!

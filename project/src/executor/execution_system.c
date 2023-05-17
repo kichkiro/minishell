@@ -6,7 +6,7 @@
 /*   By: kichkiro <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/21 11:45:46 by kichkiro          #+#    #+#             */
-/*   Updated: 2023/05/17 00:56:53 by kichkiro         ###   ########.fr       */
+/*   Updated: 2023/05/17 14:52:51 by kichkiro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,14 +108,17 @@ static bool	exec_router(t_cmd **cmd, char *exe, char ***args, t_var **var)
 {
 	t_fd	*fd;
 
-	if ((*cmd) && (*cmd)->type == REDIRECT)
+	if (((*cmd) && (*cmd)->type == REDIRECT) || (*cmd && (*cmd)->token[0] == \
+		')' && (*cmd)->type == BOOLEAN && (*cmd)->next && (*cmd)->next->type \
+		== REDIRECT))
 	{
 		if (redirections(cmd, exe, args, var))
 			return (false);
 		if (*cmd && (*cmd)->next)
 			*cmd = (*cmd)->next;
 	}
-	if ((*cmd) && (*cmd)->type == PIPE)
+	if ((*cmd && (*cmd)->type == PIPE) || (*cmd && (*cmd)->token[0] == ')' && \
+		(*cmd)->type == BOOLEAN && (*cmd)->next && (*cmd)->next->type == PIPE))
 		pipes(exe, args, var);
 	else if (is_builtin(exe))
 		execute_builtin(args, var);
@@ -155,6 +158,11 @@ static bool	standard_type(t_cmd **cmd, t_var **var, char **args, char *exe)
 	{
 		if (!exec_router(cmd, exe, &args, var))
 			return (false);
+	}
+	else
+	{
+		ft_strmatrixfree(&args);
+		ft_free((void **)&exe);
 	}
 	return (true);
 }

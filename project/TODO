@@ -44,7 +44,7 @@ Builtins:
 
 [ ] Functions
 - [x] invalid_prompt
-- [ ] syntax_error
+- [x] syntax_error
 
 [ ] Documentation
 - [x] invalid_prompt
@@ -132,6 +132,6 @@ Builtins:
 	got:
 	note: for each open parenthesis after the second, add a closing parenthesis between quotes -> error token is "))"
 
-- [ ] (empty prompt)
+- [x] (empty prompt)
 	expected: 
 	got: Segmentation fault

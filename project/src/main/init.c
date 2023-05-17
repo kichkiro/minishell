@@ -81,8 +81,12 @@ static void	init_history(void)
  * @param var 
 	The list of variables.
  */
-void	init_all(t_var **var)
+void	init_all(t_var **var, t_cmd **cmd, t_cmd **head_cmd, char **whoami)
 {
+	*var = NULL;
+	*cmd = NULL;
+	*head_cmd = NULL;
+	*whoami = ft_whoami();
 	init_env(var);
 	init_history();
 }

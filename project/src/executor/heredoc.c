@@ -6,7 +6,7 @@
 /*   By: kichkiro <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/26 12:05:42 by kichkiro          #+#    #+#             */
-/*   Updated: 2023/05/13 15:13:52 by kichkiro         ###   ########.fr       */
+/*   Updated: 2023/05/17 16:17:30 by kichkiro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,6 @@ static void	get_doc(char *delimiter, char **doc, bool *sig)
 			break ;
 		*doc = ft_strappend(*doc, prompt, true, true);
 		*doc = ft_strappend(*doc, "\n", true, false);
-		// free(prompt);
 	}
 	ft_free((void **)&prompt);
 	if (!*doc)

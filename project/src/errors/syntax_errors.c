@@ -6,50 +6,68 @@
 /*   By: kichkiro <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/08 18:07:08 by kichkiro          #+#    #+#             */
-/*   Updated: 2023/05/17 00:29:06 by kichkiro         ###   ########.fr       */
+/*   Updated: 2023/05/17 15:05:30 by kichkiro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
+/*!
+ * @brief 
+	
+ * @param cmd 
+	
+ * @return 
+	
+ */
 static int	bool_pipe(t_cmd **cmd)
 {
 	char	*str;
 
+	str = NULL;
 	str = ft_strjoin("syntax error near unexpected token `", (*cmd)->token);
-	str = ft_strjoin(str, "'");
+	str = ft_strappend(str, "'", true, false);
 	error_handler(PRINT, str, 2, false);
 	free(str);
 	return (2);
 }
 
+/*!
+ * @brief 
+	
+ * @param cmd 
+	
+ * @return 
+	
+ */
 static int	bool_pipe_parentheses(t_cmd **cmd)
 {
 	char	*str;
 	char	**ph;
 
+	str = NULL;
 	ph = ft_split((*cmd)->token, '(');
-	str = ft_strjoin("syntax error near unexpected token `", ph[1]);
-	str = ft_strjoin(str, "'");
+	if (!ph[1])
+	{
+		free(ph);
+		return (0);
+	}
+	str = ft_strappend("syntax error near unexpected token `", ph[1], 0, 0);
+	str = ft_strappend(str, "'", true, false);
 	error_handler(PRINT, str, 2, false);
 	free(ph);
 	free(str);
 	return (2);
 }
 
-// static bool	syntax_error(char *prompt)
-// {
-	// Se il primo token e' di tipo PIPE o BOOLEAN ritorna syntax error e setta
-	// l'exit_status a 2.
-	// Se i primi token sono BOOLEAN e sono parentesi tonde, il token successivo
-		// deve essere STANDARD, o REDIRECT)
+/*!
+ * @brief 
 
-	// Se finisce con PIPE, REDIRECT, BOOLEAN, non e' syntax error, ma non lo
-	// gestiamo e torniamo exit_status 1.
-// }
-
-
-// ! ( | || & && ) () (())
+ * @param cmd 
+	
+ * @return 
+	
+ */
 int	syntax_error(t_cmd **cmd)
 {
 	if (!ft_strncmp((*cmd)->token, "|", 1)
@@ -57,7 +75,7 @@ int	syntax_error(t_cmd **cmd)
 		|| !ft_strncmp((*cmd)->token, "&", 1)
 		|| !ft_strncmp((*cmd)->token, "&&", 2))
 		return (bool_pipe(cmd));
-	else if (!ft_strncmp((*cmd)->token, "(|", 2) // <- this is the problem
+	else if (!ft_strncmp((*cmd)->token, "(|", 2)
 		|| !ft_strncmp((*cmd)->token, "(||", 3)
 		|| !ft_strncmp((*cmd)->token, "(&", 2)
 		|| !ft_strncmp((*cmd)->token, "(&&", 3))

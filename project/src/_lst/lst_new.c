@@ -6,7 +6,7 @@
 /*   By: kichkiro <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/05 11:01:31 by kichkiro          #+#    #+#             */
-/*   Updated: 2023/05/13 18:57:56 by kichkiro         ###   ########.fr       */
+/*   Updated: 2023/05/17 17:00:07 by kichkiro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,11 +31,17 @@ t_var	*t_var_new(char	*name, char *value, char type)
 	node = malloc(sizeof(t_var));
 	if (!node)
 		return (0);
-	node->name = name;
-	node->value = value;
+	if (name)
+		node->name = ft_strdup(name);
+	else
+		node->name = NULL;
+	if (value)
+		node->value = ft_strdup(value);
+	else
+		node->value = NULL;
 	node->type = type;
-	node->next = 0;
-	node->prev = 0;
+	node->next = NULL;
+	node->prev = NULL;
 	return (node);
 }
 

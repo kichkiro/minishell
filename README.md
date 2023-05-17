@@ -16,7 +16,8 @@
 	<p>
 		Thanks to Minishell, you’ll be able to travel through time and come back to problems people faced when Windows didn’t exist.
 	</p>
-
+</i>
+	
 #### <i>[subject](_subject/en.subject.pdf) v.6</i>
 
 ## 🌳 - Project tree

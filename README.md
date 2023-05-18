@@ -89,6 +89,17 @@ cd minishell/project
 make
 ./minishell
 ```
+### and enjoy yourself...
+
+<img src="https://github.com/kichkiro/42_cursus/blob/assets/prompt_minishell.gif?raw=true" width="100%"/>
+
+## 📈 - Tester
+
+TODO
+
+## 📓 - Notebook
+
+TODO
 
 ## ⚖️ - License 
 

@@ -95,11 +95,23 @@ make
 
 ## 📈 - Tester
 
-TODO
+The tester [minishell_tester](https://github.com/kichkiro/minishell_tester) performs more than 200 tests on the main features of the project, including:
 
-## 📓 - Notebook
+- Parsing
+- Commands
+- Redirects
+- Pipes
+- Exit Status
+- Mixed Mandatory
+- Booleans
+- Wildcards
 
-TODO
+The tester launches Bash and Minishell processes with the Popen method of Python's subprocess library, inputs the same test, captures the output, and compares it.
+
+<img src="https://github.com/kichkiro/42_cursus/blob/assets/minishell_tester_usage.gif?raw=true" width="100%"/>
+
+NOTE: The tester was tested on with Python version 3.8 and Ubuntu 20.04 LTS.
+Also, during development we tried to make it as generic as possible so that it can work on other minishell projects, but this does not guarantee that it will work correctly on all projects.
 
 ## ⚖️ - License 
 

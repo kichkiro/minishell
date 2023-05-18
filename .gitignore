@@ -12,9 +12,8 @@ project/minishell
 # history
 **minishell_history
 
-# _tester
-_tester/.venv
-_tester/src/__pycache__
+# minishell_tester
+minishell_tester/
 
 # _lab
 _lab/*

@@ -17,7 +17,7 @@
 		Thanks to Minishell, you’ll be able to travel through time and come back to problems people faced when Windows didn’t exist.
 	</p>
 </i>
-	
+
 #### <i>[subject](_subject/en.subject.pdf) v.6</i>
 
 ## 🌳 - Project tree
@@ -31,8 +31,7 @@
 │   └── minishell.ipynb
 ├── _subject
 │   └── en.subject.pdf
-├── _tester
-│    └── LINK -> minishell_tester
+├── minishell_tester
 └── project
     ├── Makefile
     ├── readline.supp
@@ -81,7 +80,7 @@
             └── shell_variables.c
 ```
 
-## 🛠️ - How to use? 
+## 🛠️ - How to use?
 
 ```
 git clone https://github.com/kichkiro/minishell.git
@@ -113,6 +112,6 @@ The tester launches Bash and Minishell processes with the Popen method of Python
 NOTE: The tester was tested on with Python version 3.8 and Ubuntu 20.04 LTS.
 Also, during development we tried to make it as generic as possible so that it can work on other minishell projects, but this does not guarantee that it will work correctly on all projects.
 
-## ⚖️ - License 
+## ⚖️ - License
 
 See [LICENSE](LICENSE)

@@ -31,7 +31,8 @@
 │   └── minishell.ipynb
 ├── _subject
 │   └── en.subject.pdf
-├── minishell_tester
+├── _tester
+│   └── -> minishell_tester
 └── project
     ├── Makefile
     ├── readline.supp
@@ -39,29 +40,15 @@
     │   └── minishell.h
     ├── lib
     │   ├── libft.a
-    │   ├── libft.h
-    │   └── libft
-    │       └── libft.a
+    │   └── libft.h
     └── src
-	├── _lst
+        ├── _lst
         │   ├── lst_add_back.c
         │   ├── lst_free.c
         │   ├── lst_free_last.c
         │   ├── lst_new.c
         │   ├── lst_set_to_head.c
         │   └── lst_set_to_last.c
-        ├── errors
-        │   ├── errors_handler.c
-        │   ├── invalid_prompt.c
-        │   └── syntax_errors.c
-        ├── executor
-        │   ├── booleans.c
-        │   ├── builtins.c
-        │   ├── execution_system.c
-        │   ├── fd_handler.c
-        │   ├── heredoc.c
-        │   ├── pipes.c
-        │   └── redirections.c
         ├── main
         │   ├── bombfreeall.c
         │   ├── history.c
@@ -74,6 +61,18 @@
         │   ├── parsing_system.c
         │   ├── variable_expand.c
         │   └── wildcards.c
+        ├── executor
+        │   ├── booleans.c
+        │   ├── builtins.c
+        │   ├── execution_system.c
+        │   ├── fd_handler.c
+        │   ├── heredoc.c
+        │   ├── pipes.c
+        │   └── redirections.c
+        ├── errors
+        │   ├── errors_handler.c
+        │   ├── invalid_prompt.c
+        │   └── syntax_errors.c
         └── variables
             ├── env_variables.c
             ├── export_variables.c
@@ -109,7 +108,7 @@ The tester launches Bash and Minishell processes with the Popen method of Python
 
 <img src="https://github.com/kichkiro/42_cursus/blob/assets/minishell_tester_usage.gif?raw=true" width="100%"/>
 
-NOTE: The tester was tested on with Python version 3.8 and Ubuntu 20.04 LTS.
+NOTE: The tester was tested on Ubuntu 20.04 LTS with Python version 3.8.
 Also, during development we tried to make it as generic as possible so that it can work on other minishell projects, but this does not guarantee that it will work correctly on all projects.
 
 ## ⚖️ - License

@@ -1,5 +1,4 @@
-
-<img src="https://github.com/kichkiro/42_cursus/blob/assets/banner_minishell.png?raw=true" width="100%"/>
+<img src="https://github.com/kichkiro/42/blob/assets/minishell_banner.jpg?raw=true" width="100%"/>
 
 # Minishell
 
@@ -20,12 +19,13 @@
 
 #### <i>[subject](_subject/en.subject.pdf) v.6</i>
 
-## 🌳 - Project tree
+<details>
+<summary><i><b>Project Structure  📂</b></i></summary>
 
 ``` js
-.
-├── LICENSE
 ├── README.md
+├── LICENSE
+├── Dockerfile
 ├── _notebook
 │   ├── bash.ipynb
 │   └── minishell.ipynb
@@ -78,15 +78,30 @@
             ├── export_variables.c
             └── shell_variables.c
 ```
+</details>
 
-## 🛠️ - How to use?
+## 📌 - Key Topics
+### Shell 
+This project involves the creation of a custom Unix shell, implementing a wide range of shell functionalities, including command execution, redirections, pipes, and signal handling. 
 
-```
+A strong grasp of shell mechanics and Unix system calls is crucial to meeting the project requirements.
+
+### Processes 
+Process control is central to this project, with tasks like forking, executing, and waiting for processes to terminate. 
+
+The shell must handle multiple processes, manage pipelines, and ensure correct signal handling, such as handling interrupts (Ctrl+C, Ctrl+D, Ctrl+).
+
+## 🛠️ - Usage
+
+```sh
 git clone https://github.com/kichkiro/minishell.git
-cd minishell/project
-make
-./minishell
+cd minishell/
+docker build -t minishell:42 .
+docker run -d --rm --name minishell minishell:42
 ```
+
+---TODO---
+
 ### and enjoy yourself...
 
 <img src="https://github.com/kichkiro/42_cursus/blob/assets/prompt_minishell.gif?raw=true" width="100%"/>
@@ -109,7 +124,6 @@ The tester launches Bash and Minishell processes with the Popen method of Python
 <img src="https://github.com/kichkiro/42_cursus/blob/assets/minishell_tester_usage.gif?raw=true" width="100%"/>
 
 NOTE: The tester was tested on Ubuntu 20.04 LTS with Python version 3.8.
-Also, during development we tried to make it as generic as possible so that it can work on other minishell projects, but this does not guarantee that it will work correctly on all projects.
 
 ## ⚖️ - License
 

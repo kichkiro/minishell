@@ -11,6 +11,8 @@ COPY project/ minishell/
 
 WORKDIR /usr/src/app/minishell
 
-RUN make
+RUN make && cp minishell /usr/local/bin
+
+ENV USER=root
 
 ENTRYPOINT [ "tail", "-f" ]

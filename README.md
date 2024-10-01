@@ -100,9 +100,13 @@ docker build -t minishell:42 .
 docker run -d --rm --name minishell minishell:42
 ```
 
----TODO---
+It's now possible to start minishell:
 
-### and enjoy yourself...
+```sh
+docker exec -t -it minishell minishell
+```
+
+and enjoy yourself...
 
 <img src="https://github.com/kichkiro/42_cursus/blob/assets/prompt_minishell.gif?raw=true" width="100%"/>
 

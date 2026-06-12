@@ -1,4 +1,4 @@
-<img src="https://github.com/kichkiro/kichkiro/blob/main/assets/minishell_banner.jpg?raw=true" width="100%"/>
+<img src="https://github.com/kichkiro/kichkiro/blob/main/assets/banners/banner_minishell.jpg?raw=true" width="100%"/>
 
 # Minishell
 
@@ -108,7 +108,7 @@ docker exec -t -it minishell minishell
 
 and enjoy yourself...
 
-<img src="https://github.com/kichkiro/kichkiro/blob/main/assets/prompt_minishell.gif?raw=true" width="100%"/>
+<img src="https://github.com/kichkiro/kichkiro/blob/main/assets/locals/minishell/minishell_prompt.gif?raw=true" width="100%"/>
 
 ## 📈 - Tester
 
@@ -125,7 +125,7 @@ The tester [minishell_tester](https://github.com/kichkiro/minishell_tester) perf
 
 The tester launches Bash and Minishell processes with the Popen method of Python's subprocess library, inputs the same test, captures the output, and compares it.
 
-<img src="https://github.com/kichkiro/kichkiro/blob/main/assets/minishell_tester_usage.gif?raw=true" width="100%"/>
+<img src="https://github.com/kichkiro/kichkiro/blob/main/assets/locals/minishell_tester/minishell_tester_usage.gif?raw=true" width="100%"/>
 
 NOTE: The tester was tested on Ubuntu 20.04 LTS with Python version 3.8.
 
